@@ -2,7 +2,7 @@ services:
   frontend:
     image: nginx:1.29.4-alpine3.23-perl
     ports:
-      - "81:81"
+      - "80:80"
     networks:
       - front-tier
       - back-tier

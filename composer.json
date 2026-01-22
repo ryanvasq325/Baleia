@@ -1,0 +1,19 @@
+{
+    "name": "root/nginx",
+    "autoload": {
+        "psr-4": {
+            "app\\": "app/"
+        }
+    },
+    "authors": [
+        {
+            "name": "RYAN DE SOUZA VASQUES",
+            "email": "ryanvasques77@gmail.com"
+        }
+    ],
+    "require": {
+        "slim/slim": "^4.15",
+        "slim/psr7": "^1.8",
+        "slim/twig-view": "^3.4"
+    }
+}

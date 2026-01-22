@@ -1,71 +1,93 @@
 services:
-
+  # Serviço do Nginx, responsável por receber as requisições HTTP
   nginx:
-
+    # Imagem oficial do Nginx, baseada em Alpine Linux
     image: nginx:1.29.4-alpine3.23-perl
 
+    # Nome fixo do container para facilitar identificação e debug
     container_name: app_nginx
 
+    # Mapeia a porta 8080 do host para a porta 80 do container
+    # Permite acessar a aplicação via http://localhost:8080
     ports:
-    - "8080:80"
+      - "8080:80"
 
+    # Volume que monta o arquivo de configuração do Nginx no container
+    # O sufixo :ro indica que o arquivo será somente leitura
     volumes:
-    - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
 
+    # Define que o container PHP deve ser iniciado antes do Nginx
     depends_on:
-    - php
+      - php
 
+    # Conecta o container à rede interna do projeto
     networks:
-    - app_network
+      - app_network
 
+  # Serviço do PHP, responsável por executar a aplicação
   php:
-
+    # Define que a imagem será construída a partir de um Dockerfile
     build:
+      # Contexto de build, normalmente a raiz do projeto
       context: .
-
+      # Caminho do Dockerfile responsável por montar o ambiente PHP
       dockerfile: docker/php/Dockerfile
 
+    # Nome fixo do container PHP
     container_name: app_php
 
+    # Variáveis de ambiente do container
     environment:
-
+      # Define o fuso horário do container
       TZ: America/Sao_Paulo
 
+    # Expõe a porta 9000 apenas para outros containers da mesma rede
+    # Não publica a porta para o host
     expose:
       - "9000"
 
+    # Conecta o container à rede interna do projeto
     networks:
       - app_network
 
+  # Serviço do banco de dados PostgreSQL
   postgres:
-
+    # Imagem oficial do PostgreSQL baseada em Alpine Linux
     image: postgres:18.1-alpine3.23
 
+    # Nome fixo do container do banco
     container_name: app_postgres
 
+    # Variáveis de ambiente usadas pelo PostgreSQL na inicialização
     environment:
-
+      # Nome do banco de dados, vindo do arquivo .env
       POSTGRES_DB: ${DB_NAME}
-
+      # Usuário do banco, vindo do arquivo .env
       POSTGRES_USER: ${DB_USER}
-
+      # Senha do banco, vindo do arquivo .env
       POSTGRES_PASSWORD: ${DB_PASSWORD}
-
+      # Define o fuso horário do container
       TZ: America/Sao_Paulo
 
+    # Volumes persistentes e scripts de inicialização
     volumes:
+      # Volume nomeado para persistir os dados do banco
       - pgdata:/var/lib/postgresql/data
-
+      # Script SQL executado automaticamente na primeira inicialização
       - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
 
+    # Conecta o container à rede interna do projeto
     networks:
       - app_network
 
+# Definição de volumes nomeados
 volumes:
-
+  # Volume responsável por armazenar os dados do PostgreSQL
   pgdata:
 
+# Definição das redes do projeto
 networks:
-
+  # Rede bridge interna para comunicação entre os containers
   app_network:
     driver: bridge

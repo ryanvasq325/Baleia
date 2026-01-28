@@ -19,8 +19,8 @@
         <div class="row">
             <div class="col-12">
                 <form id="form">
-                    <input type="" id="acao" name="acao" value="{{acao}}">
-                    <input type="" id="id" name="id" value="{{id}}">
+                    <input type="hidden" id="acao" name="acao" value="{{acao}}">
+                    <input type="hidden" id="id" name="id" value="{{id}}">
                     <div class="card">
                         <div class="card-header">
                             <a href="/cliente/lista" class="btn btn-warning">Voltar</a>
@@ -47,6 +47,12 @@
                                     <input type="text" class="form-control" id="cpf_cnpj" name="cpf_cnpj"
                                         placeholder="Informe seu CPF" value="{{client.cpf_cnpj}}">
                                 </div>
+                                <div class="col-6 mb-3">
+                                    <label for="ativo" class="form-label">Ativo</label>
+                                    <select class="form-select" id="ativo" name="ativo">
+                                        <option value="1" {% if client.ativo == 1 %}selected{% endif %}>Sim</option>
+                                        <option value="0" {% if client.ativo == 0 %}selected{% endif %}>Não</option>
+                                    </select>
                             </div>
                         </div>
                         <div class="card-footer">

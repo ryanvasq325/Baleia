@@ -1,4 +1,3 @@
-import { DataTables } from "./DataTables.js";
 import { Requests } from "./Requests.js";
 
 const tabela = new $('#tabela').DataTable({

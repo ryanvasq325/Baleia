@@ -102,4 +102,10 @@ async function update() {
 }
 Salvar.addEventListener('click', async () => {
     (Action.value === 'c') ? await insert() : await update();
+
+    const ativoInput = document.getElementById('ativo');
+    const dados = {
+        nome_fantasia: document.getElementById('nome_fantasia').value,
+        ativo: ativoInput.type === 'checkbox' ? ativoInput.checked : ativoInput.value === 'true'
+    };
 });

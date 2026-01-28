@@ -47,6 +47,13 @@
                                     <input type="text" class="form-control" id="cpf_cnpj" name="cpf_cnpj"
                                         placeholder="Informe seu CPF" value="{{empresa.cpf_cnpj}}">
                                 </div>
+                                <div class="col-6 mb-3">
+                                    <label for="ativo" class="form-label">Ativo</label>
+                                    <select class="form-select" id="ativo" name="ativo">
+                                        <option value="1" {% if client.ativo==1 %}selected{% endif %}>Sim</option>
+                                        <option value="0" {% if client.ativo==0 %}selected{% endif %}>Não</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                         <div class="card-footer">

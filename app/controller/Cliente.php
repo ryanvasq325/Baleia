@@ -45,14 +45,15 @@ class Cliente extends Base
                 'nome_fantasia' => $form['nome_fantasia'],
                 'sobrenome_razao' => $form['sobrenome_razao'],
                 'cpf_cnpj' => $form['cpf_cnpj'],
-                'rg_ie' => $form['rg_ie']
+                'rg_ie' => $form['rg_ie'],
+                'ativo' => $form['ativo']
             ];
-            $IsSave = InsertQuery::table('client')->save($FieldAndValues);
+            $IsSave = InsertQuery::table('customer')->save($FieldAndValues);
             if (!$IsSave) {
                 return $this->SendJson($response, ['status' => false, 'msg' => 'Restrição: ' . $IsSave, 'id' => 0], 403);
             }
-            $client = SelectQuery::select('id')->from('client')->order('id', 'desc')->fetch();
-            return $this->SendJson($response, ['status' => true, 'msg' => 'Salvo com sucesso', 'id' => $client['id']], 201);
+            $customer = SelectQuery::select('id')->from('customer')->order('id', 'desc')->fetch();
+            return $this->SendJson($response, ['status' => true, 'msg' => 'Salvo com sucesso', 'id' => $customer['id']], 201);
         } catch (\Exception $e) {
             return $this->SendJson($response, ['status' => false, 'msg' => 'Restrição: ' . $e->getMessage(), 'id' => 0], 500);
         }
@@ -61,15 +62,15 @@ class Cliente extends Base
     {
         try {
             $id = $args['id'];
-            $client = SelectQuery::select()->from('client')->where('id', '=', $id)->fetch();
+            $customer = SelectQuery::select()->from('customer')->where('id', '=', $id)->fetch();
             $dadosTemplate = [
                 'acao' => 'e',
                 'id' => $id,
                 'titulo' => 'Cadastro e edição',
-                'client' => $client
+                'customer' => $customer
             ];
             return $this->getTwig()
-                ->render($response, $this->setView('client'), $dadosTemplate)
+                ->render($response, $this->setView('cliente'), $dadosTemplate)
                 ->withHeader('Content-Type', 'text/html')
                 ->withStatus(200);
         } catch (\Exception $e) {
@@ -80,7 +81,7 @@ class Cliente extends Base
     {
         try {
             $id = $_POST['id'];
-            $IsDelete = DeleteQuery::table('client')
+            $IsDelete = DeleteQuery::table('customer')
                 ->where('id', '=', $id)
                 ->delete();
 
@@ -95,7 +96,8 @@ class Cliente extends Base
             die;
         }
     }
-        public function listclient($request, $response){
+    public function listcliente($request, $response)
+    {
         #Captura todas a variaveis de forma mais segura VARIAVEIS POST.
         $form = $request->getParsedBody();
         #Qual a coluna da tabela deve ser ordenada.
@@ -106,38 +108,40 @@ class Cliente extends Base
         $start = $form['start'];
         #Limite de registro a serem retornados do banco de dados LIMIT
         $length = $form['length'];
-        $fields= [
-          0 => 'id',  
-          1 => 'nome_fantasia',  
-          2 => 'sobrenome_razao',  
-          3 => 'cpf_cnpj',  
-          4 => 'rg_ie',
+        $fields = [
+            0 => 'id',
+            1 => 'nome_fantasia',
+            2 => 'sobrenome_razao',
+            3 => 'cpf_cnpj',
+            4 => 'rg_ie',
+            5 => 'ativo',
         ];
         #Capturamos o nome do campo a ser odernado.
         $orderField = $fields[$order];
         #O termo pesquisado
-        $term = $form ['search']['value'];
-        $query = SelectQuery::select('id,nome_fantasia,sobrenome_razao,cpf_cnpj,rg_ie')->from('client');
+        $term = $form['search']['value'];
+        $query = SelectQuery::select('id,nome_fantasia,sobrenome_razao,cpf_cnpj,rg_ie,ativo')->from('customer');
         if (!is_null($term) && ($term !== '')) {
             $query->where('nome_fantasia', 'ilike', "%{$term}%", 'or')
-            ->where('sobrenome_razao', 'ilike', "%{$term}%", 'or')
-            ->where('cpf_cnpj', 'ilike', "%{$term}%", 'or')
-            ->where('rg_ie', 'ilike', "%{$term}%");
-            
+                ->where('sobrenome_razao', 'ilike', "%{$term}%", 'or')
+                ->where('cpf_cnpj', 'ilike', "%{$term}%", 'or')
+                ->where('rg_ie', 'ilike', "%{$term}%", 'or')
+                ->where('ativo', 'ilike', "%{$term}%");
         }
-        $clients = $query
-        ->order($orderField, $orderType)
-        ->limit($length, $start)
-        ->fetchAll();
-        $clientsData = [];
-        foreach($clients as $key => $value) {
-            $clientsData[$key] = [
+        $customers = $query
+            ->order($orderField, $orderType)
+            ->limit($length, $start)
+            ->fetchAll();
+        $customersData = [];
+        foreach ($customers as $key => $value) {
+            $customersData[$key] = [
                 $value['id'],
                 $value['nome_fantasia'],
                 $value['sobrenome_razao'],
                 $value['cpf_cnpj'],
                 $value['rg_ie'],
-                "<a href=\"/client/alterar/" . $value['id'] . "\" class=\"btn btn-warning\">Alterar</a>
+                $value['ativo'] ? 'Sim' : 'Não',
+                "<a href=\"/cliente/alterar/" . $value['id'] . "\" class=\"btn btn-warning\">Alterar</a>
 
                 <button type='button'  onclick='Delete(" . $value['id'] . ");' class='btn btn-danger'>
                  <i class=\"bi bi-trash-fill\"></i>
@@ -147,9 +151,9 @@ class Cliente extends Base
         }
         $data = [
             'status' => true,
-            'recordsTotal' => count($clients),
-            'recordsFiltered' => count($clients),
-            'data' => $clientsData
+            'recordsTotal' => count($customers),
+            'recordsFiltered' => count($customers),
+            'data' => $customersData
         ];
         $payload = json_encode($data);
 
@@ -171,9 +175,10 @@ class Cliente extends Base
                 'nome_fantasia' => $form['nome_fantasia'],
                 'sobrenome_razao' => $form['sobrenome_razao'],
                 'cpf_cnpj' => $form['cpf_cnpj'],
-                'rg_ie' => $form['rg_ie']
+                'rg_ie' => $form['rg_ie'],
+                'ativo' => $form['ativo'],
             ];
-            $IsUpdate = UpdateQuery::table('client')->set($FieldAndValues)->where('id', '=', $id)->update();
+            $IsUpdate = UpdateQuery::table('customer')->set($FieldAndValues)->where('id', '=', $id)->update();
             if (!$IsUpdate) {
                 return $this->SendJson($response, ['status' => false, 'msg' => 'Restrição: ' . $IsUpdate, 'id' => 0], 403);
             }

@@ -43,7 +43,8 @@ class Empresa extends Base
                 'nome_fantasia' => $form['nome_fantasia'],
                 'sobrenome_razao' => $form['sobrenome_razao'],
                 'cpf_cnpj' => $form['cpf_cnpj'],
-                'rg_ie' => $form['rg_ie']
+                'rg_ie' => $form['rg_ie'],
+                'ativo' => $form['ativo']
             ];
             $IsSave = InsertQuery::table('company')->save($FieldAndValues);
             if (!$IsSave) {
@@ -67,7 +68,7 @@ class Empresa extends Base
                 'company' => $company
             ];
             return $this->getTwig()
-                ->render($response, $this->setView('company'), $dadosTemplate)
+                ->render($response, $this->setView('empresa'), $dadosTemplate)
                 ->withHeader('Content-Type', 'text/html')
                 ->withStatus(200);
         } catch (\Exception $e) {
@@ -93,7 +94,7 @@ class Empresa extends Base
             die;
         }
     }
-        public function listcompany($request, $response){
+        public function listempresa($request, $response){
         #Captura todas a variaveis de forma mais segura VARIAVEIS POST.
         $form = $request->getParsedBody();
         #Qual a coluna da tabela deve ser ordenada.
@@ -110,34 +111,34 @@ class Empresa extends Base
           2 => 'sobrenome_razao',  
           3 => 'cpf_cnpj',  
           4 => 'rg_ie',
-          5 => 'data_nascimento_abertura',
+          5 => 'ativo',
         ];
         #Capturamos o nome do campo a ser odernado.
         $orderField = $fields[$order];
         #O termo pesquisado
         $term = $form ['search']['value'];
-        $query = SelectQuery::select('id,nome_fantasia,sobrenome_razao,cpf_cnpj,rg_ie,data_nascimento_abertura')->from('company');
+        $query = SelectQuery::select('id,nome_fantasia,sobrenome_razao,cpf_cnpj,rg_ie,ativo')->from('company');
         if (!is_null($term) && ($term !== '')) {
             $query->where('nome_fantasia', 'ilike', "%{$term}%", 'or')
             ->where('sobrenome_razao', 'ilike', "%{$term}%", 'or')
             ->where('cpf_cnpj', 'ilike', "%{$term}%", 'or')
-            ->where('rg_ie', 'ilike', "%{$term}%")
-            ->where('data_nascimento_abertura', 'ilike', "%{$term}%");
+            ->where('rg_ie', 'ilike', "%{$term}%", 'or')
+            ->where('ativo', 'ilike', "%{$term}%");
         }
-        $company = $query
+        $companys = $query
         ->order($orderField, $orderType)
         ->limit($length, $start)
         ->fetchAll();
-        $companyData = [];
-        foreach($company as $key => $value) {
-            $companyData[$key] = [
+        $companysData = [];
+        foreach($companys as $key => $value) {
+            $companysData[$key] = [
                 $value['id'],
                 $value['nome_fantasia'],
                 $value['sobrenome_razao'],
                 $value['cpf_cnpj'],
                 $value['rg_ie'],
-                $value['data_nascimento_abertura'],
-                "<a href=\"/company/alterar/" . $value['id'] . "\" class=\"btn btn-warning\">Alterar</a>
+                $value['ativo'],
+                "<a href=\"/empresa/alterar/" . $value['id'] . "\" class=\"btn btn-warning\">Alterar</a>
 
                 <button type='button'  onclick='Delete(" . $value['id'] . ");' class='btn btn-danger'>
                  <i class=\"bi bi-trash-fill\"></i>
@@ -147,9 +148,9 @@ class Empresa extends Base
         }
         $data = [
             'status' => true,
-            'recordsTotal' => count($company),
-            'recordsFiltered' => count($company),
-            'data' => $companyData
+            'recordsTotal' => count($companys),
+            'recordsFiltered' => count($companys),
+            'data' => $companysData
         ];
         $payload = json_encode($data);
 
@@ -171,7 +172,8 @@ class Empresa extends Base
                 'nome_fantasia' => $form['nome_fantasia'],
                 'sobrenome_razao' => $form['sobrenome_razao'],
                 'cpf_cnpj' => $form['cpf_cnpj'],
-                'rg_ie' => $form['rg_ie']
+                'rg_ie' => $form['rg_ie'],
+                'ativo' => $form['ativo']
             ];
             $IsUpdate = UpdateQuery::table('company')->set($FieldAndValues)->where('id', '=', $id)->update();
             if (!$IsUpdate) {

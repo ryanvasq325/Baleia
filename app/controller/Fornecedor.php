@@ -13,10 +13,10 @@ class Fornecedor extends Base
     public function lista($request, $response)
     {
         $dadosTemplate = [
-            'titulo' => 'Lista de supplieres'
+            'titulo' => 'Lista de Fornecedores'
         ];
         return $this->getTwig()
-            ->render($response, $this->setView('listempresa'), $dadosTemplate)
+            ->render($response, $this->setView('listfornecedor'), $dadosTemplate)
             ->withHeader('Content-Type', 'text/html')
             ->withStatus(200);
     }
@@ -28,7 +28,7 @@ class Fornecedor extends Base
                 'titulo' => 'Cadastro'
             ];
             return $this->getTwig()
-                ->render($response, $this->setView('empresa'), $dadosTemplate)
+                ->render($response, $this->setView('fornecedor'), $dadosTemplate)
                 ->withHeader('Content-Type', 'text/html')
                 ->withStatus(200);
         } catch (\Exception $e) {
@@ -43,7 +43,8 @@ class Fornecedor extends Base
                 'nome_fantasia' => $form['nome_fantasia'],
                 'sobrenome_razao' => $form['sobrenome_razao'],
                 'cpf_cnpj' => $form['cpf_cnpj'],
-                'rg_ie' => $form['rg_ie']
+                'rg_ie' => $form['rg_ie'],
+                'ativo' => $form['ativo']
             ];
             $IsSave = InsertQuery::table('supplier')->save($FieldAndValues);
             if (!$IsSave) {
@@ -67,7 +68,7 @@ class Fornecedor extends Base
                 'supplier' => $supplier
             ];
             return $this->getTwig()
-                ->render($response, $this->setView('empresa'), $dadosTemplate)
+                ->render($response, $this->setView('fornecedor'), $dadosTemplate)
                 ->withHeader('Content-Type', 'text/html')
                 ->withStatus(200);
         } catch (\Exception $e) {
@@ -93,7 +94,7 @@ class Fornecedor extends Base
             die;
         }
     }
-    public function listsupplier($request, $response)
+    public function listfornecedor($request, $response)
     {
         #Captura todas a variaveis de forma mais segura VARIAVEIS POST.
         $form = $request->getParsedBody();
@@ -111,17 +112,19 @@ class Fornecedor extends Base
             2 => 'sobrenome_razao',
             3 => 'cpf_cnpj',
             4 => 'rg_ie',
+            5 => 'ativo',
         ];
         #Capturamos o nome do campo a ser odernado.
         $orderField = $fields[$order];
         #O termo pesquisado
         $term = $form['search']['value'];
-        $query = SelectQuery::select('id,nome_fantasia,sobrenome_razao,cpf_cnpj,rg_ie')->from('supplier');
+        $query = SelectQuery::select('id,nome_fantasia,sobrenome_razao,cpf_cnpj,rg_ie,ativo')->from('supplier');
         if (!is_null($term) && ($term !== '')) {
             $query->where('nome_fantasia', 'ilike', "%{$term}%", 'or')
                 ->where('sobrenome_razao', 'ilike', "%{$term}%", 'or')
                 ->where('cpf_cnpj', 'ilike', "%{$term}%", 'or')
-                ->where('rg_ie', 'ilike', "%{$term}%");
+                ->where('rg_ie', 'ilike', "%{$term}%", 'or')
+                ->where('ativo', 'ilike', "%{$term}%");
         }
         $suppliers = $query
             ->order($orderField, $orderType)
@@ -135,7 +138,8 @@ class Fornecedor extends Base
                 $value['sobrenome_razao'],
                 $value['cpf_cnpj'],
                 $value['rg_ie'],
-                "<a href=\"/empresa/alterar/" . $value['id'] . "\" class=\"btn btn-warning\">Alterar</a>
+                $value['ativo'],
+                "<a href=\"/fornecedor/alterar/" . $value['id'] . "\" class=\"btn btn-warning\">Alterar</a>
 
                 <button type='button'  onclick='Delete(" . $value['id'] . ");' class='btn btn-danger'>
                  <i class=\"bi bi-trash-fill\"></i>
@@ -170,7 +174,8 @@ class Fornecedor extends Base
                 'nome_fantasia' => $form['nome_fantasia'],
                 'sobrenome_razao' => $form['sobrenome_razao'],
                 'cpf_cnpj' => $form['cpf_cnpj'],
-                'rg_ie' => $form['rg_ie']
+                'rg_ie' => $form['rg_ie'],
+                'ativo' => $form['ativo']
             ];
             $IsUpdate = UpdateQuery::table('supplier')->set($FieldAndValues)->where('id', '=', $id)->update();
             if (!$IsUpdate) {

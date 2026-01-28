@@ -10,7 +10,8 @@
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
                     <li class="breadcrumb-item" aria-current="page"><a href="/home">Início</a></li>
-                    <li class="breadcrumb-item" aria-current="page"><a href="/fornecedor/lista">Pesquisa de fornecedor</a>
+                    <li class="breadcrumb-item" aria-current="page"><a href="/fornecedor/lista">Pesquisa de
+                            fornecedor</a>
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">Cadastro e edição</li>
                 </ol>
@@ -46,6 +47,13 @@
                                     <label for="cpf" class="form-label">CPF</label>
                                     <input type="text" class="form-control" id="cpf_cnpj" name="cpf_cnpj"
                                         placeholder="Informe seu CPF" value="{{fornecedor.cpf_cnpj}}">
+                                </div>
+                                <div class="col-6 mb-3">
+                                    <label for="ativo" class="form-label">Ativo</label>
+                                    <select class="form-select" id="ativo" name="ativo">
+                                        <option value="1" {% if client.ativo==1 %}selected{% endif %}>Sim</option>
+                                        <option value="0" {% if client.ativo==0 %}selected{% endif %}>Não</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>

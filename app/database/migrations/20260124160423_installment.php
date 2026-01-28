@@ -16,6 +16,7 @@ final class Installment extends AbstractMigration
               ->addColumn('valor', 'decimal', ['precision' => 10, 'scale' => 2])
               ->addColumn('data_de_vencimento', 'datetime')
               ->addColumn('status', 'string', ['limit' => 50])
+              ->addForeignKey('id_da_venda', 'sale', 'id', ['delete' => 'CASCADE', 'update' => 'NO ACTION'])
               ->create();
     }
 }

@@ -14,6 +14,8 @@ final class ItemSale extends AbstractMigration
               ->addColumn('id_do_produto', 'integer')
               ->addColumn('quantidade', 'integer')
               ->addColumn('preço_unitário', 'decimal', ['precision' => 10, 'scale' => 2])
+              ->addForeignKey('id_de_venda', 'sale', 'id', ['delete' => 'CASCADE', 'update' => 'NO ACTION'])
+              ->addForeignKey('id_do_produto', 'product', 'id', ['delete' => 'CASCADE', 'update' => 'NO ACTION'])
               ->create();
     }
 }

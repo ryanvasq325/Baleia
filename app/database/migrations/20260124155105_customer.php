@@ -9,11 +9,19 @@ final class Customer extends AbstractMigration
    
     public function change(): void
     {
-        $table = $this->table('customer' , ['id' => false, 'primary_key' => ['id']]);
-        $table->addColumn('id', 'integer', ['identity' => true, 'null' => false])
-              ->addColumn('nome', 'string', ['limit' => 255])
-              ->addColumn('email', 'string', ['limit' => 255])
-              ->addColumn('telefone', 'string', ['limit' => 20])
-              ->create();
+       $table = $this->table('customer', [
+            'id' => false,
+            'primary_key' => ['id'],
+            'comment' => 'Tabela responsável por guardar dodados de cliente.'
+        ]);
+        $table->addColumn('id', 'biginteger', ['identity' => true, 'null' => false])
+            ->addColumn('nome_fantasia', 'text', ['null' => true])
+            ->addColumn('sobrenome_razao', 'text', ['null' => true])
+            ->addColumn('cpf_cnpj', 'text', ['null' => true])
+            ->addColumn('rg_ie', 'text', ['null' => true])
+            ->addColumn('ativo', 'boolean', ['null' => true])
+            ->addColumn('data_cadastro', 'datetime', ['null' => true, 'default' => 'CURRENT_TIMESTAMP'])
+            ->addColumn('data_atualizacao', 'datetime', ['null' => true, 'default' => 'CURRENT_TIMESTAMP'])
+            ->create();
     }
 }

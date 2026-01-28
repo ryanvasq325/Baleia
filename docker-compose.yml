@@ -10,7 +10,7 @@ services:
     # Mapeia a porta 8080 do host para a porta 80 do container
     # Permite acessar a aplicação via http://localhost:8080
     ports:
-      - "80:80"
+      - "81:81"
 
     # Volume que monta o arquivo de configuração do Nginx no container
     # O sufixo :ro indica que o arquivo será somente leitura

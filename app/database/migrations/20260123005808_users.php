@@ -8,20 +8,17 @@ final class Users extends AbstractMigration
 {
     public function change(): void
     {
-         $table = $this->table('users', ['id' => false, 'primary_key' => ['id']]);
+        $table = $this->table('users', ['id' => false, 'primary_key' => ['id']]);
         $table->addColumn('id', 'biginteger', ['identity' => true, 'null' => false])
             ->addColumn('nome', 'text', ['null' => true])
-<<<<<<< HEAD
             ->addColumn('senha', 'text', ['null' => true])
             ->addColumn('salario', 'decimal', ['null' => true, 'default' => 0, 'precision' => 18, 'scale' => 4])
-=======
             ->addColumn('sobrenome', 'text', ['null' => true])
             ->addColumn('rg', 'text', ['null' => true])
             ->addColumn('cpf', 'text', ['null' => true])
             ->addColumn('senha', 'text', ['null' => true])
             ->addColumn('ativo', 'boolean', ['null' => true])
             ->addColumn('administrador', 'boolean', ['null' => true])
->>>>>>> 53dde170222d35095149a6dd36f7b6ad28de7b56
             ->addColumn('data_cadastro', 'datetime', ['null' => true, 'default' => 'CURRENT_TIMESTAMP'])
             ->addColumn('data_atualizacao', 'datetime', ['null' => true, 'default' => 'CURRENT_TIMESTAMP'])
             ->create();

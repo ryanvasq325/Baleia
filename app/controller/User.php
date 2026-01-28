@@ -73,8 +73,7 @@ class User extends Base
             1 => 'nome',
             2 => 'sobrenome',
             3 => 'cpf',
-            4 => 'rg',
-            5 => 'senha',
+            4 => 'rg'
         ];
         #Capturamos o nome do campo a ser odernado.
         $orderField = $fields[$order];
@@ -85,8 +84,7 @@ class User extends Base
             $query->where('nome', 'ilike', "%{$term}%", 'or')
                 ->where('sobrenome', 'ilike', "%{$term}%", 'or')
                 ->where('rg', 'ilike', "%{$term}%", 'or')
-                ->where('cpf', 'ilike', "%{$term}%", 'or')
-                ->where('senha', 'ilike', "%{$term}%");
+                ->where('cpf', 'ilike', "%{$term}%");
         }
         $users = $query
             ->order($orderField, $orderType)
@@ -100,8 +98,7 @@ class User extends Base
                 $value['sobrenome'],
                 $value['rg'],
                 $value['cpf'],
-                $value['senha'],
-                "<a href=\"/users/alterar/" . $value['id'] . "\" class=\"btn btn-warning\">Alterar</a>
+                "<a href=\"/usuario/alterar/" . $value['id'] . "\" class=\"btn btn-warning\">Alterar</a>
 
                 <button type='button'  onclick='Delete(" . $value['id'] . ");' class='btn btn-danger'>
                 <i class=\"bi bi-trash-fill\"></i>

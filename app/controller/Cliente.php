@@ -16,7 +16,7 @@ class Cliente extends Base
                 'titulo' => 'Página inicial'
             ];
             return $this->getTwig()
-                ->render($response, $this->setView('listclient'), $dadosTemplate)
+                ->render($response, $this->setView('listcliente'), $dadosTemplate)
                 ->withHeader('Content-Type', 'text/html')
                 ->withStatus(200);
         } catch (\Exception $e) {
@@ -30,7 +30,7 @@ class Cliente extends Base
                 'titulo' => 'Cadastro'
             ];
             return $this->getTwig()
-                ->render($response, $this->setView('client'), $dadosTemplate)
+                ->render($response, $this->setView('cliente'), $dadosTemplate)
                 ->withHeader('Content-Type', 'text/html')
                 ->withStatus(200);
         } catch (\Exception $e) {

@@ -1,6 +1,6 @@
 # Define a imagem base do container
 # PHP 8.5.2 com PHP-FPM, baseada em Alpine Linux (leve e eficiente)
-FROM php:8.5.2-fpm-alpine3.23
+FROM php:8.5.2-alpine3.23
 
 # Define variáveis de ambiente globais do container
 # TZ ajusta o fuso horário

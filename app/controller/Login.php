@@ -36,7 +36,7 @@ class Login extends Base
                 'rg' => $form['rg'],
                 'senha' => password_hash($form['senhaCadastro'], PASSWORD_DEFAULT)
             ];
-            $IsInseted = InsertQuery::table('usuario')->save($dadosUsuario);
+            $IsInseted = InsertQuery::table('users')->save($dadosUsuario);
             if (!$IsInseted) {
                 return $this->SendJson(
                     $response,
@@ -45,7 +45,7 @@ class Login extends Base
                 );
             }
             #Captura o código do ultimo usuário cadastrado na tabela de usuário
-            $id = SelectQuery::select('id')->from('usuario')->order('id', 'desc')->fetch();
+            $id = SelectQuery::select('id')->from('users')->order('id', 'desc')->fetch();
             #Colocamos o ID do ultimo usuário cadastrado na varaivel $id_usuario.
             $id_usuario = $id['id'];
             #Inserimos o e-mail
@@ -54,23 +54,15 @@ class Login extends Base
                 'tipo' => 'email',
                 'contato' => $form['email']
             ];
-            InsertQuery::table('contato')->save($dadosContato);
-            $dadosContato = [];
-            #Inserimos o celular
-            $dadosContato = [
-                'id_usuario' => $id_usuario,
-                'tipo' => 'celular',
-                'contato' => $form['celular']
-            ];
-            InsertQuery::table('contato')->save($dadosContato);
+            InsertQuery::table('contact')->save($dadosContato);
             $dadosContato = [];
             #Inserimos o WhastaApp
             $dadosContato = [
                 'id_usuario' => $id_usuario,
-                'tipo' => 'whatsapp',
-                'contato' => $form['whatsapp']
+                'tipo' => 'telefone',
+                'contato' => $form['telefone']
             ];
-            InsertQuery::table('contato')->save($dadosContato);
+            InsertQuery::table('contact')->save($dadosContato);
             return $this->SendJson($response, ['status' => true, 'msg' => 'Cadastro realizado com sucesso!', 'id' => $id_usuario], 201);
         } catch (\Exception $e) {
             return $this->SendJson($response, ['status' => true, 'msg' => 'Restrição: ' . $e->getMessage(), 'id' => 0], 500);
@@ -93,8 +85,7 @@ class Login extends Base
                 ->from('vw_usuario_contatos')
                 ->where('cpf', '=', $form['login'], 'or')
                 ->where('email', '=', $form['login'], 'or')
-                ->where('celular', '=', $form['login'], 'or')
-                ->where('whatsapp', '=', $form['login'])
+                ->where('telefone', '=', $form['login'])
                 ->fetch();
             if (!isset($user) || empty($user) || count($user) <= 0) {
                 return $this->SendJson(
@@ -119,7 +110,7 @@ class Login extends Base
             }
 
             if (password_needs_rehash($user['senha'], PASSWORD_DEFAULT)) {
-                UpdateQuery::table('usuario')->set(['senha' => password_hash($form['senha'], PASSWORD_DEFAULT)])->where('id', '=', $user['id'])->update();
+                UpdateQuery::table('users')->set(['senha' => password_hash($form['senha'], PASSWORD_DEFAULT)])->where('id', '=', $user['id'])->update();
             }
 
             $_SESSION['usuario'] = [
@@ -131,9 +122,8 @@ class Login extends Base
                 'ativo' => $user['ativo'],
                 'logado' => true,
                 'administrador' => $user['administrador'],
-                'celular' => $user['celular'],
                 'email' => $user['email'],
-                'whatsapp' => $user['whatsapp'],
+                'telefone' => $user['telefone'],
                 'data_cadastro' => $user['data_cadastro'],
                 'data_alteracao' => $user['data_alteracao'],
             ];

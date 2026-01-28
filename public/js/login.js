@@ -6,8 +6,7 @@ const preCadastro = document.getElementById('preCadastro');
 const Login = document.getElementById('Login');
 
 $('#cpf').inputmask({ "mask": ["999.999.999-99"] });
-$('#celular').inputmask({ "mask": ["(99) 99999-9999"] });
-$('#whatsapp').inputmask({ "mask": ["(99) 99999-9999"] });
+$('#telefone').inputmask({ "mask": ["(99) 99999-9999"] });
 
 preCadastro.addEventListener('click', async () => {
     try {

@@ -11,7 +11,7 @@ final class Address extends AbstractMigration
     {
         $table = $this->table('address', ['id' => false, 'primary_key' => ['id']]);
         $table->addColumn('id', 'biginteger', ['identity' => true, 'null' => false])
-            ->addColumn('id_usuario', 'biginteger', ['null' => true])
+            ->addColumn('id_users', 'biginteger', ['null' => true])
             ->addColumn('titulo', 'text', ['null' => true])
             ->addColumn('cep', 'text', ['null' => true])
             ->addColumn('numero', 'text', ['null' => true])
@@ -19,7 +19,7 @@ final class Address extends AbstractMigration
             ->addColumn('cidade', 'text', ['null' => true])
             ->addColumn('uf', 'text', ['null' => true])
             ->addColumn('ibge', 'text', ['null' => true])
-            ->addForeignKey('id_usuario', 'users', 'id', ['delete' => 'CASCADE', 'update' => 'NO ACTION'])
+            ->addForeignKey('id_users', 'users', 'id', ['delete' => 'CASCADE', 'update' => 'NO ACTION'])
             ->create();
     }
 }

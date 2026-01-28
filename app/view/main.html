@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#007bff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#1a1a1a" media="(prefers-color-scheme: dark)" />
+    <meta name="title" content="Nexify" />
+    <meta name="author" content="RYAN DE SOUZA VASQUES" />
+    <meta name="supported-color-schemes" content="light dark" />
+    {% include "css.html" %}
+    <title>{{titulo}}</title>
+</head>
+
+<body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
+    <div class="app-wrapper">
+        {% include "top_menu.html" %}
+        {% include "left_menu.html" %}
+        <main class="app-main">
+            {% block main %}
+
+            {% endblock %}
+        </main>
+        {% include "footer.html" %}
+    </div>
+    {% block script %}
+    {% include "script.html" %}
+    {% endblock %}
+</body>
+
+</html>

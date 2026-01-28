@@ -1,0 +1,70 @@
+{% extends "main.html" %}
+
+{% block main %}
+<div class="app-content-header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6">
+                <h3 class="mb-0">{{titulo}}</h3>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-end">
+                    <li class="breadcrumb-item" aria-current="page"><a href="/home">Início</a></li>
+                    <li class="breadcrumb-item" aria-current="page"><a href="/usuario/lista">Pesquisa de usuário</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">Cadastro e edição</li>
+                </ol>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <form id="form">
+                    <input type="hidden" id="acao" name="acao" value="{{acao}}">
+                    <input type="hidden" id="id" name="id" value="{{id}}">
+                    <div class="card">
+                        <div class="card-header">
+                            <a href="/usuario/lista" class="btn btn-warning">Voltar</a>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-6 mb-3">
+                                    <label for="nome" class="form-label">Nome</label>
+                                    <input type="text" class="form-control" id="nome" name="nome"
+                                        placeholder="Informe seu nome" value="{{user.nome}}">
+                                </div>
+                                <div class="col-6 mb-3">
+                                    <label for="sobrenome" class="form-label">Sobrenome</label>
+                                    <input type="text" class="form-control" id="sobrenome" name="sobrenome"
+                                        placeholder=" Informe seu sobre nome" value="{{user.sobrenome}}">
+                                </div>
+                                <div class="col-6 mb-3">
+                                    <label for="rg" class="form-label">RG</label>
+                                    <input type="text" class="form-control" id="rg" name="rg"
+                                        placeholder="Informe seu RG" value="{{user.rg}}">
+                                </div>
+                                <div class="col-6 mb-3">
+                                    <label for="cpf" class="form-label">CPF</label>
+                                    <input type="text" class="form-control" id="cpf" name="cpf"
+                                        placeholder="Informe seu CPF" value="{{user.cpf}}">
+                                </div>
+                                <div class="col-6 mb-3">
+                                    <label for="senha" class="form-label">Senha</label>
+                                    <input type="password" class="form-control" id="senha" name="senha"
+                                        placeholder="Informe sua senha" value="{{user.senha}}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button type="button" id="salvar" class="btn btn-success">Salvar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block script %}
+{% include 'script.html' %}
+<script defer type="module" src="/js/user.js"></script>
+{% endblock %}

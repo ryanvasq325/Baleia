@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comercio Athos Te Atola | PDV</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <style>
+        :root { --primary: #007bff; --dark: #212529; --bg: #f1f3f5; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg); height: 100vh; overflow: hidden; margin: 0; }
+        
+        .sidebar { width: 70px; background: var(--dark); height: 100vh; position: fixed; display: flex; flex-direction: column; align-items: center; padding-top: 20px; z-index: 1000; }
+        .nav-link-custom { color: #adb5bd; font-size: 1.4rem; margin-bottom: 25px; cursor: pointer; padding: 12px; border-radius: 12px; transition: 0.3s; border: none; background: none; }
+        .nav-link-custom.active { background: var(--primary); color: white; }
+        
+        .main-wrapper { margin-left: 70px; height: 100vh; display: flex; }
+        .view-section { flex: 1; padding: 20px; overflow-y: auto; display: none; }
+        .view-section.active { display: block; }
+        
+        /* Grid de Mercado */
+        .product-card { background: white; border-radius: 10px; padding: 15px; cursor: pointer; transition: 0.2s; border: 1px solid #dee2e6; text-align: center; height: 100%; }
+        .product-card:hover { border-color: var(--primary); transform: scale(1.02); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+
+        /* Painel Lateral */
+        .order-panel { width: 420px; background: white; border-left: 2px solid #dee2e6; display: flex; flex-direction: column; height: 100vh; }
+        .order-content { flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; }
+        .cart-item { background: #f8f9fa; border-radius: 8px; padding: 10px; margin-bottom: 8px; border-left: 4px solid var(--primary); }
+        .pay-method-card { background: #e9ecef; border-radius: 10px; padding: 12px; margin-top: 10px; }
+
+        .order-footer { padding: 20px; background: #fff; border-top: 2px solid #dee2e6; }
+
+        .card-type-selector { display: flex; gap: 4px; margin-top: 8px; }
+        .card-type-selector input { display: none; }
+        .card-type-selector label { flex: 1; text-align: center; padding: 4px; font-size: 0.7rem; border-radius: 4px; border: 1px solid #ced4da; cursor: pointer; background: white; font-weight: bold; }
+        .card-type-selector input:checked + label { background: var(--primary); color: white; border-color: var(--primary); }
+        
+        #login-overlay { position: fixed; inset: 0; background: var(--dark); z-index: 2000; display: flex; align-items: center; justify-content: center; }
+    </style>
+</head>
+<body>
+
+<div id="login-overlay">
+    <div class="card p-4 shadow-lg border-0" style="width: 350px; border-radius: 15px;">
+        <div class="text-center mb-4">
+            <i class="bi bi-shop-window fs-1 text-primary"></i>
+            <h4 class="fw-bold mt-2">Athos Te Atola</h4>
+            <small class="text-muted">Acesso ao Sistema de Vendas</small>
+        </div>
+        <input type="text" id="user-input" class="form-control mb-3" placeholder="Nome do Vendedor">
+        <button class="btn btn-primary w-100 py-2 fw-bold" onclick="login()">INICIAR TURNO</button>
+    </div>
+</div>
+
+<div class="sidebar">
+    <button class="nav-link-custom active" onclick="switchView('pdv', this)" title="Caixa"><i class="bi bi-cart-fill"></i></button>
+    <button class="nav-link-custom" onclick="switchView('relatorio', this)" title="Histórico"><i class="bi bi-clock-history"></i></button>
+    <button class="mt-auto nav-link-custom text-danger" onclick="logout()"><i class="bi bi-box-arrow-left"></i></button>
+</div>
+
+<div class="main-wrapper">
+    <div id="view-pdv" class="view-section active">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="fw-bold m-0 text-uppercase">Comercio Athos Te Atola</h4>
+            <div id="clock" class="badge bg-dark"></div>
+        </div>
+        <div class="row row-cols-2 row-cols-md-4 row-cols-xl-5 g-2" id="grid-produtos"></div>
+    </div>
+
+    <div id="view-relatorio" class="view-section">
+        <h4 class="fw-bold mb-4">Histórico de Vendas</h4>
+        <div id="rel-total" class="h5 fw-bold text-success mb-3">Caixa: R$ 0,00</div>
+        <div class="card border-0 shadow-sm">
+            <table class="table table-hover align-middle m-0">
+                <thead class="table-dark">
+                    <tr><th>Hora</th><th>Vendedor</th><th>Total</th><th>Pagamento</th><th class="text-center">Cupom</th></tr>
+                </thead>
+                <tbody id="table-vendas"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="order-panel">
+        <div class="p-3 bg-primary text-white d-flex justify-content-between align-items-center">
+            <h6 class="fw-bold m-0">CONFERÊNCIA</h6>
+            <span class="badge bg-white text-primary" id="item-count">0</span>
+        </div>
+
+        <div class="order-content">
+            <div id="cart-list" class="mb-3">
+                <div class="text-center text-muted mt-5">Aguardando produtos...</div>
+            </div>
+
+            <div class="mt-auto">
+                <label class="small fw-bold text-muted mb-2">FORMA DE RECEBIMENTO</label>
+                <div class="row g-1 mb-2">
+                    <div class="col-4"><input type="checkbox" class="btn-check" id="pay-money" onchange="togglePay()"><label class="btn btn-outline-dark btn-sm w-100" for="pay-money">Dinheiro</label></div>
+                    <div class="col-4"><input type="checkbox" class="btn-check" id="pay-pix" onchange="togglePay()"><label class="btn btn-outline-dark btn-sm w-100" for="pay-pix">PIX</label></div>
+                    <div class="col-4"><input type="checkbox" class="btn-check" id="pay-card" onchange="togglePay()"><label class="btn btn-outline-dark btn-sm w-100" for="pay-card">Cartão</label></div>
+                </div>
+                <div id="payment-area"></div>
+            </div>
+        </div>
+
+        <div class="order-footer">
+            <div class="d-flex justify-content-between align-items-end mb-2">
+                <div>
+                    <small class="text-muted d-block" id="txt-sub">Subtotal: R$ 0,00</small>
+                    <span class="h3 fw-bold text-primary m-0" id="txt-total">R$ 0,00</span>
+                </div>
+                <div class="text-end">
+                    <div id="txt-change" class="badge bg-success"></div>
+                </div>
+            </div>
+            <button class="btn btn-success w-100 py-3 fw-bold shadow-sm" onclick="finishSale()">
+                <i class="bi bi-check-circle-fill me-2"></i>FECHAR VENDA (PDF)
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const products = [
+        { id: 1, name: "Arroz 5kg", price: 29.90, icon: "🌾" },
+        { id: 2, name: "Feijão 1kg", price: 8.50, icon: "🫘" },
+        { id: 3, name: "Óleo Soja", price: 6.20, icon: "🧪" },
+        { id: 4, name: "Leite Integral", price: 5.40, icon: "🥛" },
+        { id: 5, name: "Açúcar 1kg", price: 4.80, icon: "🧊" },
+        { id: 6, name: "Café 500g", price: 18.90, icon: "☕" },
+        { id: 7, name: "Macarrão 500g", price: 3.90, icon: "🍝" },
+        { id: 8, name: "Detergente", price: 2.50, icon: "🧼" },
+        { id: 9, name: "Pão de Forma", price: 7.50, icon: "🍞" },
+        { id: 10, name: "Manteiga 500g", price: 14.00, icon: "🧈" },
+        { id: 11, name: "Biscoito Recheado", price: 3.20, icon: "🍪" },
+        { id: 12, name: "Ovos 12un", price: 12.00, icon: "🥚" }
+    ];
+
+    let cart = [];
+    let sales = JSON.parse(localStorage.getItem('athos_sales')) || [];
+    let currentUser = localStorage.getItem('athos_user') || "";
+
+    function login() {
+        const u = document.getElementById('user-input').value;
+        if(!u) return alert("Digite o nome do vendedor!");
+        currentUser = u;
+        localStorage.setItem('athos_user', u);
+        document.getElementById('login-overlay').style.display = 'none';
+        renderProducts();
+    }
+    if(currentUser) document.getElementById('login-overlay').style.display = 'none';
+    function logout() { localStorage.removeItem('athos_user'); location.reload(); }
+
+    function renderProducts() {
+        document.getElementById('grid-produtos').innerHTML = products.map(p => `
+            <div class="col"><div class="product-card" onclick="addToCart(${p.id})">
+                <div class="fs-1">${p.icon}</div>
+                <div class="fw-bold small text-truncate mt-1">${p.name}</div>
+                <div class="text-primary small fw-bold">R$ ${p.price.toFixed(2)}</div>
+            </div></div>`).join('');
+    }
+
+    function addToCart(id) {
+        const p = products.find(i => i.id === id);
+        const inCart = cart.find(i => i.id === id);
+        if(inCart) inCart.qty++; else cart.push({...p, qty: 1});
+        updateUI();
+    }
+
+    function updateQty(id, delta) {
+        const item = cart.find(i => i.id === id);
+        item.qty += delta;
+        if(item.qty <= 0) cart = cart.filter(i => i.id !== id);
+        updateUI();
+    }
+
+    function updateUI() {
+        const list = document.getElementById('cart-list');
+        let total = 0; let count = 0;
+        if(cart.length === 0) {
+            list.innerHTML = `<div class="text-center text-muted mt-5 small">Nenhum item</div>`;
+        } else {
+            list.innerHTML = cart.map(item => {
+                total += (item.price * item.qty);
+                count += item.qty;
+                return `
+                <div class="cart-item">
+                    <div class="d-flex justify-content-between fw-bold small"><span>${item.name}</span><span>R$ ${(item.price*item.qty).toFixed(2)}</span></div>
+                    <div class="d-flex justify-content-between align-items-center mt-1">
+                        <div class="btn-group btn-group-sm">
+                            <button class="btn btn-sm btn-light border py-0" onclick="updateQty(${item.id}, -1)">-</button>
+                            <span class="px-2 small fw-bold">${item.qty}</span>
+                            <button class="btn btn-sm btn-light border py-0" onclick="updateQty(${item.id}, 1)">+</button>
+                        </div>
+                        <i class="bi bi-trash-fill text-danger cursor-pointer small" onclick="updateQty(${item.id}, -${item.qty})"></i>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+        document.getElementById('txt-sub').innerText = `Subtotal: R$ ${total.toFixed(2)}`;
+        document.getElementById('txt-total').innerText = `R$ ${total.toFixed(2)}`;
+        document.getElementById('item-count').innerText = count;
+        calcChange();
+    }
+
+    function togglePay() {
+        const area = document.getElementById('payment-area');
+        area.innerHTML = '';
+        if(document.getElementById('pay-money').checked) {
+            area.innerHTML += `<div class="pay-method-card"><label class="small fw-bold">VALOR DINHEIRO</label><input type="number" class="form-control pay-in" data-type="DINHEIRO" oninput="calcChange()"></div>`;
+        }
+        if(document.getElementById('pay-pix').checked) {
+            area.innerHTML += `<div class="pay-method-card"><label class="small fw-bold">VALOR PIX</label><input type="number" class="form-control pay-in" data-type="PIX" oninput="calcChange()"></div>`;
+        }
+        if(document.getElementById('pay-card').checked) {
+            area.innerHTML += `
+                <div class="pay-method-card">
+                    <label class="small fw-bold">VALOR CARTÃO</label>
+                    <input type="number" class="form-control mb-1 pay-in" data-type="CARTÃO" oninput="calcChange()">
+                    <div class="card-type-selector">
+                        <input type="radio" name="c-type" id="c-deb" value="DÉBITO" checked><label for="c-deb">DÉB</label>
+                        <input type="radio" name="c-type" id="c-cre" value="CRÉDITO"><label for="c-cre">CRÉD</label>
+                    </div>
+                </div>`;
+        }
+    }
+
+    function calcChange() {
+        const total = parseFloat(document.getElementById('txt-total').innerText.replace('R$ ', ''));
+        let paid = 0;
+        document.querySelectorAll('.pay-in').forEach(i => paid += parseFloat(i.value || 0));
+        const disp = document.getElementById('txt-change');
+        if(paid > total && document.getElementById('pay-money').checked) {
+            disp.innerText = `TROCO: R$ ${(paid-total).toFixed(2)}`;
+            disp.style.display = "inline-block";
+        } else { disp.innerText = ""; disp.style.display = "none"; }
+    }
+
+    function finishSale() {
+        const total = parseFloat(document.getElementById('txt-total').innerText.replace('R$ ', ''));
+        if(cart.length === 0) return alert("Carrinho vazio!");
+        let paid = 0; let methods = [];
+        document.querySelectorAll('.pay-in').forEach(i => {
+            const v = parseFloat(i.value || 0); paid += v;
+            let t = i.dataset.type;
+            if(t === 'CARTÃO') t += ` (${document.querySelector('input[name="c-type"]:checked').value})`;
+            methods.push(`${t}: R$ ${v.toFixed(2)}`);
+        });
+
+        if(paid < (total - 0.05)) return alert("Valor insuficiente!");
+
+        const sale = {
+            id: Math.floor(1000 + Math.random() * 9000),
+            date: new Date().toLocaleString(),
+            user: currentUser,
+            items: [...cart],
+            total: total,
+            methods: methods.join(' | ')
+        };
+
+        sales.push(sale);
+        localStorage.setItem('athos_sales', JSON.stringify(sales));
+        generatePDF(sale);
+        
+        cart = []; updateUI();
+        document.querySelectorAll('.btn-check').forEach(c => c.checked = false);
+        document.getElementById('payment-area').innerHTML = '';
+        alert("Venda Finalizada!");
+    }
+
+    function generatePDF(s) {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF({ unit: 'mm', format: [80, 150] });
+        doc.setFont("courier", "bold").setFontSize(10).text("COMERCIO ATHOS TE ATOLA", 40, 10, {align:"center"});
+        doc.setFont("courier", "normal").setFontSize(7).text(`Ticket: #${s.id} | Vendedor: ${s.user}`, 5, 18);
+        doc.text(`Data: ${s.date}`, 5, 22);
+        doc.text("-".repeat(45), 5, 26);
+        let y = 30;
+        s.items.forEach(i => {
+            doc.text(`${i.qty}x ${i.name.substring(0,20)}`, 5, y);
+            doc.text(`R$ ${(i.price*i.qty).toFixed(2)}`, 75, y, {align:"right"});
+            y += 4;
+        });
+        doc.text("-".repeat(45), 5, y);
+        doc.setFontSize(9).setFont("courier", "bold").text(`TOTAL: R$ ${s.total.toFixed(2)}`, 75, y+5, {align:"right"});
+        doc.setFontSize(6).setFont("courier", "normal").text(`Pgto: ${s.methods}`, 5, y+10);
+        doc.text("OBRIGADO PELA PREFERENCIA!", 40, y+18, {align:"center"});
+        doc.save(`cupom-athos-${s.id}.pdf`);
+    }
+
+    function renderReports() {
+        let totalVal = 0;
+        document.getElementById('table-vendas').innerHTML = sales.map(s => {
+            totalVal += s.total;
+            return `<tr>
+                <td>${s.date.split(' ')[1]}</td>
+                <td>${s.user}</td>
+                <td class="fw-bold">R$ ${s.total.toFixed(2)}</td>
+                <td><small>${s.methods}</small></td>
+                <td class="text-center">
+                    <button class="btn btn-sm btn-outline-primary py-0" onclick='reprint(${s.id})'>
+                        <i class="bi bi-printer"></i>
+                    </button>
+                </td>
+            </tr>`;
+        }).reverse().join('');
+        document.getElementById('rel-total').innerText = `TOTAL EM CAIXA: R$ ${totalVal.toFixed(2)}`;
+    }
+
+    window.reprint = (id) => {
+        const s = sales.find(x => x.id === id);
+        if(s) generatePDF(s);
+    };
+
+    function switchView(v, el) {
+        document.querySelectorAll('.view-section, .nav-link-custom').forEach(x => x.classList.remove('active'));
+        document.getElementById(`view-${v}`).classList.add('active');
+        el.classList.add('active');
+        if(v === 'relatorio') renderReports();
+    }
+
+    setInterval(() => {
+        const now = new Date();
+        document.getElementById('clock').innerText = now.toLocaleTimeString();
+    }, 1000);
+
+    renderProducts();
+    updateUI();
+</script>
+</body>
+</html>

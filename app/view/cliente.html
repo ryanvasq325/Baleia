@@ -1,0 +1,71 @@
+{% extends "main.html" %}
+
+{% block main %}
+<div class="app-content-header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6">
+                <h3 class="mb-0">{{titulo}}</h3>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-end">
+                    <li class="breadcrumb-item" aria-current="page"><a href="/home">Início</a></li>
+                    <li class="breadcrumb-item" aria-current="page"><a href="/cliente/lista">Pesquisa de cliente</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">Cadastro e edição</li>
+                </ol>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <form id="form">
+                    <input type="hidden" id="acao" name="acao" value="{{acao}}">
+                    <input type="hidden" id="id" name="id" value="{{id}}">
+                    <div class="card">
+                        <div class="card-header">
+                            <a href="/cliente/lista" class="btn btn-warning">Voltar</a>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-6 mb-3">
+                                    <label for="nome" class="form-label">Nome</label>
+                                    <input type="text" class="form-control" id="nome_fantasia" name="nome_fantasia"
+                                        placeholder="Informe seu nome" value="{{client.nome_fantasia}}" autofocus>
+                                </div>
+                                <div class="col-6 mb-3">
+                                    <label for="sobrenome" class="form-label">Sobrenome</label>
+                                    <input type="text" class="form-control" id="sobrenome_razao" name="sobrenome_razao"
+                                        placeholder="Informe seu sobrenome" value="{{client.sobrenome_razao}}">
+                                </div>
+                                <div class="col-6 mb-3">
+                                    <label for="rg" class="form-label">RG</label>
+                                    <input type="text" class="form-control" id="rg_ie" name="rg_ie"
+                                        placeholder="Informe seu RG" value="{{client.rg_ie}}">
+                                </div>
+                                <div class="col-6 mb-3">
+                                    <label for="cpf" class="form-label">CPF</label>
+                                    <input type="text" class="form-control" id="cpf_cnpj" name="cpf_cnpj"
+                                        placeholder="Informe seu CPF" value="{{client.cpf_cnpj}}">
+                                </div>
+                                <div class="col-6 mb-3">
+                                    <label for="ativo" class="form-label">Ativo</label>
+                                    <select class="form-select" id="ativo" name="ativo">
+                                        <option value="1" {% if client.ativo == 1 %}selected{% endif %}>Sim</option>
+                                        <option value="0" {% if client.ativo == 0 %}selected{% endif %}>Não</option>
+                                    </select>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button type="button" id="salvar" class="btn btn-success">Salvar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block script %}
+{% include 'script.html' %}
+<script defer type="module" src="/js/cliente.js"></script>
+{% endblock %}

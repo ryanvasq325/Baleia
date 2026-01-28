@@ -11,10 +11,14 @@ final class PaymentTerms extends AbstractMigration
     {
         $table = $this->table('payment_terms', ['id' => false, 'primary_key' => ['id']]);
         $table->addColumn('id', 'biginteger', ['identity' => true, 'null' => false])
-            ->addColumn('id_usuario', 'biginteger', ['null' => true])
-            ->addColumn('descricao', 'text', ['null' => true])
-            ->addColumn('dias', 'integer', ['null' => true])
-            ->addForeignKey('id_usuario', 'users', 'id', ['delete' => 'CASCADE', 'update' => 'NO ACTION'])
-            ->create();
+        ->addColumn('descricao', 'string', ['limit' => 255, 'null' => false])
+        ->addColumn('dias_vencimento', 'integer', ['null' => false])
+        ->addColumn('percentual_desconto', 'decimal', ['precision' => 10, 'scale' => 2, 'null' => true])
+        ->addColumn('percentual_juros', 'decimal', ['precision' => 10, 'scale' => 2, 'null' => true])
+        ->addColumn('multa_atraso', 'decimal', ['precision' => 10, 'scale' => 2, 'null' => true])
+        ->addColumn('ativo', 'boolean', ['default' => true, 'null' => false])
+        ->addColumn('data_cadastro', 'datetime', ['null' => true, 'default' => 'CURRENT_TIMESTAMP'])
+        ->addColumn('data_atualizacao', 'datetime', ['null' => true, 'default' => 'CURRENT_TIMESTAMP'])
+        ->create();
     }
 }

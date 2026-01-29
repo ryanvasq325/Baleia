@@ -1,50 +1,61 @@
 {% extends "main.html" %}
 {% block main %}
 
-<div class="container my-4">
-    <form id="form">
-        <input type="hidden" id="id" name="id">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
 
-        <div class="card shadow-sm border-0">
-
-            <!-- HEADER -->
-            <div class="card-header bg-primary text-white d-flex align-items-center">
-                <h5 class="mb-0 d-flex align-items-center gap-2">
-                    <i class="fas fa-users"></i> Lista de Fornecedores
-                </h5>
-
-                <!-- Forçar o botão para o canto direito -->
-                <div class="ms-auto">
-                    <a href="/fornecedor/cadastro" class="btn btn-success d-flex align-items-center gap-2">
-                        <i class="fas fa-user-plus"></i> Cadastrar
-                    </a>
-                </div>
+<div class="app-content-header py-4">
+    <div class="container-fluid">
+        <div class="row align-items-center mb-4">
+            <div class="col-sm-6">
+                <h3 class="fw-bold text-dark mb-0">
+                    <i class="bi bi-truck me-2 text-primary"></i>Gestão de Fornecedores
+                </h3>
             </div>
-
-            <!-- CORPO -->
-            <div class="card-body">
-
-                <table class="table table-striped table-hover align-middle" id="tabela">
-                    <thead class="table-light">
-                        <tr>
-                            <th style="width: 80px;"><i class="fa-solid fa-fingerprint"></i> Código</th>
-                            <th><i class="fas fa-user"></i> Nome</th>
-                            <th><i class="fas fa-user-tag"></i> Sobrenome</th>
-                            <th><i class="fas fa-id-card"></i> CPF</th>
-                            <th><i class="fas fa-id-badge"></i> RG</th>
-                            <th><i class="fas fa-id-badge"></i> Status</th>
-                            <th class="text-center" style="width: 150px;"><i class="fas fa-cogs"></i> Ações</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                    </tbody>
-
-                </table>
-
+            <div class="col-sm-6">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb float-sm-end bg-white border p-2 px-3 rounded-pill shadow-sm small">
+                        <li class="breadcrumb-item"><a href="/home" class="text-decoration-none">Início</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Fornecedores</li>
+                    </ol>
+                </nav>
             </div>
         </div>
-    </form>
+
+        <form id="form">
+            <input type="hidden" id="id" name="id">
+
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white py-3 border-bottom">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h6 class="m-0 fw-bold text-secondary text-uppercase small">Relação de Fornecedores</h6>
+                        <a href="/fornecedor/cadastro" class="btn btn-primary btn-sm px-3 shadow-sm fw-bold d-flex align-items-center gap-2">
+                            <i class="bi bi-person-plus-fill"></i> Cadastrar
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0" id="tabela">
+                            <thead class="bg-light text-secondary small">
+                                <tr>
+                                    <th class="ps-4" style="width: 100px;">CÓDIGO</th>
+                                    <th>NOME</th>
+                                    <th>SOBRENOME</th>
+                                    <th>CPF</th>
+                                    <th>RG</th>
+                                    <th>STATUS</th>
+                                    <th class="text-center" style="width: 150px;">AÇÕES</th>
+                                </tr>
+                            </thead>
+                            <tbody class="small">
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
 
 {% endblock %}

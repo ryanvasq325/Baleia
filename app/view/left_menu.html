@@ -1,17 +1,17 @@
 <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
     <div class="sidebar-brand">
         <a href="/home" class="brand-link">
-            <i class="fa-brands fa-docker fa-xl text-primary"></i>
-            <span class="brand-text fw-light">Baleia</span>
+            <i class="bi bi-water fa-xl text-primary me-2"></i> <span class="brand-text fw-bold">Baleia</span>
         </a>
     </div>
+
     <div class="sidebar-wrapper">
         <nav class="mt-2">
             <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="navigation"
                 aria-label="Main navigation" data-accordion="false" id="navigation">
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="bi bi-plus"></i>
+                
+                <li class="nav-item menu-open"> <a href="#" class="nav-link active">
+                        <i class="nav-icon bi bi-plus-square-fill"></i>
                         <p>
                             Cadastros
                             <i class="nav-arrow bi bi-chevron-right"></i>
@@ -20,30 +20,31 @@
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
                             <a href="/usuario/lista" class="nav-link">
-                                <i class="bi bi-person-badge-fill"></i>
+                                <i class="nav-icon bi bi-person-badge"></i>
                                 <p>Usuários</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="/cliente/lista" class="nav-link">
-                               <i class="fa-solid fa-user"></i>
+                                <i class="nav-icon bi bi-people"></i>
                                 <p>Clientes</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="/fornecedor/lista" class="nav-link">
-                               <i class="fa-brands fa-black-tie"></i>
+                                <i class="nav-icon bi bi-truck"></i>
                                 <p>Fornecedores</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="/empresa/lista" class="nav-link">
-                                <i class="fa-solid fa-building"></i>
+                                <i class="nav-icon bi bi-building"></i>
                                 <p>Empresas</p>
                             </a>
                         </li>
                     </ul>
                 </li>
+
             </ul>
         </nav>
     </div>

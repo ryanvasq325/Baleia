@@ -1,63 +1,91 @@
 {% extends "main.html" %}
 
 {% block main %}
-<div class="app-content-header">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+
+<div class="app-content-header py-4">
     <div class="container-fluid">
-        <div class="row">
+        <div class="row align-items-center mb-4">
             <div class="col-sm-6">
-                <h3 class="mb-0">{{titulo}}</h3>
+                <h3 class="fw-bold text-dark mb-0">
+                    <i class="bi bi-briefcase me-2 text-primary"></i>{{titulo}}
+                </h3>
             </div>
             <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-end">
-                    <li class="breadcrumb-item" aria-current="page"><a href="/home">Início</a></li>
-                    <li class="breadcrumb-item" aria-current="page"><a href="/empresa/lista">Pesquisa de empresa</a>
-                    </li>
-                    <li class="breadcrumb-item active" aria-current="page">Cadastro e edição</li>
-                </ol>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb float-sm-end bg-white border p-2 px-3 rounded-pill shadow-sm small">
+                        <li class="breadcrumb-item"><a href="/home" class="text-decoration-none">Início</a></li>
+                        <li class="breadcrumb-item"><a href="/empresa/lista" class="text-decoration-none">Empresas</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Gestão</li>
+                    </ol>
+                </nav>
             </div>
         </div>
+
         <div class="row">
-            <div class="col-12">
-                <form id="form">
-                    <input type="" id="acao" name="acao" value="{{acao}}">
-                    <input type="" id="id" name="id" value="{{id}}">
-                    <div class="card">
-                        <div class="card-header">
-                            <a href="/empresa/lista" class="btn btn-warning">Voltar</a>
+            <div class="col-12 col-xl-10 mx-auto">
+                <form id="form" class="needs-validation" novalidate>
+                    <input type="hidden" id="acao" name="acao" value="{{acao}}">
+                    <input type="hidden" id="id" name="id" value="{{id}}">
+                    
+                    <div class="card border-0 shadow">
+                        <div class="card-header bg-white py-3 border-bottom">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h6 class="m-0 fw-bold text-secondary text-uppercase">Dados Cadastrais</h6>
+                                <a href="/empresa/lista" class="btn btn-light btn-sm border text-secondary">
+                                    <i class="bi bi-arrow-left"></i> Voltar à Lista
+                                </a>
+                            </div>
                         </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-6 mb-3">
-                                    <label for="nome" class="form-label">Nome</label>
-                                    <input type="text" class="form-control" id="nome_fantasia" name="nome_fantasia"
-                                        placeholder="Informe seu nome" value="{{empresa.nome_fantasia}}" autofocus>
+                        
+                        <div class="card-body p-4">
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <label for="nome_fantasia" class="form-label small fw-bold text-muted">Nome Fantasia</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-end-0"><i class="bi bi-shop"></i></span>
+                                        <input type="text" class="form-control border-start-0" id="nome_fantasia" name="nome_fantasia"
+                                            placeholder="Nome comercial" value="{{empresa.nome_fantasia}}" autofocus>
+                                    </div>
                                 </div>
-                                <div class="col-6 mb-3">
-                                    <label for="sobrenome" class="form-label">Sobrenome</label>
+
+                                <div class="col-md-6">
+                                    <label for="sobrenome_razao" class="form-label small fw-bold text-muted">Razão Social</label>
                                     <input type="text" class="form-control" id="sobrenome_razao" name="sobrenome_razao"
-                                        placeholder="Informe seu sobrenome" value="{{empresa.sobrenome_razao}}">
+                                        placeholder="Nome jurídico completo" value="{{empresa.sobrenome_razao}}">
                                 </div>
-                                <div class="col-6 mb-3">
-                                    <label for="rg" class="form-label">RG</label>
+
+                                <div class="col-md-4">
+                                    <label for="rg_ie" class="form-label small fw-bold text-muted">Inscrição Estadual (IE)</label>
                                     <input type="text" class="form-control" id="rg_ie" name="rg_ie"
-                                        placeholder="Informe seu RG" value="{{empresa.rg_ie}}">
+                                        placeholder="000.000.000.000" value="{{empresa.rg_ie}}">
                                 </div>
-                                <div class="col-6 mb-3">
-                                    <label for="cpf" class="form-label">CPF</label>
-                                    <input type="text" class="form-control" id="cpf_cnpj" name="cpf_cnpj"
-                                        placeholder="Informe seu CPF" value="{{empresa.cpf_cnpj}}">
+
+                                <div class="col-md-4">
+                                    <label for="cpf_cnpj" class="form-label small fw-bold text-muted">CNPJ</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-end-0"><i class="bi bi-card-checklist"></i></span>
+                                        <input type="text" class="form-control border-start-0" id="cpf_cnpj" name="cpf_cnpj"
+                                            placeholder="00.000.000/0000-00" value="{{empresa.cpf_cnpj}}">
+                                    </div>
                                 </div>
-                                <div class="col-6 mb-3">
-                                    <label for="ativo" class="form-label">Ativo</label>
-                                    <select class="form-select" id="ativo" name="ativo">
-                                        <option value="1" {% if client.ativo==1 %}selected{% endif %}>Sim</option>
-                                        <option value="0" {% if client.ativo==0 %}selected{% endif %}>Não</option>
+
+                                <div class="col-md-4">
+                                    <label for="ativo" class="form-label small fw-bold text-muted">Status Operacional</label>
+                                    <select class="form-select border-secondary-subtle shadow-sm" id="ativo" name="ativo">
+                                        <option value="1" {% if empresa.ativo == 1 %}selected{% endif %}>Ativo</option>
+                                        <option value="0" {% if empresa.ativo == 0 %}selected{% endif %}>Inativo</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
-                        <div class="card-footer">
-                            <button type="button" id="salvar" class="btn btn-success">Salvar</button>
+
+                        <div class="card-footer bg-white border-top-0 p-4">
+                            <div class="d-grid d-md-flex justify-content-md-end">
+                                <button type="button" id="salvar" class="btn btn-primary btn-lg px-5 shadow fw-bold">
+                                    <i class="bi bi-cloud-arrow-up me-2"></i> Confirmar Cadastro
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </form>
@@ -66,6 +94,7 @@
     </div>
 </div>
 {% endblock %}
+
 {% block script %}
 {% include 'script.html' %}
 <script defer type="module" src="/js/empresa.js"></script>

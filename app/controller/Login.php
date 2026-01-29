@@ -47,23 +47,23 @@ class Login extends Base
             #Captura o código do ultimo usuário cadastrado na tabela de usuário
             $id = SelectQuery::select('id')->from('users')->order('id', 'desc')->fetch();
             #Colocamos o ID do ultimo usuário cadastrado na varaivel $id_usuario.
-            $id_usuario = $id['id'];
+            $id_users = $id['id'];
             #Inserimos o e-mail
             $dadosContato = [
-                'id_usuario' => $id_usuario,
-                'tipo' => 'email',
-                'contato' => $form['email']
+                'id_users' => $id_users,
+                'telefone' => $form['telefone'],
+                'email' => $form['email']
             ];
-            InsertQuery::table('contact')->save($dadosContato);
+            /*InsertQuery::table('contact')->save($dadosContato);
             $dadosContato = [];
             #Inserimos o WhastaApp
             $dadosContato = [
-                'id_usuario' => $id_usuario,
-                'tipo' => 'telefone',
-                'contato' => $form['telefone']
-            ];
+                'id_users' => $id_users,
+                //'tipo' => 'telefone',
+                'telefone' => $form['telefone']
+            ];*/
             InsertQuery::table('contact')->save($dadosContato);
-            return $this->SendJson($response, ['status' => true, 'msg' => 'Cadastro realizado com sucesso!', 'id' => $id_usuario], 201);
+            return $this->SendJson($response, ['status' => true, 'msg' => 'Cadastro realizado com sucesso!', 'id' => $id_users], 201);
         } catch (\Exception $e) {
             return $this->SendJson($response, ['status' => true, 'msg' => 'Restrição: ' . $e->getMessage(), 'id' => 0], 500);
         }
@@ -82,7 +82,7 @@ class Login extends Base
                 return $this->SendJson($response, ['status' => false, 'msg' => 'Por favor informe o senha', 'id' => 0], 403);
             }
             $user = SelectQuery::select()
-                ->from('vw_usuario_contatos')
+                ->from('view_usuarios_contatos')
                 ->where('cpf', '=', $form['login'], 'or')
                 ->where('email', '=', $form['login'], 'or')
                 ->where('telefone', '=', $form['login'])
@@ -113,7 +113,7 @@ class Login extends Base
                 UpdateQuery::table('users')->set(['senha' => password_hash($form['senha'], PASSWORD_DEFAULT)])->where('id', '=', $user['id'])->update();
             }
 
-            $_SESSION['usuario'] = [
+            $_SESSION['users'] = [
                 'id' => $user['id'],
                 'nome' => $user['nome'],
                 'sobrenome' => $user['sobrenome'],

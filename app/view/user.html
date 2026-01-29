@@ -1,61 +1,85 @@
 {% extends "main.html" %}
 
 {% block main %}
-<div class="app-content-header">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+
+<div class="app-content-header py-4">
     <div class="container-fluid">
-        <div class="row">
+        <div class="row align-items-center mb-4">
             <div class="col-sm-6">
-                <h3 class="mb-0">{{titulo}}</h3>
+                <h3 class="fw-bold text-primary mb-0">
+                    <i class="bi bi-person-gear me-2"></i>{{titulo}}
+                </h3>
             </div>
             <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-end">
-                    <li class="breadcrumb-item" aria-current="page"><a href="/home">Início</a></li>
-                    <li class="breadcrumb-item" aria-current="page"><a href="/usuario/lista">Pesquisa de usuário</a>
-                    </li>
-                    <li class="breadcrumb-item active" aria-current="page">Cadastro e edição</li>
+                <ol class="breadcrumb float-sm-end bg-light p-2 px-3 rounded-pill shadow-sm">
+                    <li class="breadcrumb-item"><a href="/home" class="text-decoration-none">Início</a></li>
+                    <li class="breadcrumb-item"><a href="/usuario/lista" class="text-decoration-none">Usuários</a></li>
+                    <li class="breadcrumb-item active">Cadastro</li>
                 </ol>
             </div>
         </div>
+
         <div class="row">
-            <div class="col-12">
-                <form id="form">
+            <div class="col-12 col-lg-10 mx-auto">
+                <form id="form" class="needs-validation">
                     <input type="hidden" id="acao" name="acao" value="{{acao}}">
                     <input type="hidden" id="id" name="id" value="{{id}}">
-                    <div class="card">
-                        <div class="card-header">
-                            <a href="/usuario/lista" class="btn btn-warning">Voltar</a>
+                    
+                    <div class="card border-0 shadow-sm mb-4">
+                        <div class="card-header bg-white py-3">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="card-title mb-0 text-secondary">Dados Pessoais</h5>
+                                <a href="/usuario/lista" class="btn btn-outline-secondary btn-sm">
+                                    <i class="bi bi-arrow-left me-1"></i> Voltar
+                                </a>
+                            </div>
                         </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-6 mb-3">
-                                    <label for="nome" class="form-label">Nome</label>
-                                    <input type="text" class="form-control" id="nome" name="nome"
-                                        placeholder="Informe seu nome" value="{{user.nome}}">
+                        
+                        <div class="card-body p-4">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="nome" class="form-label fw-semibold text-muted small uppercase">Nome</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light"><i class="bi bi-person"></i></span>
+                                        <input type="text" class="form-control" id="nome" name="nome" 
+                                               placeholder="Ex: João" value="{{user.nome}}">
+                                    </div>
                                 </div>
-                                <div class="col-6 mb-3">
-                                    <label for="sobrenome" class="form-label">Sobrenome</label>
-                                    <input type="text" class="form-control" id="sobrenome" name="sobrenome"
-                                        placeholder=" Informe seu sobre nome" value="{{user.sobrenome}}">
+
+                                <div class="col-md-6">
+                                    <label for="sobrenome" class="form-label fw-semibold text-muted small">Sobrenome</label>
+                                    <input type="text" class="form-control" id="sobrenome" name="sobrenome" 
+                                           placeholder="Ex: Silva" value="{{user.sobrenome}}">
                                 </div>
-                                <div class="col-6 mb-3">
-                                    <label for="rg" class="form-label">RG</label>
-                                    <input type="text" class="form-control" id="rg" name="rg"
-                                        placeholder="Informe seu RG" value="{{user.rg}}">
+
+                                <div class="col-md-4">
+                                    <label for="rg" class="form-label fw-semibold text-muted small">RG</label>
+                                    <input type="text" class="form-control" id="rg" name="rg" 
+                                           placeholder="00.000.000-0" value="{{user.rg}}">
                                 </div>
-                                <div class="col-6 mb-3">
-                                    <label for="cpf" class="form-label">CPF</label>
-                                    <input type="text" class="form-control" id="cpf" name="cpf"
-                                        placeholder="Informe seu CPF" value="{{user.cpf}}">
+
+                                <div class="col-md-4">
+                                    <label for="cpf" class="form-label fw-semibold text-muted small">CPF</label>
+                                    <input type="text" class="form-control" id="cpf" name="cpf" 
+                                           placeholder="000.000.000-00" value="{{user.cpf}}">
                                 </div>
-                                <div class="col-6 mb-3">
-                                    <label for="senha" class="form-label">Senha</label>
-                                    <input type="password" class="form-control" id="senha" name="senha"
-                                        placeholder="Informe sua senha" value="{{user.senha}}">
+
+                                <div class="col-md-4">
+                                    <label for="senha" class="form-label fw-semibold text-muted small">Senha</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light"><i class="bi bi-lock"></i></span>
+                                        <input type="password" class="form-control" id="senha" name="senha" 
+                                               placeholder="Senha segura" value="{{user.senha}}">
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="card-footer">
-                            <button type="button" id="salvar" class="btn btn-success">Salvar</button>
+
+                        <div class="card-footer bg-light p-3 d-flex justify-content-end">
+                            <button type="button" id="salvar" class="btn btn-primary px-5 shadow-sm">
+                                <i class="bi bi-check-lg me-2"></i> Salvar Alterações
+                            </button>
                         </div>
                     </div>
                 </form>
@@ -64,6 +88,7 @@
     </div>
 </div>
 {% endblock %}
+
 {% block script %}
 {% include 'script.html' %}
 <script defer type="module" src="/js/user.js"></script>

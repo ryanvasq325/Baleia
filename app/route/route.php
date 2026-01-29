@@ -25,9 +25,9 @@ $app->group('/login', function (RouteCollectorProxy $group) {
 
 
 $app->group('/usuario', function (RouteCollectorProxy $group) {
-    $group->get('/lista', User::class . ':lista');#->add(Auth::route());
-    $group->get('/cadastro', User::class . ':cadastro');#->add(Auth::route());
-    $group->get('/alterar/{id}', User::class . ':alterar');#->add(Auth::route());
+    $group->get('/lista', User::class . ':lista')->add(Auth::route());
+    $group->get('/cadastro', User::class . ':cadastro')->add(Auth::route());
+    $group->get('/alterar/{id}', User::class . ':alterar')->add(Auth::route());
     $group->post('/update', User::class . ':update');
     $group->post('/listuser', User::class . ':listuser');
     $group->post('/insert', User::class . ':insert');
@@ -35,9 +35,9 @@ $app->group('/usuario', function (RouteCollectorProxy $group) {
 });
 
 $app->group('/cliente', function (RouteCollectorProxy $group) {
-    $group->get('/lista', Cliente::class . ':lista');#->add(Auth::route());
-    $group->get('/cadastro', Cliente::class . ':cadastro');#->add(Auth::route());
-    $group->get('/alterar/{id}', Cliente::class . ':alterar');#->add(Auth::route());
+    $group->get('/lista', Cliente::class . ':lista')->add(Auth::route());
+    $group->get('/cadastro', Cliente::class . ':cadastro')->add(Auth::route());
+    $group->get('/alterar/{id}', Cliente::class . ':alterar')->add(Auth::route());
     $group->post('/update', Cliente::class . ':update');
     $group->post('/listcliente', Cliente::class . ':listcliente');
     $group->post('/insert', Cliente::class . ':insert');
@@ -45,9 +45,9 @@ $app->group('/cliente', function (RouteCollectorProxy $group) {
 });
 
 $app->group('/empresa', function (RouteCollectorProxy $group) {
-    $group->get('/lista', Empresa::class . ':lista'); #->add(Auth::route());
-    $group->get('/cadastro', Empresa::class . ':cadastro'); #->add(Auth::route());
-    $group->get('/alterar/{id}', Empresa::class . ':alterar'); #->add(Auth::route());
+    $group->get('/lista', Empresa::class . ':lista')->add(Auth::route());
+    $group->get('/cadastro', Empresa::class . ':cadastro')->add(Auth::route());
+    $group->get('/alterar/{id}', Empresa::class . ':alterar')->add(Auth::route());
     $group->post('/update', Empresa::class . ':update');
     $group->post('/listempresa', Empresa::class . ':listempresa');
     $group->post('/insert', Empresa::class . ':insert');
@@ -55,9 +55,9 @@ $app->group('/empresa', function (RouteCollectorProxy $group) {
 });
 
 $app->group('/fornecedor', function (RouteCollectorProxy $group) {
-    $group->get('/lista', Fornecedor::class . ':lista'); #->add(Auth::route());
-    $group->get('/cadastro', Fornecedor::class . ':cadastro'); #->add(Auth::route());
-    $group->get('/alterar/{id}', Fornecedor::class . ':alterar'); #->add(Auth::route());
+    $group->get('/lista', Fornecedor::class . ':lista')->add(Auth::route());
+    $group->get('/cadastro', Fornecedor::class . ':cadastro')->add(Auth::route());
+    $group->get('/alterar/{id}', Fornecedor::class . ':alterar')->add(Auth::route());
     $group->post('/update', Fornecedor::class . ':update');
     $group->post('/listfornecedor', Fornecedor::class . ':listfornecedor');
     $group->post('/insert', Fornecedor::class . ':insert');

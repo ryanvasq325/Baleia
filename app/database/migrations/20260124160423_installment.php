@@ -9,17 +9,6 @@ final class Installment extends AbstractMigration
 
     public function change(): void
     {
-<<<<<<< HEAD
-        $table = $this->table('installment' , ['id' => false, 'primary_key' => ['id']]);
-        $table->addColumn('id', 'integer', ['identity' => true, 'null' => false])
-              ->addColumn('id_da_venda', 'integer')
-              ->addColumn('número_da_parcela', 'integer')
-              ->addColumn('valor', 'decimal', ['precision' => 10, 'scale' => 2])
-              ->addColumn('data_de_vencimento', 'datetime')
-              ->addColumn('status', 'string', ['limit' => 50])
-              ->addForeignKey('id_da_venda', 'sale', 'id', ['delete' => 'CASCADE', 'update' => 'NO ACTION'])
-              ->create();
-=======
         $table = $this->table('installment', ['id' => false, 'primary_key' => ['id']]);
         $table->addColumn('id', 'biginteger', ['identity' => true, 'null' => false])
             ->addColumn('numero_parcela', 'integer', ['null' => false])
@@ -35,6 +24,6 @@ final class Installment extends AbstractMigration
             ->addColumn('data_cadastro', 'datetime', ['null' => true, 'default' => 'CURRENT_TIMESTAMP'])
             ->addColumn('data_atualizacao', 'datetime', ['null' => true, 'default' => 'CURRENT_TIMESTAMP'])
             ->create();
->>>>>>> 53dde170222d35095149a6dd36f7b6ad28de7b56
+
     }
 }

@@ -9,8 +9,8 @@ use app\middleware\Auth;
 use app\controller\Home;
 use Slim\Routing\RouteCollectorProxy;
 
-$app->get('/', Home::class . ':home');#->add(Auth::route());
-$app->get('/home', Home::class . ':home');#->add(Auth::route());
+$app->get('/', Home::class . ':home')->add(Auth::route());
+$app->get('/home', Home::class . ':home')->add(Auth::route());
 #$app->get('/', ControllerHome::class . ':home')->add(Middlewares::route());
 
 $app->get('/login', Login::class . ':login');

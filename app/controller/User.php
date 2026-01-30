@@ -181,9 +181,9 @@ class User extends Base
             return $this->SendJson($response, ['status' => false, 'msg' => 'Restrição: ' . $e->getMessage(), 'id' => 0], 500);
         }
     }
+     public function print($request, $response)
+    {
+        $html = $this->getHtml('reportuser.html');
+        return $this->printer($html);
+    }
 }
-
-         /*"<button type='button'  onclick='Editar(" . $value['id'] . ");' class='btn btn-warning'>
-         <i class=\"bi bi-pen-fill\"></i>
-         Editar
-         </button> */

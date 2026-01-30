@@ -1,6 +1,6 @@
 # Define a imagem base do container
 # PHP 8.5.2 com PHP-FPM, baseada em Alpine Linux (leve e eficiente)
-FROM php:8.5.2-alpine3.23
+FROM php:8.5.2-fpm-alpine3.23
 
 # Define variáveis de ambiente globais do container
 # TZ ajusta o fuso horário
@@ -20,7 +20,10 @@ RUN apk add --no-cache \
     tzdata               
 
 # Compila e instala extensões PHP nativas necessárias para a aplicação
-RUN docker-php-ext-install \
+RUN apk add --no-cache\
+    freetype-dev\
+    libjpeg-turbo-
+    && docker-php-ext-install \
     pdo_pgsql \      
     intl \               
     mbstring             

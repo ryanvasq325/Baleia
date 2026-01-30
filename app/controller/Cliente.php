@@ -187,4 +187,9 @@ class Cliente extends Base
             return $this->SendJson($response, ['status' => false, 'msg' => 'Restrição: ' . $e->getMessage(), 'id' => 0], 500);
         }
     }
+    public function print($request, $response)
+    {
+        $html = $this->getHtml('reportcliente.html');
+        return $this->printer($html);
+    }
 }

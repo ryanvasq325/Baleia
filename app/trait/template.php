@@ -31,4 +31,16 @@ trait Template
             ->withHeader('Content-Type', 'application/json')
             ->withStatus($statusCode);
     }
+    public function getHtml(
+        string $templateName = '',
+        array $data = []
+    ): string {
+        $viewsPath = DIR_VIEW . '/reports/';
+        $safeData = is_array($data) ? $data : [];
+        $twig = Twig::create($viewsPath, $safeData);
+        #Remove erros de string
+        $html = $twig->fetch($templateName, $safeData);
+        #$html = $twig('/>\s+</', '><', $html);
+        return $html;
+    }
 }

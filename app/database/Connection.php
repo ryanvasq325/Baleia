@@ -27,7 +27,7 @@ class Connection
             ];
             #criação da nova conexão PDO com os pârametro do banco de dados.
             static::$pdo = new PDO(
-                'pgsql:host=localhost;port=5432;dbname=development_db',
+                'pgsql:host=postgres;port=5432;dbname=development_db',
                 'senac', # Nome de usuario do banco de dados
                 'senac', # Senha do banco de dados
                 $options # Opções para conexão PDO.

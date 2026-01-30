@@ -181,9 +181,33 @@ class User extends Base
             return $this->SendJson($response, ['status' => false, 'msg' => 'Restrição: ' . $e->getMessage(), 'id' => 0], 500);
         }
     }
-     public function print($request, $response)
-    {
-        $html = $this->getHtml('reportuser.html');
-        return $this->printer($html);
+   public function print($request, $response)
+{
+    try {
+        // 1. Busca os dados na tabela de usuários
+        // Ajuste os nomes das colunas (ex: nome, cpf, celular) conforme seu banco
+        $usuarios = SelectQuery::select('id, nome, cpf')
+            ->from('users') 
+            ->order('nome', 'ASC')
+            ->fetchAll();
+
+        // 2. Monta o array de dados para o template
+        $dadosTemplate = [
+            'titulo'   => 'Relatório de Usuários',
+            'usuarios' => $usuarios,
+            'total'    => count($usuarios)
+        ];
+
+        // 3. Renderiza o template específico de usuários
+        // Certifique-se de que o arquivo se chama 'reportuser.html' na pasta reports
+        return $this->getTwig()
+            ->render($response, $this->setView('reports/reportuser'), $dadosTemplate)
+            ->withHeader('Content-Type', 'text/html')
+            ->withStatus(200);
+
+    } catch (\Exception $e) {
+        $response->getBody()->write("Erro ao gerar relatório: " . $e->getMessage());
+        return $response->withStatus(500);
     }
+}
 }

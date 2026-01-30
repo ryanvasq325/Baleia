@@ -188,7 +188,29 @@ class Fornecedor extends Base
     }
     public function print($request, $response)
     {
-        $html = $this->getHtml('reportfornecedor.html');
-        return $this->printer($html);
+        try {
+            // 1. Busca os dados da tabela de fornecedores
+            // Comum incluir o e-mail para fornecedores
+            $fornecedores = SelectQuery::select('id, nome_fantasia, cpf_cnpj')
+                ->from('supplier')
+                ->order('nome_fantasia', 'ASC')
+                ->fetchAll();
+
+            // 2. Prepara os dados para o Twig
+            $dadosTemplate = [
+                'titulo'       => 'Relatório de Fornecedores',
+                'fornecedores' => $fornecedores,
+                'total'        => count($fornecedores)
+            ];
+
+            // 3. Renderiza o template na pasta reports
+            return $this->getTwig()
+                ->render($response, $this->setView('reports/reportfornecedor'), $dadosTemplate)
+                ->withHeader('Content-Type', 'text/html')
+                ->withStatus(200);
+        } catch (\Exception $e) {
+            $response->getBody()->write("Erro ao gerar relatório: " . $e->getMessage());
+            return $response->withStatus(500);
+        }
     }
 }

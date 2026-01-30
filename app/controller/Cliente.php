@@ -188,8 +188,31 @@ class Cliente extends Base
         }
     }
     public function print($request, $response)
-    {
-        $html = $this->getHtml('reportcliente.html');
-        return $this->printer($html);
+{
+    try {
+        // Busca todos os clientes usando sua SelectQuery
+        // Selecionei as colunas baseadas no que o seu HTML original pedia
+        $customers = SelectQuery::select('id, nome_fantasia, cpf_cnpj')
+            ->from('customer')
+            ->order('nome_fantasia', 'ASC')
+            ->fetchAll();
+
+        $dadosTemplate = [
+            'titulo'   => 'Relatório de Clientes',
+            'clientes' => $customers,
+            'total'    => count($customers)
+        ];
+
+        // Renderiza o template passando os dados
+        // Nota: Certifique-se que o método render do seu Base aceita esses parâmetros
+        return $this->getTwig()
+    ->render($response, $this->setView('reports/reportcliente'), $dadosTemplate)
+            ->withHeader('Content-Type', 'text/html')
+            ->withStatus(200);
+
+    } catch (\Exception $e) {
+        $response->getBody()->write("Erro ao gerar relatório: " . $e->getMessage());
+        return $response->withStatus(500);
     }
+}
 }

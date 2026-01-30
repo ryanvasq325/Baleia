@@ -184,10 +184,32 @@ class Empresa extends Base
             return $this->SendJson($response, ['status' => false, 'msg' => 'Restrição: ' . $e->getMessage(), 'id' => 0], 500);
         }
     }
-    public function print($request, $response)
-    {
-        $html = $this->getHtml('reportempresa.html');
-        return $this->printer($html);
+   public function print($request, $response)
+{
+    try {
+        // 1. Busca os dados da tabela de empresas (company)
+        $empresas = SelectQuery::select('id, nome_fantasia, cpf_cnpj')
+            ->from('company') 
+            ->order('nome_fantasia', 'ASC')
+            ->fetchAll();
+
+        // 2. Prepara os dados para o Twig
+        $dadosTemplate = [
+            'titulo'   => 'Relatório de Empresas',
+            'empresas' => $empresas, // Nome da variável que usaremos no loop do HTML
+            'total'    => count($empresas)
+        ];
+
+        // 3. Renderiza o template apontando para a pasta reports
+        return $this->getTwig()
+            ->render($response, $this->setView('reports/reportempresa'), $dadosTemplate)
+            ->withHeader('Content-Type', 'text/html')
+            ->withStatus(200);
+
+    } catch (\Exception $e) {
+        $response->getBody()->write("Erro ao gerar relatório: " . $e->getMessage());
+        return $response->withStatus(500);
     }
+}
 }
  

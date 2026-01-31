@@ -20,13 +20,19 @@ RUN apk add --no-cache \
     tzdata               
 
 # Compila e instala extensões PHP nativas necessárias para a aplicação
-RUN apk add --no-cache\
-    freetype-dev\
-    libjpeg-turbo-
+RUN apk add --no-cache \
+    freetype-dev \
+    libjpeg-turbo-dev \
+    libpng-dev \
+    postgresql-dev \
+    icu-dev \
+    oniguruma-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install \
-    pdo_pgsql \      
-    intl \               
-    mbstring             
+    pdo_pgsql \
+    intl \
+    mbstring \
+    gd
 
 # Copia o arquivo de configuração customizado do PHP para o container
 # Ele será carregado automaticamente pelo PHP

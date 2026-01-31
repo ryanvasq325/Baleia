@@ -7,6 +7,7 @@ use app\controller\Empresa;
 use app\controller\Fornecedor;
 use app\middleware\Auth;
 use app\controller\Home;
+use app\controller\PaymentTerms;
 use Slim\Routing\RouteCollectorProxy;
 
 $app->get('/', Home::class . ':home'); #->add(Auth::route());
@@ -66,4 +67,9 @@ $app->group('/fornecedor', function (RouteCollectorProxy $group) {
     $group->post('/listfornecedor', Fornecedor::class . ':listfornecedor');
     $group->post('/insert', Fornecedor::class . ':insert');
     $group->post('/delete', Fornecedor::class . ':delete');
+});
+$app->group('/pagamento', function (RouteCollectorProxy $group) {
+    $group->get('/lista', PaymentTerms::class . ':lista'); #->add(Auth::route());
+    $group->get('/cadastro', PaymentTerms::class . ':cadastro'); #->add(Auth::route());
+
 });

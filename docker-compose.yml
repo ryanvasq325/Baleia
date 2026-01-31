@@ -74,11 +74,11 @@ services:
     # Variáveis de ambiente usadas pelo PostgreSQL na inicialização
     environment:
       # Nome do banco de dados, vindo do arquivo .env
-      POSTGRES_DB: development_db
+      POSTGRES_DB: ${DB_NAME}
       # Usuário do banco, vindo do arquivo .env
-      POSTGRES_USER: senac
+      POSTGRES_USER: ${DB_USER}
       # Senha do banco, vindo do arquivo .env
-      POSTGRES_PASSWORD: senac
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
       # Define o fuso horário do container
       TZ: America/Sao_Paulo
     # Volumes persistentes e scripts de inicialização

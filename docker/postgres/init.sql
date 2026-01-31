@@ -1,9 +1,18 @@
--- É uma extensão oficial que fornece funções para gerar UUIDs, como uuid_generate_v4()
+-- Extensão para UUID
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
--- Exemplo de uso: SELECT uuid_generate_v4();
--- Retorno: 550edb11-5ff5-489a-a26f-cec315fd4d5b
+-- Role de aplicação
+DO
+$$
+BEGIN
+   IF NOT EXISTS (
+      SELECT FROM pg_roles WHERE rolname = 'senac'
+   ) THEN
+      CREATE ROLE senac LOGIN PASSWORD 'senac';
+   END IF;
+END
+$$;
 
-CREATE ROLE senac LOGIN PASSWORD 'senac';
-
-CREATE DATABASE development_db OWNER senac;
+-- Bancos adicionais
+CREATE DATABASE testing_db OWNER senac;
+CREATE DATABASE production_db OWNER senac;

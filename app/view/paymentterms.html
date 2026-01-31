@@ -1,0 +1,119 @@
+{% extends "main.html" %}
+
+{% block main %}
+<div class="app-content-header">
+    <div class="container-fluid">
+
+        <!-- TÍTULO + BREADCRUMB -->
+        <div class="row mb-3">
+            <div class="col-sm-6">
+                <h3 class="mb-0">{{ titulo }}</h3>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-end">
+                    <li class="breadcrumb-item">
+                        <a href="/home">Início</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        Pesquisa de usuário
+                    </li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- CARD -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+
+                    <!-- HEADER -->
+                    <div class="card-header">
+                        <a href="/pagamento/lista" class="btn btn-success">
+                            Voltar
+                        </a>
+                    </div>
+
+                    <!-- BODY -->
+                    <div class="card-body">
+
+                        <!-- FILTRO -->
+                        <div class="d-flex gap-2 mb-4">
+                            <select class="form-select w-25" style="height: 58px;">
+                                <option selected>Filtrar por...</option>
+                                <option value="dinheiro">Email</option>
+                                <option value="cartão">Nome</option>
+                                <option value="pix">CPF</option>
+                            </select>
+
+                            <div class="form-floating flex-grow-1">
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="filtroValor"
+                                    placeholder="Digite o valor"
+                                >
+                                <label for="filtroValor">Pesquisar</label>
+                            </div>
+                        </div>
+
+                        <!-- TÍTULO PARCELAMENTO -->
+                        <h1 class="fs-4 mb-3">Parcelamento</h1>
+
+                        <!-- PARCELAMENTO -->
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <div class="form-floating">
+                                    <input
+                                        type="number"
+                                        class="form-control"
+                                        id="qtdadeparcela"
+                                        placeholder="Quantidade de Parcelas"
+                                    >
+                                    <label for="qtdadeparcela">
+                                        Quantidade de Parcelas
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-floating">
+                                    <input
+                                        type="number"
+                                        class="form-control"
+                                        id="intervalo"
+                                        placeholder="Intervalo em dias"
+                                    >
+                                    <label for="intervalo">
+                                        Intervalo em Dias (ex: 30)
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-floating">
+                                    <input
+                                        type="number"
+                                        class="form-control"
+                                        id="vencimento"
+                                        placeholder="Vencimento"
+                                    >
+                                    <label for="vencimento">
+                                        Vencimento da Parcela (ex: 20)
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div><!-- /card-body -->
+                </div><!-- /card -->
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+    {% include 'script.html' %}
+    <script src="/js/paymentterms.js"></script>
+{% endblock %}

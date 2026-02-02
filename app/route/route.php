@@ -8,6 +8,7 @@ use app\controller\Fornecedor;
 use app\middleware\Auth;
 use app\controller\Home;
 use app\controller\PaymentTerms;
+use app\controller\Sale;
 use Slim\Routing\RouteCollectorProxy;
 
 $app->get('/', Home::class . ':home'); #->add(Auth::route());
@@ -18,6 +19,11 @@ $app->get('/login', Login::class . ':login');
 
 $app->group('/home', function (RouteCollectorProxy $group) {
     #$group->post('/tema', Home::class . ':tema');
+});
+
+$app->group('/venda', function (RouteCollectorProxy $group) {
+    $group->get('/lista', Sale::class . ':lista');
+    $group->get('/cadastro', Sale::class . ':cadastro');
 });
 $app->group('/login', function (RouteCollectorProxy $group) {
     $group->post('/precadastro', Login::class . ':precadastro');
@@ -69,7 +75,7 @@ $app->group('/fornecedor', function (RouteCollectorProxy $group) {
     $group->post('/delete', Fornecedor::class . ':delete');
 });
 $app->group('/pagamento', function (RouteCollectorProxy $group) {
-    $group->get('/lista', PaymentTerms::class . ':lista'); #->add(Auth::route());
-    $group->get('/cadastro', PaymentTerms::class . ':cadastro'); #->add(Auth::route());
-
+    $group->get('/lista', PaymentTerms::class . ':lista');
+    $group->get('/cadastro', PaymentTerms::class . ':cadastro');
+    $group->get('/alterar/{id}', PaymentTerms::class . ':alterar');
 });

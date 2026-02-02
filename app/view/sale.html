@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema Comércio - Gestão de Vendas</title>
+    <link rel="stylesheet" href="/css/sale.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <!-- Sidebar Esquerda -->
+    <aside class="sidebar">
+        <div class="logo-section">
+            <h1 class="logo">Obrigado</h1>
+            <p class="slogan">Sua preferência<br>é a nossa maior<br>motivação.</p>
+        </div>
+
+        <div class="sidebar-image">
+            <img src="merchant-image.jpg" alt="Atendente">
+        </div>
+
+        <div class="sidebar-footer">
+            <div class="footer-logo">
+                <i class="fas fa-handshake"></i>
+                <span>GUILHES</span>
+            </div>
+        </div>
+    </aside>
+    <!-- Conteúdo Principal -->
+    <main class="main-content">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <div class="system-icon">
+                    <i class="fas fa-cash-register"></i>
+                </div>
+                <div class="system-info">
+                    <h2>Sistema Comércio Athos</h2>
+                    <p>Gestão de Vendas</p>
+                </div>
+            </div>
+            <div class="header-center">
+                <div class="datetime">
+                    <span class="time">18:04:36</span>
+                    <span class="date">Sexta-Feira, 23 De Janeiro De 2026</span>
+                </div>
+            </div>
+            <div class="header-right">
+                <span class="operator-label">Operador</span>
+                <span class="operator-name">João Silva</span>
+                <button class="icon-btn"><i class="fas fa-user-circle"></i></button>
+                <button class="icon-btn"><i class="fas fa-sign-out-alt"></i></button>
+            </div>
+        </header>
+
+        <!-- Área de Conteúdo -->
+        <div class="content-wrapper">
+            <!-- Seção de Produtos -->
+            <section class="products-section">
+                <div class="search-box">
+                    <h3>Buscar Produtos</h3>
+                    <div class="search-input-wrapper">
+                        <i class="fas fa-barcode"></i>
+                        <input type="text" placeholder="Digite o código ou descrição do produto..."
+                            class="search-input">
+                        <button class="btn-search">
+                            <i class="fas fa-search"></i> Buscar
+                        </button>
+                    </div>
+                </div>
+
+                <div class="products-list">
+                    <div class="products-header">
+                        <h3>Produtos</h3>
+                        <span class="product-count">20 produtos</span>
+                    </div>
+
+                    <table class="products-table">
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>Descrição</th>
+                                <th>Preço</th>
+                                <th>Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>001</td>
+                                <td>Arroz Branco Tipo 1 - 5kg</td>
+                                <td>R$ 24.90</td>
+                                <td><button class="btn-add"><i class="fas fa-plus"></i> Adicionar</button></td>
+                            </tr>
+                            <tr>
+                                <td>002</td>
+                                <td>Feijão Preto - 1kg</td>
+                                <td>R$ 8.50</td>
+                                <td><button class="btn-add"><i class="fas fa-plus"></i> Adicionar</button></td>
+                            </tr>
+                            <tr>
+                                <td>003</td>
+                                <td>Açúcar Refinado - 1kg</td>
+                                <td>R$ 4.20</td>
+                                <td><button class="btn-add"><i class="fas fa-plus"></i> Adicionar</button></td>
+                            </tr>
+                            <tr>
+                                <td>004</td>
+                                <td>Óleo de Soja - 900ml</td>
+                                <td>R$ 7.80</td>
+                                <td><button class="btn-add"><i class="fas fa-plus"></i> Adicionar</button></td>
+                            </tr>
+                            <tr>
+                                <td>005</td>
+                                <td>Café Torrado e Moído - 500g</td>
+                                <td>R$ 12.90</td>
+                                <td><button class="btn-add"><i class="fas fa-plus"></i> Adicionar</button></td>
+                            </tr>
+                            <tr>
+                                <td>006</td>
+                                <td>Leite Integral UHT - 1L</td>
+                                <td>R$ 4.50</td>
+                                <td><button class="btn-add"><i class="fas fa-plus"></i> Adicionar</button></td>
+                            </tr>
+                            <tr>
+                                <td>007</td>
+                                <td>Macarrão Espaguete - 500g</td>
+                                <td>R$ 3.80</td>
+                                <td><button class="btn-add"><i class="fas fa-plus"></i> Adicionar</button></td>
+                            </tr>
+                            <tr>
+                                <td>008</td>
+                                <td>Molho de Tomate - 340g</td>
+                                <td>R$ 2.90</td>
+                                <td><button class="btn-add"><i class="fas fa-plus"></i> Adicionar</button></td>
+                            </tr>
+                            <tr>
+                                <td>009</td>
+                                <td>Farinha de Trigo - 1kg</td>
+                                <td>R$ 5.40</td>
+                                <td><button class="btn-add"><i class="fas fa-plus"></i> Adicionar</button></td>
+                            </tr>
+                            <tr>
+                                <td>010</td>
+                                <td>Sal Refinado - 1kg</td>
+                                <td>R$ 2.20</td>
+                                <td><button class="btn-add"><i class="fas fa-plus"></i> Adicionar</button></td>
+                            </tr>
+                            <tr>
+                                <td>011</td>
+                                <td>Biscoito Recheado - 140g</td>
+                                <td>R$ 3.50</td>
+                                <td><button class="btn-add"><i class="fas fa-plus"></i> Adicionar</button></td>
+                            </tr>
+                            <tr>
+                                <td>012</td>
+                                <td>Refrigerante Cola 2L</td>
+                                <td>R$ 6.90</td>
+                                <td><button class="btn-add"><i class="fas fa-plus"></i> Adicionar</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Seção do Carrinho -->
+            <aside class="cart-section">
+                <div class="cart-header">
+                    <i class="fas fa-shopping-cart"></i>
+                    <h3>Carrinho de Compras</h3>
+                </div>
+
+                <div class="cart-empty">
+                    <i class="fas fa-shopping-cart"></i>
+                    <p>Carrinho vazio</p>
+                </div>
+
+                <div class="payment-section">
+                    <h4>Pagamento</h4>
+
+                    <div class="payment-methods">
+                        <p class="payment-label">Forma de Pagamento</p>
+                        <div class="payment-buttons">
+                            <button class="payment-btn active">
+                                <i class="fas fa-money-bill-wave"></i>
+                                <span>Dinheiro</span>
+                            </button>
+                            <button class="payment-btn">
+                                <i class="fas fa-credit-card"></i>
+                                <span>Cartão</span>
+                            </button>
+                            <button class="payment-btn">
+                                <i class="fas fa-mobile-alt"></i>
+                                <span>Pix</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="discount-section">
+                        <p class="discount-label">
+                            <i class="fas fa-percent"></i> Desconto
+                        </p>
+                        <div class="discount-inputs">
+                            <input type="text" placeholder="R$" class="discount-input-rs">
+                            <input type="text" placeholder="%" class="discount-input-percent">
+                        </div>
+                        <input type="number" value="0" class="discount-value">
+                    </div>
+
+                    <div class="total-section">
+                        <div class="subtotal">
+                            <span>Subtotal:</span>
+                            <span class="amount">R$ 0,00</span>
+                        </div>
+                        <div class="total">
+                            <span>Total:</span>
+                            <span class="total-amount">R$ 0,00</span>
+                        </div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="btn-finalize">
+                            <i class="fas fa-check-circle"></i> Finalizar Venda
+                        </button>
+                        <button class="btn-cancel">
+                            <i class="fas fa-times-circle"></i> Cancelar Venda
+                        </button>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+    <script defer type="module" src="/js/sale.js"></script>
+</body>
+
+</html>

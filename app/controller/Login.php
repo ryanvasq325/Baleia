@@ -51,17 +51,17 @@ class Login extends Base
             #Inserimos o e-mail
             $dadosContato = [
                 'id_users' => $id_users,
-                'telefone' => $form['telefone'],
+                'tipo' => 'email',
                 'email' => $form['email']
             ];
-            /*InsertQuery::table('contact')->save($dadosContato);
+            InsertQuery::table('contact')->save($dadosContato);
             $dadosContato = [];
             #Inserimos o WhastaApp
             $dadosContato = [
                 'id_users' => $id_users,
-                //'tipo' => 'telefone',
+                'tipo' => 'telefone',
                 'telefone' => $form['telefone']
-            ];*/
+            ];
             InsertQuery::table('contact')->save($dadosContato);
             return $this->SendJson($response, ['status' => true, 'msg' => 'Cadastro realizado com sucesso!', 'id' => $id_users], 201);
         } catch (\Exception $e) {

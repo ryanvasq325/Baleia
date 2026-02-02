@@ -99,7 +99,7 @@
                     <tr>
                         <th width="90" class="text-center">ID</th>
                         <th>Nome Completo</th>
-                        <th width="200">CPF</th>
+                        <th width="200">Dados pessoais</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -109,10 +109,10 @@
                             <span class="id-badge font-weight-bold">{{ usuario.id }}</span>
                         </td>
                         <td class="align-middle font-weight-bold text-dark">
-                            {{ usuario.nome }}
+                            {{ usuario.nome }} {{ usuario.sobrenome }}
                         </td>
                         <td class="align-middle text-secondary">
-                            {{ usuario.cpf }}
+                            {{ usuario.cpf }} - {{ usuario.rg }}
                         </td>
                     </tr>
                     {% else %}

@@ -138,7 +138,7 @@ class Empresa extends Base
                 $value['cpf_cnpj'],
                 $value['rg_ie'],
                 $value['ativo'],
-                "<a href=\"/empresa/alterar/" . $value['id'] . "\" class=\"btn btn-warning\">Alterar</a>
+                "<a href=\"/empresa/alterar/" . $value['id'] . "\" class=\"btn btn-warning\"><i class=\"fa-solid fa-pen-to-square\"></i>Alterar</a>
 
                 <button type='button'  onclick='Delete(" . $value['id'] . ");' class='btn btn-danger'>
                  <i class=\"bi bi-trash-fill\"></i>
@@ -188,9 +188,12 @@ class Empresa extends Base
 {
     try {
         // 1. Busca os dados da tabela de empresas (company)
-        $empresas = SelectQuery::select('id, nome_fantasia, cpf_cnpj')
+        $empresas = SelectQuery::select('id, nome_fantasia, sobrenome_razao, cpf_cnpj, rg_ie')
             ->from('company') 
             ->order('nome_fantasia', 'ASC')
+            ->order('sobrenome_razao', 'ASC')
+            ->order('cpf_cnpj', 'ASC')
+            ->order('rg_ie', 'ASC')
             ->fetchAll();
 
         // 2. Prepara os dados para o Twig

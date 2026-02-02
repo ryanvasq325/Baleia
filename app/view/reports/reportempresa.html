@@ -99,7 +99,7 @@
                     <tr>
                         <th width="100" class="text-center">Cód.</th>
                         <th>Nome Fantasia / Razão Social</th>
-                        <th width="220">CNPJ / CPF</th>
+                        <th width="220">Dados da Empresa</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -109,10 +109,10 @@
                             <span class="id-badge font-weight-bold">{{ empresa.id }}</span>
                         </td>
                         <td class="align-middle font-weight-bold text-dark">
-                            {{ empresa.nome_fantasia }}
+                            {{ empresa.nome_fantasia }} {{ empresa.sobrenome_razao }}
                         </td>
                         <td class="align-middle text-secondary">
-                            {{ empresa.cpf_cnpj }}
+                            {{ empresa.cpf_cnpj }} - {{ empresa.rg_ie }}
                         </td>
                     </tr>
                     {% else %}

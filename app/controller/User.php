@@ -98,7 +98,7 @@ class User extends Base
                 $value['sobrenome'],
                 $value['rg'],
                 $value['cpf'],
-                "<a href=\"/usuario/alterar/" . $value['id'] . "\" class=\"btn btn-warning\">Alterar</a>
+                "<a href=\"/usuario/alterar/" . $value['id'] . "\" class=\"btn btn-warning\"><i class=\"fa-solid fa-pen-to-square\"></i>Alterar</a>
 
                 <button type='button'  onclick='Delete(" . $value['id'] . ");' class='btn btn-danger'>
                 <i class=\"bi bi-trash-fill\"></i>
@@ -186,9 +186,12 @@ class User extends Base
     try {
         // 1. Busca os dados na tabela de usuários
         // Ajuste os nomes das colunas (ex: nome, cpf, celular) conforme seu banco
-        $usuarios = SelectQuery::select('id, nome, cpf')
+        $usuarios = SelectQuery::select('id, nome, sobrenome, cpf, rg')
             ->from('users') 
             ->order('nome', 'ASC')
+            ->order('sobrenome', 'ASC')
+            ->order('cpf', 'ASC')
+            ->order('rg', 'ASC')
             ->fetchAll();
 
         // 2. Monta o array de dados para o template

@@ -139,7 +139,7 @@ class Fornecedor extends Base
                 $value['cpf_cnpj'],
                 $value['rg_ie'],
                 $value['ativo'],
-                "<a href=\"/fornecedor/alterar/" . $value['id'] . "\" class=\"btn btn-warning\">Alterar</a>
+                "<a href=\"/fornecedor/alterar/" . $value['id'] . "\" class=\"btn btn-warning\"><i class=\"fa-solid fa-pen-to-square\"></i>Alterar</a>
 
                 <button type='button'  onclick='Delete(" . $value['id'] . ");' class='btn btn-danger'>
                  <i class=\"bi bi-trash-fill\"></i>
@@ -191,9 +191,12 @@ class Fornecedor extends Base
         try {
             // 1. Busca os dados da tabela de fornecedores
             // Comum incluir o e-mail para fornecedores
-            $fornecedores = SelectQuery::select('id, nome_fantasia, cpf_cnpj')
+            $fornecedores = SelectQuery::select('id, nome_fantasia, sobrenome_razao, cpf_cnpj, rg_ie')
                 ->from('supplier')
                 ->order('nome_fantasia', 'ASC')
+                ->order('sobrenome_razao', 'ASC')
+                ->order('cpf_cnpj', 'ASC')
+                ->order('rg_ie', 'ASC')
                 ->fetchAll();
 
             // 2. Prepara os dados para o Twig

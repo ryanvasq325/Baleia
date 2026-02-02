@@ -99,7 +99,7 @@
                     <tr>
                         <th width="100" class="text-center">Cód.</th>
                         <th>Fornecedor / Razão Social</th>
-                        <th width="220">CNPJ / CPF</th>
+                        <th width="220">Dados do Fornecedor</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -109,10 +109,10 @@
                             <span class="id-badge font-weight-bold">{{ fornecedor.id }}</span>
                         </td>
                         <td class="align-middle font-weight-bold text-dark">
-                            {{ fornecedor.nome_fantasia }}
+                            {{ fornecedor.nome_fantasia }} {{ fornecedor.sobrenome_razao }}
                         </td>
                         <td class="align-middle text-secondary">
-                            {{ fornecedor.cpf_cnpj }}
+                            {{ fornecedor.cpf_cnpj }} {{ fornecedor.rg_ie }}
                         </td>
                     </tr>
                     {% else %}

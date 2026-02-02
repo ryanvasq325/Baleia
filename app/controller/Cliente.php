@@ -141,7 +141,7 @@ class Cliente extends Base
                 $value['cpf_cnpj'],
                 $value['rg_ie'],
                 $value['ativo'] ? 'Sim' : 'Não',
-                "<a href=\"/cliente/alterar/" . $value['id'] . "\" class=\"btn btn-warning\">Alterar</a>
+                "<a href=\"/cliente/alterar/" . $value['id'] . "\" class=\"btn btn-warning\"><i class=\"fa-solid fa-pen-to-square\"></i>Alterar</a>
 
                 <button type='button'  onclick='Delete(" . $value['id'] . ");' class='btn btn-danger'>
                  <i class=\"bi bi-trash-fill\"></i>
@@ -192,9 +192,12 @@ class Cliente extends Base
     try {
         // Busca todos os clientes usando sua SelectQuery
         // Selecionei as colunas baseadas no que o seu HTML original pedia
-        $customers = SelectQuery::select('id, nome_fantasia, cpf_cnpj')
+        $customers = SelectQuery::select('id, nome_fantasia, sobrenome_razao, cpf_cnpj, rg_ie')
             ->from('customer')
             ->order('nome_fantasia', 'ASC')
+            ->order('sobrenome_razao', 'ASC')
+            ->order('cpf_cnpj', 'ASC')
+            ->order('rg_ie', 'ASC')
             ->fetchAll();
 
         $dadosTemplate = [

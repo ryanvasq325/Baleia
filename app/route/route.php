@@ -79,5 +79,5 @@ $app->group('/pagamento', function (RouteCollectorProxy $group) {
     $group->get('/cadastro', PaymentTerms::class . ':cadastro');
     $group->get('/alterar/{id}', PaymentTerms::class . ':alterar');
     $group->post('/insert', PaymentTerms::class . ':insert');
-    $group->get('/update', PaymentTerms::class . ':update');
+    $group->post('/insertinstallment', PaymentTerms::class . ':insertInstallment');
 });

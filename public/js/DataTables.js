@@ -35,7 +35,7 @@ class DataTables {
             bottomStart: 'info',
             bottomEnd: 'paging'
         },
-        // ✅ Aqui aplicamos a estilização após a tabela estar pronta
+        // 
         initComplete: function () {
             setTimeout(() => {
                 // Remove o label "Pesquisar"

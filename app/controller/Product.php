@@ -43,10 +43,8 @@ class Product extends Base
                 'nome' => $form['nome'],
                 'codigo_barras' => $form['codigo_barras'],
                 'descricao_curta' => $form['descricao_curta'],
-                'descricao' => $form['descricao'],
                 'preco_custo' => $form['preco_custo'],
                 'preco_venda' => $form['preco_venda'],
-                'ativo' => $form['ativo'],
             ];
             $IsSave = InsertQuery::table('product')->save($FieldAndValues);
             if (!$IsSave) {
@@ -73,7 +71,7 @@ class Product extends Base
         $fields = [
             0 => 'id',
             1 => 'nome',
-            2 => 'descricao',
+            2 => 'descricao_curta',
             3 => 'preco_custo',
             4 => 'preco_venda'
         ];
@@ -81,12 +79,12 @@ class Product extends Base
         $orderField = $fields[$order];
         #O termo pesquisado
         $term = $form['search']['value'];
-        $query = SelectQuery::select()->from('view_product');
+        $query = SelectQuery::select()->from('product');
         if (!is_null($term) && ($term !== '')) {
             $query
                 ->where('id', 'ilike', "%{$term}%", 'or')
                 ->where('nome', 'ilike', "%{$term}%", 'or')
-                ->where('descricao', 'ilike', "%{$term}%", 'or')
+                ->where('descricao_curta', 'ilike', "%{$term}%", 'or')
                 ->where('preco_custo', 'ilike', "%{$term}%", 'or')
                 ->where('preco_venda', 'ilike', "%{$term}%", 'or');
         }
@@ -101,12 +99,11 @@ class Product extends Base
                 $value['nome'],
                 $value['codigo_barras'],
                 $value['descricao_curta'],
-                $value['descricao'],
                 $value['preco_custo'],
                 $value['preco_venda'],
                 "<a href=\"/produto/alterar/" . $value['id'] . "\" class=\"btn btn-warning\">Alterar</a>
 
-                <button type='button'  onclick='Delete(" . $value['id'] . ");' class='btn btn-danger'>
+                <button type='button' onclick='Delete(" . $value['id'] . ");' class='btn btn-danger'>
                 <i class=\"bi bi-trash-fill\"></i>
                 Excluir
                 </button>"
@@ -175,7 +172,6 @@ class Product extends Base
             $FieldAndValues = [
                 'nome' => $form['nome'],
                 'descricao_curta' => $form['descricao_curta'],
-                'descricao' => $form['descricao'],
                 'preco_custo' => $form['preco_custo'],
                 'preco_venda' => $form['preco_venda']
             ];

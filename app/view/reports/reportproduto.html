@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ titulo }}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <style>
+        /* Configurações para Impressão e Visualização */
+        body { 
+            background-color: #f4f7f6; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #444;
+        }
+
+        .report-container {
+            background-color: #fff;
+            margin: 30px auto;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            max-width: 1200px;
+        }
+
+        /* Cabeçalho Personalizado */
+        .report-header {
+            border-bottom: 2px solid #28a745; /* Verde para remeter a produtos/vendas */
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .report-title h2 {
+            color: #1e7e34;
+            font-weight: 700;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Estilização da Tabela */
+        .table thead th {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: rgba(40, 167, 69, 0.03);
+        }
+
+        .barcode-text {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .price-tag {
+            font-weight: 600;
+        }
+
+        .footer-info {
+            border-top: 1px solid #dee2e6;
+            padding-top: 15px;
+            margin-top: 20px;
+            font-size: 0.9rem;
+        }
+
+        /* Ajuste para impressão */
+        @media print {
+            body { background-color: #fff; padding: 0; }
+            .report-container { box-shadow: none; margin: 0; padding: 0; max-width: 100%; }
+            .no-print { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container-fluid">
+    <div class="report-container">
+        
+        <header class="report-header">
+            <div class="report-title">
+                <h2>{{ titulo }}</h2>
+                <p class="text-muted mb-0">Catálogo Geral de Produtos e Preços</p>
+            </div>
+            <div class="text-right d-none d-sm-block">
+                <small class="d-block text-muted">Emissão: {{ "now"|date("d/m/Y H:i") }}</small>
+                <button class="btn btn-sm btn-outline-success mt-2 no-print" onclick="window.print()">Gerar PDF / Imprimir</button>
+            </div>
+        </header>
+
+        <div class="table-responsive">
+    <table class="table table-hover table-striped">
+        <thead>
+            <tr>
+                <th width="150">Cód. Barras</th>
+                <th>Nome / Descrição</th>
+                <th width="80" class="text-center">OM</th>
+                <th width="140" class="text-right">P. Custo</th>
+                <th width="140" class="text-right">P. Venda</th>
+            </tr>
+        </thead>
+        <tbody>
+            {# O nome aqui deve ser igual ao que está no seu array $dadosTemplate #}
+            {% for item in produtos %}
+            <tr>
+                <td class="align-middle barcode-text">
+                    {{ item.codigo_barras }}
+                </td>
+                <td class="align-middle">
+                    <div class="font-weight-bold text-dark">{{ item.nome }}</div>
+                    <small class="text-muted">{{ item.descricao_curta }}</small>
+                </td>
+                <td class="align-middle text-center">
+                    <span class="badge badge-light border">{{ item.om|default('UN') }}</span>
+                </td>
+                <td class="align-middle text-right text-secondary">
+                    R$ {{ item.preco_custo|number_format(2, ',', '.') }}
+                </td>
+                <td class="align-middle text-right">
+                    <span class="price-tag text-success">
+                        R$ {{ item.preco_venda|number_format(2, ',', '.') }}
+                    </span>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="5" class="text-center py-5 text-muted">
+                    <em>Nenhum produto localizado no banco de dados.</em>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

@@ -187,22 +187,18 @@ class Product extends Base
     public function print($request, $response)
     {
         try {
-            // 1. Busca os dados na tabela de usuários
-            // Ajuste os nomes das colunas (ex: nome, cpf, celular) conforme seu banco
-            $produto = SelectQuery::select('id, nome, cpf')
+            
+            $produto = SelectQuery::select('nome,codigo_barras, descricao_curta, preco_custo, preco_venda')
                 ->from('product')
                 ->order('nome', 'ASC')
                 ->fetchAll();
 
-            // 2. Monta o array de dados para o template
             $dadosTemplate = [
                 'titulo'   => 'Relatório de Produtos',
-                'produto' => $produto,
+                'produtos' => $produto,
                 'total'    => count($produto)
             ];
 
-            // 3. Renderiza o template específico de usuários
-            // Certifique-se de que o arquivo se chama 'reportproduto.html' na pasta reports
             return $this->getTwig()
                 ->render($response, $this->setView('reports/reportproduto'), $dadosTemplate)
                 ->withHeader('Content-Type', 'text/html')

@@ -3,7 +3,6 @@ import { Requests } from "./Requests.js";
 const Salvar = document.getElementById('salvar');
 const Action = document.getElementById('acao');
 
-
 async function insert() {
     //Valida todos os campos do formulário
     /*const IsValid = Validate

@@ -15,7 +15,8 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb float-sm-end bg-white border p-2 px-3 rounded-pill shadow-sm small">
                         <li class="breadcrumb-item"><a href="/home" class="text-decoration-none">Início</a></li>
-                        <li class="breadcrumb-item"><a href="/produto/lista" class="text-decoration-none">Produtos</a></li>
+                        <li class="breadcrumb-item"><a href="/produto/lista" class="text-decoration-none">Produtos</a>
+                        </li>
                         <li class="breadcrumb-item active" aria-current="page">Gestão</li>
                     </ol>
                 </nav>
@@ -27,7 +28,7 @@
                 <form id="form" class="needs-validation" novalidate>
                     <input type="hidden" id="acao" name="acao" value="{{acao}}">
                     <input type="hidden" id="id" name="id" value="{{id}}">
-                    
+
                     <div class="card border-0 shadow">
                         <div class="card-header bg-white py-3 border-bottom">
                             <div class="d-flex justify-content-between align-items-center">
@@ -37,51 +38,63 @@
                                 </a>
                             </div>
                         </div>
-                        
+
                         <div class="card-body p-4">
                             <div class="row g-4">
                                 <div class="col-12">
-                                    <label for="nome" class="form-label small fw-bold text-muted">Nome do Produto</label>
+                                    <label for="nome" class="form-label small fw-bold text-muted">Nome do
+                                        Produto</label>
                                     <div class="input-group">
-                                        <span class="input-group-text bg-light border-end-0"><i class="bi bi-tag-fill"></i></span>
+                                        <span class="input-group-text bg-light border-end-0"><i
+                                                class="bi bi-tag-fill"></i></span>
                                         <input type="text" class="form-control border-start-0" id="nome" name="nome"
-                                            placeholder="Ex: Refrigerante Coca-Cola Lata 350ml Original" value="{{produto.nome}}" autofocus required>
+                                            placeholder="Ex: Refrigerante Coca-Cola Lata 350ml Original"
+                                            value="{{produto.nome}}" autofocus required>
                                     </div>
                                 </div>
 
                                 <div class="col-md-8">
-                                    <label for="descricao_curta" class="form-label small fw-bold text-muted">Descrição Curta (Para Cupom/Etiqueta)</label>
+                                    <label for="descricao_curta" class="form-label small fw-bold text-muted">Descrição
+                                        Curta (Para Cupom/Etiqueta)</label>
                                     <div class="input-group">
-                                        <span class="input-group-text bg-light border-end-0"><i class="bi bi-tag"></i></span>
-                                        <input type="text" class="form-control border-start-0" id="descricao_curta" name="descricao_curta"
-                                            placeholder="Ex: COCA LATA 350ML" value="{{produto.descricao_curta}}" required>
+                                        <span class="input-group-text bg-light border-end-0"><i
+                                                class="bi bi-tag"></i></span>
+                                        <input type="text" class="form-control border-start-0" id="descricao_curta"
+                                            name="descricao_curta" placeholder="Ex: COCA LATA 350ML"
+                                            value="{{produto.descricao_curta}}" required>
                                     </div>
                                 </div>
 
                                 <div class="col-md-4">
-                                    <label for="codigo_barras" class="form-label small fw-bold text-muted">Código de Barras (EAN)</label>
+                                    <label for="codigo_barras" class="form-label small fw-bold text-muted">Código de
+                                        Barras (EAN)</label>
                                     <div class="input-group">
-                                        <span class="input-group-text bg-light border-end-0"><i class="bi bi-upc-scan"></i></span>
-                                        <input type="text" class="form-control border-start-0" id="codigo_barras" name="codigo_barras"
-                                            placeholder="789..." value="{{produto.codigo_barras}}">
+                                        <span class="input-group-text bg-light border-end-0"><i
+                                                class="bi bi-upc-scan"></i></span>
+                                        <input type="text" class="form-control border-start-0" id="codigo_barras"
+                                            name="codigo_barras" placeholder="789..." value="{{produto.codigo_barras}}">
                                     </div>
                                 </div>
 
                                 <div class="col-md-3">
-                                    <label for="preco_custo" class="form-label small fw-bold text-muted">Preço de Custo</label>
+                                    <label for="preco_custo" class="form-label small fw-bold text-muted">Preço de
+                                        Custo</label>
                                     <div class="input-group">
                                         <span class="input-group-text bg-light border-end-0">R$</span>
-                                        <input type="text" class="form-control border-start-0 money-mask" id="preco_custo" name="preco_custo"
-                                            placeholder="0,00" value="{{produto.preco_custo}}">
+                                        <input type="text" class="form-control border-start-0 money-mask"
+                                            id="preco_custo" name="preco_custo" placeholder="0,00"
+                                            value="{{produto.preco_custo}}">
                                     </div>
                                 </div>
 
                                 <div class="col-md-3">
-                                    <label for="preco_venda" class="form-label small fw-bold text-muted">Preço de Venda</label>
+                                    <label for="preco_venda" class="form-label small fw-bold text-muted">Preço de
+                                        Venda</label>
                                     <div class="input-group">
                                         <span class="input-group-text bg-light border-end-0">R$</span>
-                                        <input type="text" class="form-control border-start-0 money-mask" id="preco_venda" name="preco_venda"
-                                            placeholder="0,00" value="{{produto.preco_venda}}" required>
+                                        <input type="text" class="form-control border-start-0 money-mask"
+                                            id="preco_venda" name="preco_venda" placeholder="0,00"
+                                            value="{{produto.preco_venda}}" required>
                                     </div>
                                 </div>
                             </div>

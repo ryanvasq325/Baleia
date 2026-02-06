@@ -21,12 +21,12 @@ const tabela = new $('#tabela').DataTable({
     }
 });
 
-async function Delete(id) {
+async function Update(id) {
     document.getElementById('id').value = id;
-    const response = await Requests.SetForm('form').Post('/produto/delete');
+    const response = await Requests.SetForm('form').Post('/produto/alterar');
     if (!response.status) {
         Swal.fire({
-            title: "Erro ao remover!",
+            title: "Erro ao Alterar!",
             icon: "error",
             html: response.msg,
             timer: 3000,
@@ -38,7 +38,7 @@ async function Delete(id) {
         return;
     }
     Swal.fire({
-        title: "Removido com sucesso!",
+        title: "Alterado com sucesso!",
         icon: "success",
         html: response.msg,
         timer: 3000,
@@ -49,4 +49,4 @@ async function Delete(id) {
     });
     tabela.ajax.reload();
 }
-window.Delete = Delete;     
+window.Update = Update;     

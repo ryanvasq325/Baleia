@@ -101,13 +101,13 @@ class Product extends Base
                 $value['descricao_curta'],
                 $value['preco_custo'],
                 $value['preco_venda'],
-                "<a href=\"/produto/alterar/" . $value['id'] . "\" class=\"btn btn-warning\">Alterar</a>
-
-                <button type='button' onclick='Delete(" . $value['id'] . ");' class='btn btn-danger'>
+                //"<a href=\"/produto/alterar/" . $value['id'] . "\" class=\"btn btn-warning\">Alterar</a>
+                
+                "<button type='button' onclick='Update(" . $value['id'] . ");' class='btn btn-danger'>
                 <i class=\"bi bi-trash-fill\"></i>
                 Excluir
                 </button>"
-            ];
+                ];
         }
         $data = [
             'status' => true,
@@ -146,22 +146,22 @@ class Product extends Base
     {
         try {
             $id = $_POST['id'];
-            $IsDelete = DeleteQuery::table('product')
+            $IsUpdate = UpdateQuery::table('product')
                 ->where('id', '=', $id)
-                ->delete();
+                ->update(['excluido'=>['','']]);
 
-            if (!$IsDelete) {
-                echo json_encode(['status' => false, 'msg' => $IsDelete, 'id' => $id]);
+            if (!$IsUpdate) {
+                echo json_encode(['status' => false, 'msg' => $IsUpdate, 'id' => $id]);
                 die;
             }
-            echo json_encode(['status' => true, 'msg' => 'Removido com sucesso!', 'id' => $id]);
+            echo json_encode(['status' => true, 'msg' => 'Atualizado com sucesso!', 'id' => $id]);
             die;
         } catch (\Throwable $th) {
             echo "Erro: " . $th->getMessage();
             die;
         }
     }
-    public function update($request, $response)
+    /*public function update($request, $response)
     {
         try {
             $form = $request->getParsedBody();
@@ -183,7 +183,7 @@ class Product extends Base
         } catch (\Exception $e) {
             return $this->SendJson($response, ['status' => false, 'msg' => 'Restrição: ' . $e->getMessage(), 'id' => 0], 500);
         }
-    }
+    }*/
     public function print($request, $response)
     {
         try {

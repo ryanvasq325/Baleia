@@ -23,9 +23,4 @@ final class ViewProduct extends AbstractMigration
             
         ");
     }
-    public function down(): void
-    {
-        $this->execute("DROP VIEW IF EXISTS view_product");
-    }
-
 }

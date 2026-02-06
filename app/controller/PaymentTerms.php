@@ -4,6 +4,7 @@ namespace app\controller;
 
 use app\database\builder\InsertQuery;
 use app\database\builder\SelectQuery;
+use app\database\builder\UpdateQuery;
 
 class PaymentTerms extends Base
 {
@@ -32,15 +33,44 @@ class PaymentTerms extends Base
     public function alterar($request, $response, $args)
     {
         $id = $args['id'];
+        $paymentTerms = SelectQuery::select()
+            ->from('payment_terms')
+            ->where('id', '=', $id)
+            ->fetch();
+        if ($paymentTerms) {
+            return header('Location: /pagamento/lista');
+            die;
+        }
         $templaData = [
             'titulo' => 'Alteração de termos de pagamento',
             'acao' => 'e',
             'id' => $id,
+            'paymentTerms' => $paymentTerms
         ];
         return $this->getTwig()
             ->render($response, $this->setView('paymentterms'), $templaData)
             ->withHeader('Content-Type', 'text/html')
             ->withStatus(200);
+    }
+    public function update($request, $response)
+    {
+        $form = $request->getParsedBody();
+        $id = $form['id'];
+        if (is_null($id) || $id == '' || empty($id)) {
+            return $this->SendJson($response, ['status' => false, 'msg' => 'Por favor informe o código da condição de pagamento', 'id' => 0], 403);
+        }
+        $FieldsAndValues = [
+            'codigo' => $form['codigo'],
+            'titulo' => $form['titulo']
+        ];
+        $isUpdated = UpdateQuery::table('payment_terms')
+            ->set($FieldsAndValues)
+            ->where('id', '=', $id)
+            ->update();
+        if (!$isUpdated) {
+            return $this->SendJson($response, ['status' => false, 'msg' => 'Restrição' . $isUpdated, 'id' => 0], 500);
+        }
+        return $this->SendJson($response, ['status' => true, 'msg' => 'Alteração realizada com sucesso!', 'id' => $id], 200);
     }
     public function insert($request, $response)
     {
@@ -101,5 +131,26 @@ class PaymentTerms extends Base
         ];
         #Retorno de teste.
         return $this->SendJson($response, $dataResponse, 201);
+    }
+    public function loaddataInstallments($request, $response)
+    {
+        $form = $request->getParsedBody();
+        $idPaymentTerms = $form('id');
+        try {
+            $installments = SelectQuery::select()
+                ->from('installment')
+                ->where('id_pagamento', '=', $idPaymentTerms)
+                ->fetchAll();
+            return $this->SendJson($response, ['status' => true, 'data' => $installments]);
+        } catch (\Exception $e) {
+            return $this->SendJson($response, ['status' => false, 'msg' => 'Restrição' . $e->getMessage()], 500);
+        }
+    }
+    public function deleteinstallment($request, $response)
+    {
+        $form = $request->getParsedBody();
+        $idInstallment = $form['id_parcelamento'];
+        
+
     }
 }

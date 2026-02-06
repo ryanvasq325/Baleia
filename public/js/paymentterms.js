@@ -88,18 +88,15 @@ async function insertInstallment() {
 
 async function loadDataInstallments() {
     try {
-        [
-            {
-                parcels: 1,
-                intervalor: 30,
-                alterar_vencimento_conta: '0'
-            },
-            {
-                parcels: 2,
-                intervalor: 30,
-                alterar_vencimento_conta: '0'
-            }
-        ]
+        if (Action.value === 'c') {
+            document.getElementById('tbInstallments').innerHTML = '';
+            document.getElementById('tbInstallments').innerHTML = `
+                <tr>
+                    >td colspan="5">Nenhuk parcela cadastra</td>
+                </tr>
+            `;
+            return;
+        }
         const response = await Requests.SetForm('form').Post('/pagamento/loaddatainstallments');
         //Variavel para guardar os dados da linha da tabela de parcelamento.
         let trs = '';
@@ -116,14 +113,40 @@ async function loadDataInstallments() {
             </tr>
             `;
         });
+        document.getElementById('tbInstallments').innerHTML = '';
+        document.getElementById('tbInstallments').innerHTML = 'trs';
     } catch (error) {
         console.log(error)
     }
 }
-
+async function deleteInstallment(id) {
+    document.getElementById['id_parcelamento'].value = id;
+    try {
+        const response = await Request.Setform('form').Post('/pagamento/deleteinstallment');
+        if (!response.status) {
+            Swal.fire({
+                icon: "error",
+                title: "Restrição",
+                text: response.msg,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+            return;
+        };
+        document.getElementById(`trinstallment${id}`).remove();
+    }catch (error){
+        console.log(error);
+    }
+}
 insertPaymentTermsButton.addEventListener('click', async () => {
     await insertPaymentTerms();
 });
 insertInstallmentButton.addEventListener('click', async () => {
     await insertInstallment();
 });
+window.deleteInstallment = deleteInstallment;
+
+await loadDataInstallments();

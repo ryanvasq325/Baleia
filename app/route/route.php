@@ -90,6 +90,7 @@ $app->group('/pagamento', function (RouteCollectorProxy $group) {
     $group->get('/cadastro', PaymentTerms::class . ':cadastro');
     $group->get('/alterar/{id}', PaymentTerms::class . ':alterar');
     $group->post('/insert', PaymentTerms::class . ':insert');
+    $group->post('/listpagamento', PaymentTerms::class . ':listpagamento');
     $group->post('/insertinstallment', PaymentTerms::class . ':insertInstallment');
     $group->post('/loaddatainstallments', PaymentTerms::class . ':loaddatainstallments');
     $group->post('/deleteinstallment', PaymentTerms::class . ':deleteinstallment');

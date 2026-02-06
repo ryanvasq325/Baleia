@@ -57,6 +57,7 @@ class PaymentTerms extends Base
     }
     public function insert($request, $response)
     {
+
         #Captura os dados do front-end.
         $form = $request->getParsedBody();
         $FieldAndValues = [

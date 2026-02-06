@@ -1,4 +1,5 @@
 import { Requests } from "./Requests.js";
+
 const tabela = new $('#tabela').DataTable({
     paging: true,
     lengthChange: true,
@@ -16,14 +17,14 @@ const tabela = new $('#tabela').DataTable({
         searchPlaceholder: 'Digite sua pesquisa...'
     },
     ajax: {
-        url: '/produto/listproduto',
+        url: '/pagamento/listpagamento',
         type: 'POST'
     }
 });
 
 async function Delete(id) {
     document.getElementById('id').value = id;
-    const response = await Requests.SetForm('form').Post('/produto/delete');
+    const response = await Requests.SetForm('form').Post('/pagamento/delete');
     if (!response.status) {
         Swal.fire({
             title: "Erro ao remover!",

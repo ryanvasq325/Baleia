@@ -79,7 +79,7 @@ class Product extends Base
         $orderField = $fields[$order];
         #O termo pesquisado
         $term = $form['search']['value'];
-        $query = SelectQuery::select()->from('product');
+        $query = SelectQuery::select()->from('view_product');
         if (!is_null($term) && ($term !== '')) {
             $query
                 ->where('id', 'ilike', "%{$term}%", 'or')

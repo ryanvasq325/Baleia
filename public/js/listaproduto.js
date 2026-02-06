@@ -21,7 +21,7 @@ const tabela = new $('#tabela').DataTable({
     }
 });
 
-async function Update(id) {
+async function Delete(id) {
     document.getElementById('id').value = id;
     const response = await Requests.SetForm('form').Post('/produto/alterar');
     if (!response.status) {
@@ -49,4 +49,4 @@ async function Update(id) {
     });
     tabela.ajax.reload();
 }
-window.Update = Update;     
+window.Delete = Delete;

@@ -23,6 +23,21 @@ async function insertPaymentTerms() {
             });
             return;
         }
+        if (Action.value === 'e') {
+            Swal.fire({
+                icon: "success",
+                title: "Sucesso",
+                text: response.msg,
+                timer: 2000,
+                timerProgressBar: true,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            }).then(() => {
+                window.location.replace('/pagamento/lista');
+            });
+            return;
+        }
         Action.value = 'e';
         //Seta o ID retornado do back-end.
         Id.value = response.id;
@@ -42,8 +57,6 @@ async function insertPaymentTerms() {
             didOpen: () => {
                 Swal.showLoading();
             }
-        }).then((result) => {
-
         });
     } catch (error) {
         console.log(error)
@@ -69,18 +82,7 @@ async function insertInstallment() {
             });
             return;
         }
-        Swal.fire({
-            icon: "success",
-            title: "Sucesso",
-            text: response.msg,
-            timer: 2000,
-            timerProgressBar: true,
-            didOpen: () => {
-                Swal.showLoading();
-            }
-        }).then((result) => {
-            //Carrega os dados do parcelamento da condição de pagamento.
-        });
+        await loadDataInstallments();
     } catch (error) {
         console.log(error)
     }
@@ -92,7 +94,7 @@ async function loadDataInstallments() {
             document.getElementById('tbInstallments').innerHTML = '';
             document.getElementById('tbInstallments').innerHTML = `
                 <tr>
-                    >td colspan="5">Nenhuk parcela cadastra</td>
+                    <td class="text-center" colspan="5">Nenhuma parcela cadastrada</td>
                 </tr>
             `;
             return;
@@ -108,21 +110,22 @@ async function loadDataInstallments() {
                 <td>${item.intervalor} (Dias)</td>
                 <td>${item.alterar_vencimento_conta} (Dias)</td>
                 <td>
-                    <button class="btn btn-danger" onclick="deleteInstallment(${item.id})">Excluir</button>
+                    <button type="button" class="btn btn-danger" onclick="deleteInstallment(${item.id})">Excluir</button>
                 </td>
             </tr>
             `;
         });
         document.getElementById('tbInstallments').innerHTML = '';
-        document.getElementById('tbInstallments').innerHTML = 'trs';
+        document.getElementById('tbInstallments').innerHTML = trs;
     } catch (error) {
         console.log(error)
     }
 }
+
 async function deleteInstallment(id) {
-    document.getElementById['id_parcelamento'].value = id;
+    document.getElementById('id_parcelamento').value = id;
     try {
-        const response = await Request.Setform('form').Post('/pagamento/deleteinstallment');
+        const response = await Requests.SetForm('form').Post('/pagamento/deleteinstallment');
         if (!response.status) {
             Swal.fire({
                 icon: "error",
@@ -135,12 +138,13 @@ async function deleteInstallment(id) {
                 }
             });
             return;
-        };
+        }
         document.getElementById(`trinstallment${id}`).remove();
-    }catch (error){
+    } catch (error) {
         console.log(error);
     }
 }
+
 insertPaymentTermsButton.addEventListener('click', async () => {
     await insertPaymentTerms();
 });
@@ -148,5 +152,5 @@ insertInstallmentButton.addEventListener('click', async () => {
     await insertInstallment();
 });
 window.deleteInstallment = deleteInstallment;
-
+//Sempre que a pagina for carregada, carrega os dados das parcelas.
 await loadDataInstallments();

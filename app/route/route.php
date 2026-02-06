@@ -91,6 +91,6 @@ $app->group('/pagamento', function (RouteCollectorProxy $group) {
     $group->get('/alterar/{id}', PaymentTerms::class . ':alterar');
     $group->post('/insert', PaymentTerms::class . ':insert');
     $group->post('/insertinstallment', PaymentTerms::class . ':insertInstallment');
-    $group->post('/loaddatainstallment', PaymentTerms::class . ':loaddatainstallment');
-    $group->post('/pagamento/deleteinstallment', PaymentTerms::class .'deleteinstallment');
+    $group->post('/loaddatainstallments', PaymentTerms::class . ':loaddatainstallments');
+    $group->post('/deleteinstallment', PaymentTerms::class . ':deleteinstallment');
 });

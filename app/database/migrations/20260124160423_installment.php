@@ -14,7 +14,6 @@ final class Installment extends AbstractMigration
             ->addColumn('id_pagamento', 'biginteger', ['null' => true])
             ->addColumn('parcela', 'integer', ['null' => true])
             ->addColumn('intervalor', 'integer', ['null' => true])
-            ->addColumn('excluido', 'boolean', ['null'=> false])
             ->addColumn('alterar_vencimento_conta', 'integer', ['null' => true])
             ->addColumn('data_cadastro', 'datetime', ['null' => true, 'default' => 'CURRENT_TIMESTAMP'])
             ->addColumn('data_atualizacao', 'datetime', ['null' => true, 'default' => 'CURRENT_TIMESTAMP'])

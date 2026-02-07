@@ -11,12 +11,12 @@ final class ViewProduct extends AbstractMigration
     $this->execute("
         CREATE VIEW view_product AS
         SELECT 
-            p.id,
+            p.id::TEXT,
             p.nome,
             p.codigo_barras,
             p.descricao_curta,
-            p.preco_custo,
-            p.preco_venda,
+            p.preco_custo::TEXT,
+            p.preco_venda::TEXT,
             TRUE AS produto_venda
         FROM product p
         WHERE p.excluido IS NOT TRUE

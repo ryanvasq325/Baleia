@@ -71,9 +71,10 @@ class Product extends Base
         $fields = [
             0 => 'id',
             1 => 'nome',
-            2 => 'descricao_curta',
-            3 => 'preco_custo',
-            4 => 'preco_venda'
+            2=> 'codigo_barras',
+            3 => 'descricao_curta',
+            4 => 'preco_custo',
+            5 => 'preco_venda'
         ];
         #Capturamos o nome do campo a ser odernado.
         $orderField = $fields[$order];
@@ -82,8 +83,9 @@ class Product extends Base
         $query = SelectQuery::select()->from('view_product');
         if (!is_null($term) && ($term !== '')) {
             $query
-                ->where('id', 'ilike', "%{$term}%", 'or')
+                ->where('id', 'ilike', "%{$term}%")
                 ->where('nome', 'ilike', "%{$term}%", 'or')
+                ->where('codigo_barras', 'ilike', "%{$term}%", 'or')
                 ->where('descricao_curta', 'ilike', "%{$term}%", 'or')
                 ->where('preco_custo', 'ilike', "%{$term}%", 'or')
                 ->where('preco_venda', 'ilike', "%{$term}%", 'or');

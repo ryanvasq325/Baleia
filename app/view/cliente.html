@@ -7,13 +7,13 @@
     <div class="container-fluid">
         <div class="row align-items-center mb-4">
             <div class="col-sm-6">
-                <h3 class="fw-bold text-dark mb-0">
+                <h3 class="fw-bold text-white mb-0">
                     <i class="bi bi-person-badge me-2 text-primary"></i>{{titulo}}
                 </h3>
             </div>
             <div class="col-sm-6">
                 <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb float-sm-end bg-white border p-2 px-3 rounded-pill shadow-sm small">
+                    <ol class="breadcrumb float-sm-end bg-dark border p-2 px-3 rounded-pill shadow-sm small">
                         <li class="breadcrumb-item"><a href="/home" class="text-decoration-none">Início</a></li>
                         <li class="breadcrumb-item"><a href="/cliente/lista" class="text-decoration-none">Clientes</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Cadastro</li>
@@ -29,10 +29,10 @@
                     <input type="hidden" id="id" name="id" value="{{id}}">
                     
                     <div class="card border-0 shadow-sm">
-                        <div class="card-header bg-white py-3 border-bottom">
+                        <div class="card-header bg-dark py-3 border-bottom">
                             <div class="d-flex justify-content-between align-items-center">
                                 <h6 class="m-0 fw-bold text-secondary text-uppercase small">Dados do Cliente</h6>
-                                <a href="/cliente/lista" class="btn btn-light btn-sm border text-secondary">
+                                <a href="/cliente/lista" class="btn btn- btn-sm border text-secondary">
                                     <i class="bi bi-arrow-left"></i> Voltar
                                 </a>
                             </div>
@@ -43,7 +43,7 @@
                                 <div class="col-md-6">
                                     <label for="nome_fantasia" class="form-label small fw-bold text-muted">Nome / Nome Fantasia</label>
                                     <div class="input-group">
-                                        <span class="input-group-text bg-light border-end-0"><i class="bi bi-person"></i></span>
+                                        <span class="input-group-text bg- border-end-0"><i class="bi bi-person"></i></span>
                                         <input type="text" class="form-control border-start-0" id="nome_fantasia" name="nome_fantasia"
                                             placeholder="Ex: João Silva ou Loja do Bairro" value="{{client.nome_fantasia}}" autofocus>
                                     </div>
@@ -64,7 +64,7 @@
                                 <div class="col-md-4">
                                     <label for="cpf_cnpj" class="form-label small fw-bold text-muted">CPF / CNPJ</label>
                                     <div class="input-group">
-                                        <span class="input-group-text bg-light border-end-0"><i class="bi bi-card-text"></i></span>
+                                        <span class="input-group-text bg- border-end-0"><i class="bi bi-card-text"></i></span>
                                         <input type="text" class="form-control border-start-0" id="cpf_cnpj" name="cpf_cnpj"
                                             placeholder="000.000.000-00" value="{{client.cpf_cnpj}}">
                                     </div>
@@ -80,7 +80,7 @@
                             </div>
                         </div>
 
-                        <div class="card-footer bg-light border-top-0 p-3 d-flex justify-content-end">
+                        <div class="card-footer bg- border-top-0 p-3 d-flex justify-content-end">
                             <button type="button" id="salvar" class="btn btn-primary px-5 shadow-sm fw-bold">
                                 <i class="bi bi-save me-2"></i> Salvar Registro
                             </button>

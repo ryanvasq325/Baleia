@@ -145,6 +145,26 @@ async function deleteInstallment(id) {
     }
 }
 
+document.addEventListener('keydown', function (e) {
+    // F2 - Focar no campo de busca
+    if (e.key === 'F2') {
+        e.preventDefault();
+        document.querySelector('.search-input')?.focus();
+    }
+
+    // F9 - Finalizar venda
+    if (e.key === 'F9') {
+        e.preventDefault();
+        document.querySelector('.btn-finalize')?.click();
+    }
+
+    // Esc - Cancelar venda
+    if (e.key === 'Escape') {
+        e.preventDefault();
+        document.querySelector('.btn-cancel')?.click();
+    }
+});
+
 insertPaymentTermsButton.addEventListener('click', async () => {
     await insertPaymentTerms();
 });

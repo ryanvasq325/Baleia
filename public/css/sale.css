@@ -212,7 +212,9 @@ body {
     flex-direction: column;
     overflow: hidden;
     background: #FFFFFF;
+    min-width: 0; /* <--- ADICIONE ESTA LINHA */
 }
+
 
 /* ============================================
    HEADER

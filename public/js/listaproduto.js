@@ -1,5 +1,4 @@
 import { Requests } from "./Requests.js";
-
 const tabela = new $('#tabela').DataTable({
     paging: true,
     lengthChange: true,
@@ -9,7 +8,7 @@ const tabela = new $('#tabela').DataTable({
     autoWidth: false,
     responsive: true,
     stateSave: true,
-    select: true, // Isso permite selecionar a linha
+    select: true,
     processing: true,
     serverSide: true,
     language: {
@@ -19,7 +18,21 @@ const tabela = new $('#tabela').DataTable({
     ajax: {
         url: '/produto/listproduto',
         type: 'POST'
-    }
+    },
+    columnDefs: [
+        {
+            targets: [4, 5],
+            render: function (data, type, row) {
+                if (type === 'display') {
+                    return parseFloat(data).toLocaleString('pt-BR', {
+                        style: 'currency',
+                        currency: 'BRL'
+                    });
+                }
+                return data;
+            }
+        }
+    ]
 });
 
 // --- LÓGICA DE ATALHOS ---

@@ -25,6 +25,7 @@ $app->group('/home', function (RouteCollectorProxy $group) {
 $app->group('/venda', function (RouteCollectorProxy $group) {
     $group->get('/lista', Sale::class . ':lista');
     $group->get('/cadastro', Sale::class . ':cadastro');
+    $group->post('/listsale', Sale::class . ':listsale');
 });
 $app->group('/login', function (RouteCollectorProxy $group) {
     $group->post('/precadastro', Login::class . ':precadastro');

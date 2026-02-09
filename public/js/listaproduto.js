@@ -1,4 +1,5 @@
 import { Requests } from "./Requests.js";
+
 const tabela = new $('#tabela').DataTable({
     paging: true,
     lengthChange: true,
@@ -8,7 +9,7 @@ const tabela = new $('#tabela').DataTable({
     autoWidth: false,
     responsive: true,
     stateSave: true,
-    select: true,
+    select: true, // Isso permite selecionar a linha
     processing: true,
     serverSide: true,
     language: {
@@ -21,6 +22,16 @@ const tabela = new $('#tabela').DataTable({
     }
 });
 
+// --- LÓGICA DE ATALHOS ---
+document.addEventListener('keydown', function (e) {
+    
+    // F2 - Ir para Cadastro
+    if (e.key === 'F2') {
+        e.preventDefault();
+        window.location.href = '/produto/cadastro';
+    }
+});
+
 async function Delete(id) {
     document.getElementById('id').value = id;
     const response = await Requests.SetForm('form').Post('/produto/delete');
@@ -30,10 +41,7 @@ async function Delete(id) {
             icon: "error",
             html: response.msg,
             timer: 3000,
-            timerProgressBar: true,
-            didOpen: () => {
-                Swal.showLoading();
-            }
+            timerProgressBar: true
         });
         return;
     }
@@ -42,11 +50,9 @@ async function Delete(id) {
         icon: "success",
         html: response.msg,
         timer: 3000,
-        timerProgressBar: true,
-        didOpen: () => {
-            Swal.showLoading();
-        }
+        timerProgressBar: true
     });
     tabela.ajax.reload();
 }
+
 window.Delete = Delete;

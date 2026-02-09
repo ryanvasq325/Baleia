@@ -38,7 +38,7 @@
                         <div class="card-body p-4">
                             <div class="row g-4">
                                 <div class="col-lg-6 col-md-12">
-                                    <div class="form-floating">
+                                    <div class="form-floating mb-2">
                                         <select class="form-select border-primary-subtle" id="codigo" name="codigo">
                                             <option selected disabled>Selecione uma condição...</option>
                                             <option {% if paymentTerms.codigo=='01' %} selected {% endif %} value="01">Dinheiro: Pagamento em espécie.</option>
@@ -52,6 +52,17 @@
                                             <option {% if paymentTerms.codigo=='99' %}selected{% endif %} value="99">Outros: Pagamentos não listados.</option>
                                         </select>
                                         <label for="codigo" class="fw-bold small">Condição de pagamento</label>
+                                    </div>
+                                    
+                                    <div class="d-flex flex-wrap gap-1 mb-2">
+                                        <span class="badge bg-light text-dark border fw-normal shadow-sm"><kbd>F3</kbd> Dinheiro</span>
+                                        <span class="badge bg-light text-dark border fw-normal shadow-sm"><kbd>F4</kbd> Cheque</span>
+                                        <span class="badge bg-light text-dark border fw-normal shadow-sm"><kbd>F6</kbd> C. Crédito</span>
+                                        <span class="badge bg-light text-dark border fw-normal shadow-sm"><kbd>F7</kbd> C. Débito</span>
+                                        <span class="badge bg-light text-dark border fw-normal shadow-sm"><kbd>F8</kbd> Vales</span>
+                                        <span class="badge bg-light text-dark border fw-normal shadow-sm"><kbd>F10</kbd> Boleto</span>
+                                        <span class="badge bg-light text-dark border fw-normal shadow-sm"><kbd>F11</kbd> PIX</span>
+                                        <span class="badge bg-light text-dark border fw-normal shadow-sm"><kbd>F12</kbd> Outros</span>
                                     </div>
                                 </div>
 
@@ -99,7 +110,7 @@
                                 <div class="col-12">
                                     <div class="table-responsive rounded shadow-sm">
                                         <table class="table table-hover align-middle mb-0">
-                                            <thead class="table-">
+                                            <thead>
                                                 <tr class="small text-uppercase">
                                                     <th class="py-3">Código</th>
                                                     <th class="py-3">Parcelas</th>
@@ -121,7 +132,7 @@
                             </div>
                         </div>
 
-                        <div class="card-footer bg- p-3 d-flex justify-content-end">
+                        <div class="card-footer p-3 d-flex justify-content-end">
                             <button id="insertPaymentoTermsButton" type="button" class="btn btn-success px-4 shadow-sm fw-bold">
                                 <i class="bi bi-check-lg me-2"></i> Salvar Condição
                             </button>

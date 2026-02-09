@@ -145,31 +145,38 @@ async function deleteInstallment(id) {
     }
 }
 
-document.addEventListener('keydown', function (e) {
-    // F2 - Focar no campo de busca
-    if (e.key === 'F2') {
-        e.preventDefault();
-        document.querySelector('.search-input')?.focus();
-    }
-
-    // F9 - Finalizar venda
-    if (e.key === 'F9') {
-        e.preventDefault();
-        document.querySelector('.btn-finalize')?.click();
-    }
-
-    // Esc - Cancelar venda
-    if (e.key === 'Escape') {
-        e.preventDefault();
-        document.querySelector('.btn-cancel')?.click();
-    }
-});
-
 insertPaymentTermsButton.addEventListener('click', async () => {
     await insertPaymentTerms();
 });
 insertInstallmentButton.addEventListener('click', async () => {
     await insertInstallment();
+});
+
+document.addEventListener('keydown', function (e) {
+    const selectPagamento = document.getElementById('codigo');
+    
+    
+    const atalhosPagamento = {
+        'F3': '01', // Dinheiro
+        'F4': '02', // Cheque
+        'F6': '03', // Cartão de Crédito
+        'F7': '04', // Cartão de Débito
+        'F8': '10', // Vales
+        'F10': '15', // Boleto
+        'F11': '17', // PIX
+        'F12': '99'  // Outros
+    };
+
+    if (atalhosPagamento[e.key]) {
+        e.preventDefault();
+        if (selectPagamento) {
+            selectPagamento.value = atalhosPagamento[e.key];
+          
+            selectPagamento.dispatchEvent(new Event('change'));
+            
+            selectPagamento.focus();
+        }
+    }
 });
 window.deleteInstallment = deleteInstallment;
 //Sempre que a pagina for carregada, carrega os dados das parcelas.

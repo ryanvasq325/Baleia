@@ -8,7 +8,7 @@ use app\controller\Fornecedor;
 use app\middleware\Auth;
 use app\controller\Home;
 use app\controller\PaymentTerms;
-use app\controller\Product;
+use app\controller\Produto;
 use app\controller\Sale;
 use Slim\Routing\RouteCollectorProxy;
 
@@ -76,14 +76,14 @@ $app->group('/fornecedor', function (RouteCollectorProxy $group) {
     $group->post('/delete', Fornecedor::class . ':delete');
 });
 $app->group('/produto', function (RouteCollectorProxy $group) {
-    $group->get('/lista', Product::class . ':lista'); #->add(Auth::route());
-    $group->get('/cadastro', Product::class . ':cadastro'); #->add(Auth::route());
-    $group->get('/alterar/{id}', Product::class . ':alterar'); #->add(Auth::route());
-    $group->get('/print', Product::class . ':print');
-    $group->post('/update', Product::class . ':update');
-    $group->post('/listproduto', Product::class . ':listproduto');
-    $group->post('/insert', Product::class . ':insert');
-    $group->post('/delete', Product::class . ':delete');
+    $group->get('/lista', Produto::class . ':lista'); #->add(Auth::route());
+    $group->get('/cadastro', Produto::class . ':cadastro'); #->add(Auth::route());
+    $group->get('/alterar/{id}', Produto::class . ':alterar'); #->add(Auth::route());
+    $group->get('/print', Produto::class . ':print');
+    $group->post('/update', Produto::class . ':update');
+    $group->post('/listproduto', Produto::class . ':listproduto');
+    $group->post('/insert', Produto::class . ':insert');
+    $group->post('/delete', Produto::class . ':delete');
 });
 $app->group('/pagamento', function (RouteCollectorProxy $group) {
     $group->get('/lista', PaymentTerms::class . ':lista');

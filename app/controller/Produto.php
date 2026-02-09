@@ -7,7 +7,7 @@ use app\database\builder\DeleteQuery;
 use app\database\builder\SelectQuery;
 use app\database\builder\UpdateQuery;
 
-class Product extends Base
+class Produto extends Base
 {
 
     public function lista($request, $response)
@@ -71,10 +71,10 @@ class Product extends Base
         $fields = [
             0 => 'id',
             1 => 'nome',
-            2=> 'codigo_barras',
-            3 => 'descricao_curta',
-            4 => 'preco_custo',
-            5 => 'preco_venda'
+            2 => 'codigo_barras',
+            2 => 'descricao_curta',
+            3 => 'preco_custo',
+            4 => 'preco_venda'
         ];
         #Capturamos o nome do campo a ser odernado.
         $orderField = $fields[$order];
@@ -103,13 +103,15 @@ class Product extends Base
                 $value['descricao_curta'],
                 $value['preco_custo'],
                 $value['preco_venda'],
-                "<a href=\"/produto/alterar/" . $value['id'] . "\" class=\"btn btn-warning\">Alterar</a>
-                
-                <button type='button' onclick='Delete(" . $value['id'] . ");' class='btn btn-danger'>
-                <i class=\"bi bi-trash-fill\"></i>
-                Excluir
-                </button>"
-                ];
+                "<div class='d-flex gap-2'>
+    <a href='/produto/alterar/{$value['id']}' class='btn btn-warning btn-sm px-2 shadow-sm' style='white-space: nowrap; font-weight: 500;'>
+        <i class='bi bi-pencil-square'></i> Alterar
+    </a>
+    <button type='button' onclick='Delete({$value['id']});' class='btn btn-danger btn-sm px-2 shadow-sm' style='white-space: nowrap; font-weight: 500;'>
+        <i class='bi bi-trash-fill'></i> Excluir
+    </button>
+</div>"
+            ];
         }
         $data = [
             'status' => true,
@@ -149,9 +151,9 @@ class Product extends Base
         try {
             $id = $_POST['id'];
             $IsDelete = UpdateQuery::table('product')
-            ->set(['excluido' => true])
-            ->where('id', '=', $id)
-            ->update();
+                ->set(['excluido' => true])
+                ->where('id', '=', $id)
+                ->update();
             if (!$IsDelete) {
                 echo json_encode(['status' => false, 'msg' => $IsDelete, 'id' => $id]);
                 die;
@@ -189,18 +191,22 @@ class Product extends Base
     public function print($request, $response)
     {
         try {
-            
-            $produto = SelectQuery::select('nome,codigo_barras, descricao_curta, preco_custo, preco_venda')
+            // 1. Busca os dados na tabela de usuários
+            // Ajuste os nomes das colunas (ex: nome, cpf, celular) conforme seu banco
+            $produto = SelectQuery::select('id, nome, cpf')
                 ->from('product')
                 ->order('nome', 'ASC')
                 ->fetchAll();
 
+            // 2. Monta o array de dados para o template
             $dadosTemplate = [
                 'titulo'   => 'Relatório de Produtos',
-                'produtos' => $produto,
+                'produto' => $produto,
                 'total'    => count($produto)
             ];
 
+            // 3. Renderiza o template específico de usuários
+            // Certifique-se de que o arquivo se chama 'reportproduto.html' na pasta reports
             return $this->getTwig()
                 ->render($response, $this->setView('reports/reportproduto'), $dadosTemplate)
                 ->withHeader('Content-Type', 'text/html')

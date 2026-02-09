@@ -62,7 +62,7 @@ class SelectQuery
 
         // Adiciona a cláusula WHERE ao array.
         // Formato: campo operador :placeholder lógica.
-        $this->where[] = "{$field}  {$operator} :{$placeholder} {$logic}";
+        $this->where[] = " {$logic} {$field} {$operator} :{$placeholder}";
 
         // Armazena o valor no array de binds.
         $this->binds[$placeholder] = $value;

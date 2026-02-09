@@ -1,24 +1,25 @@
 import { Requests } from "./Requests.js";
 
-const tabela = $('#tabela').DataTable({
+const tabela = new $('#tabela').DataTable({
     paging: true,
-    serverSide: true,
+    lengthChange: true,
+    searching: true,
+    ordering: true,
+    info: true,
+    autoWidth: false,
     responsive: true,
-    // dom: 't' mostra apenas a TABELA. 
-    // dom: 'tip' mostra Tabela, Info (embaixo) e Paginação (embaixo).
-    // Isso evita que ele crie campos de busca duplicados no topo.
-    dom: 'rtip', 
+    stateSave: true,
+    select: true,
+    processing: true,
+    serverSide: true,
     language: {
         url: 'https://cdn.datatables.net/plug-ins/1.13.4/i18n/pt-BR.json',
+        searchPlaceholder: 'Digite sua pesquisa...'
     },
     ajax: {
         url: '/venda/listsale',
         type: 'POST'
-    },
-    // Opcional: Ajuste as colunas para não quebrarem o layout
-    columnDefs: [
-        { className: "text-center", targets: "_all" }
-    ]
+    }
 });
 
 async function Delete(id) {

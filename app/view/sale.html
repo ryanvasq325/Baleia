@@ -1,3 +1,4 @@
+{% include "css.html" %}
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -10,25 +11,6 @@
 </head>
 
 <body>
-    <!-- Sidebar Esquerda -->
-    <aside class="sidebar">
-        <div class="logo-section">
-            <h1 class="logo">Obrigado</h1>
-            <p class="slogan">Sua preferência<br>é a nossa maior<br>motivação.</p>
-        </div>
-
-        <div class="sidebar-image">
-            <img src="merchant-image.jpg" alt="Atendente">
-        </div>
-
-        <div class="sidebar-footer">
-            <div class="footer-logo">
-                <i class="fas fa-handshake"></i>
-                <span>GUILHES</span>
-            </div>
-        </div>
-    </aside>
-    <!-- Conteúdo Principal -->
     <main class="main-content">
         <!-- Header -->
         <header class="header">
@@ -70,98 +52,28 @@
                         </button>
                     </div>
                 </div>
+                <form id="form">
+                    <input type="hidden" id="id" name="id">
+                    <div class="products-list">
+                        <div class="products-header">
+                            <h3>Produtos</h3>
+                            <span class="product-count">20 produtos</span>
+                        </div>
 
-                <div class="products-list">
-                    <div class="products-header">
-                        <h3>Produtos</h3>
-                        <span class="product-count">20 produtos</span>
+                        <table class="products-table" id="tabela">
+                            <thead>
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Descrição</th>
+                                    <th>Preço</th>
+                                    <th>Ação</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
                     </div>
-
-                    <table class="products-table">
-                        <thead>
-                            <tr>
-                                <th>Código</th>
-                                <th>Descrição</th>
-                                <th>Preço</th>
-                                <th>Ação</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>001</td>
-                                <td>Arroz Branco Tipo 1 - 5kg</td>
-                                <td>R$ 24.90</td>
-                                <td><button class="btn-add"><i class="fas fa-plus"></i> Adicionar</button></td>
-                            </tr>
-                            <tr>
-                                <td>002</td>
-                                <td>Feijão Preto - 1kg</td>
-                                <td>R$ 8.50</td>
-                                <td><button class="btn-add"><i class="fas fa-plus"></i> Adicionar</button></td>
-                            </tr>
-                            <tr>
-                                <td>003</td>
-                                <td>Açúcar Refinado - 1kg</td>
-                                <td>R$ 4.20</td>
-                                <td><button class="btn-add"><i class="fas fa-plus"></i> Adicionar</button></td>
-                            </tr>
-                            <tr>
-                                <td>004</td>
-                                <td>Óleo de Soja - 900ml</td>
-                                <td>R$ 7.80</td>
-                                <td><button class="btn-add"><i class="fas fa-plus"></i> Adicionar</button></td>
-                            </tr>
-                            <tr>
-                                <td>005</td>
-                                <td>Café Torrado e Moído - 500g</td>
-                                <td>R$ 12.90</td>
-                                <td><button class="btn-add"><i class="fas fa-plus"></i> Adicionar</button></td>
-                            </tr>
-                            <tr>
-                                <td>006</td>
-                                <td>Leite Integral UHT - 1L</td>
-                                <td>R$ 4.50</td>
-                                <td><button class="btn-add"><i class="fas fa-plus"></i> Adicionar</button></td>
-                            </tr>
-                            <tr>
-                                <td>007</td>
-                                <td>Macarrão Espaguete - 500g</td>
-                                <td>R$ 3.80</td>
-                                <td><button class="btn-add"><i class="fas fa-plus"></i> Adicionar</button></td>
-                            </tr>
-                            <tr>
-                                <td>008</td>
-                                <td>Molho de Tomate - 340g</td>
-                                <td>R$ 2.90</td>
-                                <td><button class="btn-add"><i class="fas fa-plus"></i> Adicionar</button></td>
-                            </tr>
-                            <tr>
-                                <td>009</td>
-                                <td>Farinha de Trigo - 1kg</td>
-                                <td>R$ 5.40</td>
-                                <td><button class="btn-add"><i class="fas fa-plus"></i> Adicionar</button></td>
-                            </tr>
-                            <tr>
-                                <td>010</td>
-                                <td>Sal Refinado - 1kg</td>
-                                <td>R$ 2.20</td>
-                                <td><button class="btn-add"><i class="fas fa-plus"></i> Adicionar</button></td>
-                            </tr>
-                            <tr>
-                                <td>011</td>
-                                <td>Biscoito Recheado - 140g</td>
-                                <td>R$ 3.50</td>
-                                <td><button class="btn-add"><i class="fas fa-plus"></i> Adicionar</button></td>
-                            </tr>
-                            <tr>
-                                <td>012</td>
-                                <td>Refrigerante Cola 2L</td>
-                                <td>R$ 6.90</td>
-                                <td><button class="btn-add"><i class="fas fa-plus"></i> Adicionar</button></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                </form>
             </section>
 
             <!-- Seção do Carrinho -->
@@ -230,8 +142,11 @@
                 </div>
             </aside>
         </div>
-    </main>
-    <script defer type="module" src="/js/sale.js"></script>
+</main>
 </body>
-
 </html>
+
+{% block script %}
+{% include "script.html" %}
+<script defer type="module" src="/js/sale.js"></script>
+{% endblock %}

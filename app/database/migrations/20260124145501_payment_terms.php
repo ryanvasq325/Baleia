@@ -13,6 +13,7 @@ final class PaymentTerms extends AbstractMigration
         $table->addColumn('id', 'biginteger', ['identity' => true, 'null' => false])
             ->addColumn('codigo', 'text', ['null' => true])
             ->addColumn('titulo', 'text', ['null' => true])
+            ->addColumn('atalho', 'text', ['null' => true])
             ->addColumn('data_cadastro', 'datetime', ['null' => true, 'default' => 'CURRENT_TIMESTAMP'])
             ->addColumn('data_atualizacao', 'datetime', ['null' => true, 'default' => 'CURRENT_TIMESTAMP'])
             ->create();

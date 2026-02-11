@@ -60,22 +60,21 @@ class Produto extends Base
     {
         $form = $request->getParsedBody();
         $term = $form['term'] ?? null;
-        $query = SelectQuery::select('id, codigo_barras, nome')->from('product');
-        $data['results'] = [];
+        $query = SelectQuery::select('id, codigo_barra, nome')->from('product');
         if ($term != null) {
-            $query->where('codigo_barras','like', "%{$term}%", 'or')
-            ->where('nome','like', "%{$term}%");
+            $query->where('codigo_barra', 'ILIKE', "%{$term}%", 'or')
+                ->where('nome', 'ILIKE', "%{$term}%");
         }
-        $data = []; 
-        $results= $query->fetchAll();
+        $data = [];
+        $results = $query->fetchAll();
         foreach ($results as $key => $item) {
             $data['results'][$key] = [
-                'id'=> $item['id'],
-                'text' => 'Cód barras: ' . $item['codigo_barras'] . ' - ' . $item['nome']
+                'id' => $item['id'],
+                'text' => $item['nome'] . ' - Cód. barra: ' . $item['codigo_barra']
             ];
         }
-            $data['pagination'] = ['more' => true];
-            return $this->SendJson($response, $data);
+        #$data['pagination'] = ['more' => true];
+        return $this->SendJson($response, $data);
     }
     public function listproduto($request, $response)
     {

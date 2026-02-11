@@ -57,12 +57,12 @@ class PaymentTerms extends Base
     }
     public function insert($request, $response)
     {
-
         #Captura os dados do front-end.
         $form = $request->getParsedBody();
         $FieldAndValues = [
             'codigo' => $form['codigo'],
-            'titulo' => $form['titulo']
+            'titulo' => $form['titulo'],
+            'atalho' => $form['atalho']
         ];
         try {
             $IsSave = InsertQuery::table('payment_terms')->save($FieldAndValues);
@@ -96,7 +96,8 @@ class PaymentTerms extends Base
         }
         $FieldAndValues = [
             'codigo' => $form['codigo'],
-            'titulo' => $form['titulo']
+            'titulo' => $form['titulo'],
+            'atalho' => $form['atalho']
         ];
         $isUpdated = UpdateQuery::table('payment_terms')
             ->set($FieldAndValues)
@@ -166,5 +167,58 @@ class PaymentTerms extends Base
         } catch (\Exception $e) {
             return $this->SendJson($response, ['status' => false, 'msg' => 'Restrição: ' . $e->getMessage(), 'id' => 0], 500);
         }
+    }
+    public function listapaymentterms($request, $response)
+    {
+        #Captura todas a variaveis de forma mais segura VARIAVEIS POST.
+        $form = $request->getParsedBody();
+        #Qual a coluna da tabela deve ser ordenada.
+        $order = $form['order'][0]['column'];
+        #Tipo de ordenação
+        $orderType = $form['order'][0]['dir'];
+        #Em qual registro se inicia o retorno dos registro, OFFSET
+        $start = $form['start'];
+        #Limite de registro a serem retornados do banco de dados LIMIT
+        $length = $form['length'];
+        $fields = [
+            0 => 'id',
+            1 => 'codigo',
+            2 => 'titulo',
+            3 => 'atalho',
+        ];
+        #Capturamos o nome do capo a ser ordenado.
+        $orderField = $fields[$order];
+        #O termo pesquisado
+        $term = $form['search']['value'];
+        $query = SelectQuery::select('id,codigo,titulo,atalho')->from('payment_terms');
+        if (!is_null($term) && ($term !== '')) {
+            $query->where('payment_terms.codigo', 'ilike', "%{$term}%", 'or')
+                ->where('payment_terms.titulo', 'ilike', "%{$term}%", 'or')
+                ->where('payment_terms.atalho', 'ilike', "%{$term}%");
+        }
+        if (!is_null($order) && ($order !== '')) {
+            $query->order($orderField, $orderType);
+        }
+        $clientes = $query
+            ->limit($length, $start)
+            ->fetchAll();
+        $clienteData = [];
+        foreach ($clientes as $key => $value) {
+            $clienteData[$key] = [
+                $value['id'],
+                $value['codigo'],
+                $value['titulo'],
+                $value['atalho'],
+                "<button type= 'button' onclick='Editar(" . $value['id'] . ");' class='btn btn-warning'>Editar</button>
+                <button type='button'  onclick='Delete(" . $value['id'] . ");' class='btn btn-danger'>Excluir</button>"
+            ];
+        }
+        $data = [
+            'status' => true,
+            'recordsTotal' => count($clientes),
+            'recordsFiltered' => count($clientes),
+            'data' => $clienteData
+        ];
+        return $this->SendJson($response, $data, 200);
     }
 }

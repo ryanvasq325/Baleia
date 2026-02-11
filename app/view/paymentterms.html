@@ -1,145 +1,136 @@
 {% extends "main.html" %}
-
 {% block main %}
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-
-<div class="app-content-header py-3">
+<div class="app-content-header">
     <div class="container-fluid">
-        <div class="row align-items-center mb-4">
+        <div class="row">
             <div class="col-sm-6">
-                <h3 class="fw-bold mb-0 text-white">{{titulo}}</h3>
+                <h3 class="mb-0">{{titulo}}</h3>
             </div>
             <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-end bg- p-2 px-3 rounded shadow-sm small">
-                    <li class="breadcrumb-item"><a href="/home" class="text-decoration-none">Início</a></li>
-                    <li class="breadcrumb-item"><a href="/pagamento/lista" class="text-decoration-none">Pesquisa</a></li>
-                    <li class="breadcrumb-item active">{{titulo}}</li>
+                <ol class="breadcrumb float-sm-end">
+                    <li class="breadcrumb-item" aria-current="page"><a href="/home">Início</a></li>
+                    <li class="breadcrumb-item" aria-current="page"><a href="/pagamento/lista">Pesquisa</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{titulo}}</li>
                 </ol>
             </div>
         </div>
-
         <div class="row">
-            <div class="col-12 col-xl-10 mx-auto">
-                <form id="form">
-                    <input type="hidden" name="acao" id="acao" value="{{acao}}">
-                    <input type="hidden" name="id" id="id" value="{{id}}">
-                    <input type="hidden" name="id_parcelamento" id="id_parcelamento">
-
-                    <div class="card border-0 shadow-sm">
-                        <div class="card-header bg-dark py-3">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span class="text-uppercase small fw-bold text-muted">Configuração de Pagamento</span>
-                                <a href="/pagamento/lista" class="btn btn-outline-secondary btn-sm">
-                                    <i class="bi bi-arrow-left me-1"></i> Voltar
-                                </a>
-                            </div>
+            <form id="form">
+                <input type="hidden" name="acao" id="acao" value="{{acao}}">
+                <input type="hidden" name="id" id="id" value="{{id}}">
+                <input type="hidden" name="id_parcelamento" id="id_parcelamento">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <a href="/pagamento/lista" class="btn btn-warning">Voltar</a>
                         </div>
-
-                        <div class="card-body p-4">
-                            <div class="row g-4">
-                                <div class="col-lg-6 col-md-12">
-                                    <div class="form-floating mb-2">
-                                        <select class="form-select border-primary-subtle" id="codigo" name="codigo">
-                                            <option selected disabled>Selecione uma condição...</option>
-                                            <option {% if paymentTerms.codigo=='01' %} selected {% endif %} value="01">Dinheiro: Pagamento em espécie.</option>
-                                            <option {% if paymentTerms.codigo=='02' %}selected{% endif %} value="02">Cheque: Pagamento em cheque.</option>
-                                            <option {% if paymentTerms.codigo=='03' %}selected{% endif %} value="03">Cartão de Crédito: Requer dados da operadora.</option>
-                                            <option {% if paymentTerms.codigo=='04' %}selected{% endif %} value="04">Cartão de Débito: Requer dados da operadora.</option>
-                                            <option {% if paymentTerms.codigo=='10' %}selected{% endif %} value="10">Vales (Alimentação, Refeição, etc)</option>
-                                            <option {% if paymentTerms.codigo=='15' %}selected{% endif %} value="15">Boleto Bancário: Pagamento via boleto.</option>
-                                            <option {% if paymentTerms.codigo=='17' %}selected{% endif %} value="17">PIX</option>
-                                            <option {% if paymentTerms.codigo=='90' %}selected{% endif %} value="90">Sem pagamento (Sem circulação financeira)</option>
-                                            <option {% if paymentTerms.codigo=='99' %}selected{% endif %} value="99">Outros: Pagamentos não listados.</option>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-4 col-md-4 col-md-12">
+                                    <div class="form-floating">
+                                        <select class="form-select" id="codigo" name="codigo">
+                                            <option selected>Selecione uma condição de pagamento</option>
+                                            <option {% if paymentTerms.codigo=='01' %} selected {% endif %} value="01">
+                                                Dinheiro: Pagamento em espécie.</option>
+                                            <option {% if paymentTerms.codigo=='02' %}selected{% endif %} value="02">
+                                                Cheque: Pagamento em cheque.</option>
+                                            <option {% if paymentTerms.codigo=='03' %}selected{% endif %} value="03">
+                                                Cartão de Crédito: Requer dados da operadora.</option>
+                                            <option {% if paymentTerms.codigo=='04' %}selected{% endif %} value="04">
+                                                Cartão de Débito: Requer dados da operadora.</option>
+                                            <option {% if paymentTerms.codigo=='10' %}selected{% endif %} value="10">
+                                                Vale Alimentação, 11 - Refeição, 12 - Presente, 13 - Combustível: Vales
+                                                específicos.</option>
+                                            <option {% if paymentTerms.codigo=='15' %}selected{% endif %} value="15">
+                                                Boleto Bancário: Pagamento via boleto.</option>
+                                            <option {% if paymentTerms.codigo=='17' %}selected{% endif %} value="17">PIX
+                                            </option>
+                                            <option {% if paymentTerms.codigo=='90' %}selected{% endif %} value="90">Sem
+                                                pagamento: Para operações sem circulação financeira.</option>
+                                            <option {% if paymentTerms.codigo=='99' %}selected{% endif %} value="99">
+                                                Outros: Pagamentos não listados. </option>
                                         </select>
-                                        <label for="codigo" class="fw-bold small">Condição de pagamento</label>
-                                    </div>
-                                    
-                                    <div class="d-flex flex-wrap gap-1 mb-2">
-                                        <span class="badge bg-light text-dark border fw-normal shadow-sm"><kbd>F3</kbd> Dinheiro</span>
-                                        <span class="badge bg-light text-dark border fw-normal shadow-sm"><kbd>F4</kbd> Cheque</span>
-                                        <span class="badge bg-light text-dark border fw-normal shadow-sm"><kbd>F6</kbd> C. Crédito</span>
-                                        <span class="badge bg-light text-dark border fw-normal shadow-sm"><kbd>F7</kbd> C. Débito</span>
-                                        <span class="badge bg-light text-dark border fw-normal shadow-sm"><kbd>F8</kbd> Vales</span>
-                                        <span class="badge bg-light text-dark border fw-normal shadow-sm"><kbd>F10</kbd> Boleto</span>
-                                        <span class="badge bg-light text-dark border fw-normal shadow-sm"><kbd>F11</kbd> PIX</span>
-                                        <span class="badge bg-light text-dark border fw-normal shadow-sm"><kbd>F12</kbd> Outros</span>
+                                        <label for="codigo">Condição de pagamento EX: (Dinheiro)</label>
                                     </div>
                                 </div>
-
-                                <div class="col-lg-6 col-md-12">
+                                <div class="col-lg-4 col-md-4 col-md-12">
                                     <div class="form-floating mb-3">
                                         <input type="text" class="form-control" id="titulo" name="titulo"
-                                            placeholder="Ex: Dinheiro" value="{{paymentTerms.titulo}}">
-                                        <label for="titulo" class="fw-bold small">Título da Condição</label>
+                                            placeholder="name@example.com" value="{{paymentTerms.titulo}}">
+                                        <label for="titulo">Titulo condição pagamento EX: (Dinheiro)</label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-md-12">
+                                    <div class="form-floating mb-3">
+                                        <input type="text" class="form-control" id="atalho" name="atalho"
+                                            placeholder="name@example.com" value="{{paymentTerms.atalho}}">
+                                        <label for="atalho">Atalho teclado EX: (F6)</label>
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="row mt-4">
+                            <div class="row">
                                 <div class="col-12">
-                                    <hr class="text-muted opacity-25">
-                                    <h5 class="fw-bold text-primary mb-3"><i class="bi bi-calendar3 me-2"></i>Parcelamento</h5>
+                                    <hr>
                                 </div>
-                                
-                                <div class="col-lg-4 col-md-12">
+                                <div class="col-12">
+                                    <h4>Parcelamento</h4>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-4 col-md-4 col-md-12">
                                     <div class="form-floating mb-3">
-                                        <input type="text" class="form-control" id="parcela" name="parcela" placeholder="0">
+                                        <input type="text" class="form-control" id="parcela" name="parcela"
+                                            placeholder="name@example.com">
                                         <label for="parcela">Quantidade de parcelas</label>
                                     </div>
                                 </div>
-                                <div class="col-lg-4 col-md-12">
+                                <div class="col-lg-4 col-md-4 col-md-12">
                                     <div class="form-floating mb-3">
-                                        <input type="text" class="form-control" id="intervalo" name="intervalo" placeholder="30">
-                                        <label for="intervalo">Intervalo (Dias)</label>
+                                        <input type="text" class="form-control" id="intervalo" name="intervalo"
+                                            placeholder="name@example.com">
+                                        <label for="intervalo">Intervalo em dias EX: (30 dias)</label>
                                     </div>
                                 </div>
-                                <div class="col-lg-4 col-md-12">
+                                <div class="col-lg-4 col-md-4 col-md-12">
                                     <div class="form-floating mb-3">
                                         <input type="text" class="form-control" id="vencimento_incial_parcela"
-                                            name="vencimento_incial_parcela" placeholder="20">
-                                        <label for="vencimento_incial_parcela">Alterar Venc. Inicial (Dias)</label>
-                                    </div>
-                                </div>
-
-                                <div class="col-12 mb-3">
-                                    <button id="insertInstallmentButton" type="button" class="btn btn-info btn-sm fw-bold shadow-sm">
-                                        <i class="bi bi-plus-circle me-1"></i> Adicionar Parcela
-                                    </button>
-                                </div>
-
-                                <div class="col-12">
-                                    <div class="table-responsive rounded shadow-sm">
-                                        <table class="table table-hover align-middle mb-0">
-                                            <thead>
-                                                <tr class="small text-uppercase">
-                                                    <th class="py-3">Código</th>
-                                                    <th class="py-3">Parcelas</th>
-                                                    <th class="py-3">Intervalo (Dias)</th>
-                                                    <th class="py-3">Venc. Inicial</th>
-                                                    <th class="py-3 text-center">Ação</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="tbInstallments" class="small">
-                                                <tr>
-                                                    <td class="text-center text-muted py-4" colspan="5">
-                                                        <i class="bi bi-info-circle me-1"></i> Nenhuma parcela cadastrada
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                            name="vencimento_incial_parcela" placeholder="name@example.com">
+                                        <label for="vencimento_incial_parcela">Altera a data de venc. parcela EX: (20
+                                            dias)</label>
                                     </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <button id="insertInstallmentButton" type="button"
+                                        class="btn btn-info mb-3">Adicionar</button>
+                                </div>
+                                <div class="col-12">
+                                    <table class="table table-striped table-hover table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Código</th>
+                                                <th>Parcelas</th>
+                                                <th>Intervalor em (Dias)</th>
+                                                <th>Alterar venc. inicial (Dias)</th>
+                                                <th>Ação</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tbInstallments">
+                                            <tr>
+                                                <td class="text-center" colspan="5">Nenhuma parcela cadastrada</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
-
-                        <div class="card-footer p-3 d-flex justify-content-end">
-                            <button id="insertPaymentoTermsButton" type="button" class="btn btn-success px-4 shadow-sm fw-bold">
-                                <i class="bi bi-check-lg me-2"></i> Salvar Condição
-                            </button>
+                        <div class="card-footer">
+                            <button id="insertPaymentoTermsButton" type="button" class="btn btn-success">Salvar</button>
                         </div>
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>

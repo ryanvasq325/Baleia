@@ -1,49 +1,4 @@
-import { Requests } from "./Requests.js";
-
-const tabela = new $('#tabela').DataTable({
-    paging: true,
-    lengthChange: true,
-    searching: true,
-    ordering: true,
-    info: true,
-    autoWidth: false,
-    responsive: true,
-    stateSave: true,
-    select: true,
-    processing: true,
-    serverSide: true,
-    language: {
-        url: 'https://cdn.datatables.net/plug-ins/1.13.4/i18n/pt-BR.json',
-        searchPlaceholder: 'Digite sua pesquisa...'
-    },
-    ajax: {
-        url: '/venda/listsale',
-        type: 'POST'
-    }
-});
-
-async function Delete(id) {
-    document.getElementById('id').value = id;
-    const response = await Requests.SetForm('form').Post('/venda/delete');
-    if (!response.status) {
-        Swal.fire({
-            title: "Erro ao remover!",
-            icon: "error",
-            html: response.msg,
-            timer: 3000,
-            timerProgressBar: true
-        });
-        return;
-    }
-    Swal.fire({
-        title: "Removido com sucesso!",
-        icon: "success",
-        html: response.msg,
-        timer: 3000,
-        timerProgressBar: true
-    });
-    tabela.ajax.reload();
-}
+// Atualizar relógio em tempo real
 function updateClock() {
     const now = new Date();
 
@@ -72,73 +27,31 @@ function updateClock() {
         dateElement.textContent = `${dayName}, ${day} De ${month} De ${year}`;
     }
 }
-
 // Atualizar a cada segundo
 setInterval(updateClock, 1000);
 updateClock();
 
-// Gerenciamento do carrinho
-let cart = [];
-let paymentMethod = 'dinheiro';
-let discount = { type: 'valor', amount: 0 };
-
-// Adicionar produto ao carrinho
-function addToCart(code, description, price) {
-    const existingItem = cart.find(item => item.code === code);
-
-    if (existingItem) {
-        existingItem.quantity += 1;
-    } else {
-        cart.push({
-            code: code,
-            description: description,
-            price: price,
-            quantity: 1
+async function InsertSale() {
+    const valid = Validate.SetForm('form').Validate();
+    if (!valid) {
+        Swal.fire({
+            icon: "error",
+            title: "Por favor preencha corretamente os campos!",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: () => {
+                Swal.showLoading();
+            }
         });
+        return;
     }
-
-    updateCart();
-}
-
-// Atualizar visualização do carrinho
-function updateCart() {
-    const cartEmpty = document.querySelector('.cart-empty');
-
-    if (cart.length === 0) {
-        cartEmpty.style.display = 'block';
-    } else {
-        cartEmpty.style.display = 'none';
-        // Aqui você pode adicionar a lógica para mostrar os itens do carrinho
-    }
-
-    updateTotals();
-}
-
-// Calcular e atualizar totais
-function updateTotals() {
-    const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-
-    let discountAmount = 0;
-    if (discount.type === 'valor') {
-        discountAmount = discount.amount;
-    } else {
-        discountAmount = (subtotal * discount.amount) / 100;
-    }
-
-    const total = subtotal - discountAmount;
-
-    const subtotalElement = document.querySelector('.subtotal .amount');
-    const totalElement = document.querySelector('.total-amount');
-
-    if (subtotalElement) {
-        subtotalElement.textContent = `R$ ${subtotal.toFixed(2).replace('.', ',')}`;
-    }
-
-    if (totalElement) {
-        totalElement.textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;
+    try{
+        const response = await Requests.SetForm('form').Post();
+    }catch(error){
+        throw new Error(error);
     }
 }
-
 // Event Listeners para botões de adicionar
 document.addEventListener('DOMContentLoaded', function () {
     // Botões de adicionar produto
@@ -262,49 +175,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
-
-// Filtrar produtos na tabela
-function filterProducts(searchTerm) {
-    const rows = document.querySelectorAll('.products-table tbody tr');
-    let visibleCount = 0;
-
-    rows.forEach(row => {
-        const code = row.cells[0].textContent.toLowerCase();
-        const description = row.cells[1].textContent.toLowerCase();
-
-        if (code.includes(searchTerm) || description.includes(searchTerm)) {
-            row.style.display = '';
-            visibleCount++;
-        } else {
-            row.style.display = 'none';
-        }
-    });
-
-    // Atualizar contador de produtos
-    const productCount = document.querySelector('.product-count');
-    if (productCount) {
-        productCount.textContent = `${visibleCount} produtos`;
-    }
-}
-
-// Atualizar estilos dos inputs de desconto
-function updateInputStyles() {
-    const inputRs = document.querySelector('.discount-input-rs');
-    const inputPercent = document.querySelector('.discount-input-percent');
-
-    if (discount.type === 'valor') {
-        inputRs.style.borderColor = 'var(--primary-blue)';
-        inputRs.style.background = 'var(--white)';
-        inputPercent.style.borderColor = 'var(--gray-300)';
-        inputPercent.style.background = 'var(--gray-50)';
-    } else {
-        inputPercent.style.borderColor = 'var(--primary-blue)';
-        inputPercent.style.background = 'var(--white)';
-        inputRs.style.borderColor = 'var(--gray-300)';
-        inputRs.style.background = 'var(--gray-50)';
-    }
-}
-
 // Atalhos de teclado
 document.addEventListener('keydown', function (e) {
     // F2 - Focar no campo de busca
@@ -312,20 +182,17 @@ document.addEventListener('keydown', function (e) {
         e.preventDefault();
         document.querySelector('.search-input')?.focus();
     }
-
     // F9 - Finalizar venda
     if (e.key === 'F9') {
         e.preventDefault();
         document.querySelector('.btn-finalize')?.click();
     }
-
     // Esc - Cancelar venda
     if (e.key === 'Escape') {
         e.preventDefault();
         document.querySelector('.btn-cancel')?.click();
     }
 });
-
 // Feedback visual para cliques
 document.addEventListener('click', function (e) {
     if (e.target.matches('button')) {
@@ -333,7 +200,26 @@ document.addEventListener('click', function (e) {
     }
 });
 
-console.log('Sistema de Vendas - Carregado com sucesso!');
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'F4') {
+        const myModalEl = document.getElementById('pesquisaProdutoModal');
+        const modal = new bootstrap.Modal.Modal(myModalEl);
+        modal.show();
+    }
+    //Fechamos o modal com a tecla F3
+    if (e.key === 'F8') {
+        const myModalEl = document.getElementById('pesquisaProdutoModal');
+        const modal = new bootstrap.Modal(myModalEl);
+        modal.hide();
+    }
+});
 
-window.Delete = Delete;
-
+$("#pesquisa").select2({
+    theme: "bootstrap-5",
+    placeholder: "Selecione um produto",
+    ajax: {
+        url: "/produto/listproductdata",
+        type: "POST",
+        delay: 250
+    }
+});

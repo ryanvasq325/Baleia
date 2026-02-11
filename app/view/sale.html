@@ -1,4 +1,3 @@
-{% include "css.html" %}
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -6,11 +5,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema Comércio - Gestão de Vendas</title>
+    {% include "css.html" %}
     <link rel="stylesheet" href="/css/sale.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body>
+
+    <div class="modal fade" id="pesquisaProdutoModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Pesquisa produto</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <table>
+
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                        Cancelar (F8)
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Sidebar Esquerda -->
+    <aside class="sidebar">
+        <div class="logo-section">
+            <h1 class="logo">Obrigado</h1>
+            <p class="slogan">Sua preferência<br>é a nossa maior<br>motivação.</p>
+        </div>
+
+        <div class="sidebar-image">
+            <img src="/images/gif.gif" alt="Atendente">
+        </div>
+
+        <div class="sidebar-footer">
+            <div class="footer-logo">
+                <i class="fas fa-handshake"></i>
+                <span>GUILHES</span>
+            </div>
+        </div>
+    </aside>
+    <!-- Conteúdo Principal -->
     <main class="main-content">
         <!-- Header -->
         <header class="header">
@@ -39,87 +79,72 @@
 
         <!-- Área de Conteúdo -->
         <div class="content-wrapper">
+
             <!-- Seção de Produtos -->
             <section class="products-section">
                 <div class="search-box">
-                    <h3>Buscar Produtos</h3>
-                    <div class="search-input-wrapper">
-                        <i class="fas fa-barcode"></i>
-                        <input type="text" placeholder="Digite o código ou descrição do produto..."
-                            class="search-input">
-                        <button class="btn-search">
-                            <i class="fas fa-search"></i> Buscar
-                        </button>
-                    </div>
-                </div>
-                <form id="form">
-                    <input type="hidden" id="id" name="id">
-                    <div class="products-list">
-                        <div class="products-header">
-                            <h3>Produtos</h3>
-                            <span class="product-count">20 produtos</span>
+                    <form id="form">
+                        <input type="text" id="id" name="id">
+                        <input type="text" id="acao" name="acao">
+                        <h3>Buscar Produtos</h3>
+                        <div class="row">
+                            <div class="input-group">
+                                <select class="form-select" id="pesquisa" name="pesquisa"
+                                    aria-label="Example select with button addon" required>
+                                    <option selected>Digite o id, nome, cód. barra do produto...</option>
+                                </select>
+                                <button class="btn btn-outline-primary" type="button" data-bs-toggle="modal"
+                                    data-bs-target="#pesquisaProdutoModal">
+                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                    Pesquisa (F4)
+                                </button>
+                                <button class="btn btn-outline-primary" type="button" id="insertItemButton">
+                                    <i class="fa-solid fa-plus"></i>
+                                    Inserir (F9)
+                                </button>
+                            </div>
                         </div>
+                    </form>
+                </div>
 
-                        <table class="products-table" id="tabela">
-                            <thead>
-                                <tr>
-                                    <th>Código</th>
-                                    <th>Descrição</th>
-                                    <th>Preço</th>
-                                    <th>Ação</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
+                <div class="products-list">
+                    <div class="products-header">
+                        <h3>Produtos</h3>
+                        <span class="product-count" id="total_item">0</span>
                     </div>
-                </form>
-            </section>
 
+                    <table class="products-table">
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>Descrição</th>
+                                <th>Preço</th>
+                                <th>Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </section>
             <!-- Seção do Carrinho -->
             <aside class="cart-section">
-                <div class="cart-header">
-                    <i class="fas fa-shopping-cart"></i>
-                    <h3>Carrinho de Compras</h3>
-                </div>
-
-                <div class="cart-empty">
-                    <i class="fas fa-shopping-cart"></i>
-                    <p>Carrinho vazio</p>
-                </div>
-
                 <div class="payment-section">
-                    <h4>Pagamento</h4>
-
-                    <div class="payment-methods">
-                        <p class="payment-label">Forma de Pagamento</p>
-                        <div class="payment-buttons">
-                            <button class="payment-btn active">
-                                <i class="fas fa-money-bill-wave"></i>
-                                <span>Dinheiro</span>
-                            </button>
-                            <button class="payment-btn">
-                                <i class="fas fa-credit-card"></i>
-                                <span>Cartão</span>
-                            </button>
-                            <button class="payment-btn">
-                                <i class="fas fa-mobile-alt"></i>
-                                <span>Pix</span>
-                            </button>
-                        </div>
-                    </div>
-
                     <div class="discount-section">
                         <p class="discount-label">
                             <i class="fas fa-percent"></i> Desconto
                         </p>
-                        <div class="discount-inputs">
-                            <input type="text" placeholder="R$" class="discount-input-rs">
-                            <input type="text" placeholder="%" class="discount-input-percent">
-                        </div>
-                        <input type="number" value="0" class="discount-value">
-                    </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="input-group">
+                                    <input type="text" placeholder="Desconto em R$" aria-label="First name"
+                                        class="form-control">
 
+                                    <input type="text" placeholder="Juros em R$" aria-label="Last name"
+                                        class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="total-section">
                         <div class="subtotal">
                             <span>Subtotal:</span>
@@ -142,11 +167,10 @@
                 </div>
             </aside>
         </div>
-</main>
-</body>
-</html>
+    </main>
 
-{% block script %}
-{% include "script.html" %}
-<script defer type="module" src="/js/sale.js"></script>
-{% endblock %}
+    {% include "script.html" %}
+    <script defer type="module" src="/js/sale.js"></script>
+</body>
+
+</html>

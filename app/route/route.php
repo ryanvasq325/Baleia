@@ -26,6 +26,8 @@ $app->group('/venda', function (RouteCollectorProxy $group) {
     $group->get('/lista', Sale::class . ':lista');
     $group->get('/cadastro', Sale::class . ':cadastro');
     $group->post('/listsale', Sale::class . ':listsale');
+    $group->post('/insert', Sale::class . ':insert');
+    $group->post('/update', Sale::class . ':update');
 });
 $app->group('/login', function (RouteCollectorProxy $group) {
     $group->post('/precadastro', Login::class . ':precadastro');
@@ -85,6 +87,7 @@ $app->group('/produto', function (RouteCollectorProxy $group) {
     $group->post('/listproduto', Produto::class . ':listproduto');
     $group->post('/insert', Produto::class . ':insert');
     $group->post('/delete', Produto::class . ':delete');
+    $group->post('/listproductdata', Produto::class . ':listproductdata');
 });
 $app->group('/pagamento', function (RouteCollectorProxy $group) {
     $group->get('/lista', PaymentTerms::class . ':lista');

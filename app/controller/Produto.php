@@ -56,6 +56,27 @@ class Produto extends Base
             return $this->SendJson($response, ['status' => false, 'msg' => 'Restrição: ' . $e->getMessage(), 'id' => 0], 500);
         }
     }
+    public function listproductdata($request, $response)
+    {
+        $form = $request->getParsedBody();
+        $term = $form['term'] ?? null;
+        $query = SelectQuery::select('id, codigo_barras, nome')->from('product');
+        $data['results'] = [];
+        if ($term != null) {
+            $query->where('codigo_barras','like', "%{$term}%", 'or')
+            ->where('nome','like', "%{$term}%");
+        }
+        $data = []; 
+        $results= $query->fetchAll();
+        foreach ($results as $key => $item) {
+            $data['results'][$key] = [
+                'id'=> $item['id'],
+                'text' => 'Cód barras: ' . $item['codigo_barras'] . ' - ' . $item['nome']
+            ];
+        }
+            $data['pagination'] = ['more' => true];
+            return $this->SendJson($response, $data);
+    }
     public function listproduto($request, $response)
     {
         #Captura todas a variaveis de forma mais segura VARIAVEIS POST.
@@ -72,9 +93,9 @@ class Produto extends Base
             0 => 'id',
             1 => 'nome',
             2 => 'codigo_barras',
-            2 => 'descricao_curta',
-            3 => 'preco_custo',
-            4 => 'preco_venda'
+            3 => 'descricao_curta',
+            4 => 'preco_custo',
+            5 => 'preco_venda'
         ];
         #Capturamos o nome do campo a ser odernado.
         $orderField = $fields[$order];
@@ -186,32 +207,6 @@ class Produto extends Base
             return $this->SendJson($response, ['status' => true, 'msg' => 'Atualizado com sucesso!', 'id' => $id]);
         } catch (\Exception $e) {
             return $this->SendJson($response, ['status' => false, 'msg' => 'Restrição: ' . $e->getMessage(), 'id' => 0], 500);
-        }
-    }
-    public function print($request, $response)
-    {
-        try {
-     
-            $produto = SelectQuery::select('id, nome, cpf')
-                ->from('product')
-                ->order('nome', 'ASC')
-                ->fetchAll();
-
-            
-            $dadosTemplate = [
-                'titulo'   => 'Relatório de Produtos',
-                'produto' => $produto,
-                'total'    => count($produto)
-            ];
-
-          
-            return $this->getTwig()
-                ->render($response, $this->setView('reports/reportproduto'), $dadosTemplate)
-                ->withHeader('Content-Type', 'text/html')
-                ->withStatus(200);
-        } catch (\Exception $e) {
-            $response->getBody()->write("Erro ao gerar relatório: " . $e->getMessage());
-            return $response->withStatus(500);
         }
     }
 }

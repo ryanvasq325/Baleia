@@ -16,13 +16,10 @@ CREATE OR REPLACE VIEW view_product AS
 SELECT 
     p.id::TEXT,
     p.nome,
-    p.codigo_barras,
+    p.codigo_barra,
     p.descricao_curta,
-    p.preco_custo::TEXT,
-    p.preco_venda::TEXT,
+    p.valor,
     p.ativo,
-    p.data_cadastro,
-    p.data_atualizacao AS data_alteracao,
     TRUE AS produto
 FROM public.product p
 WHERE p.excluido = FALSE ;

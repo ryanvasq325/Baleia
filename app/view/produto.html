@@ -71,8 +71,8 @@
                                     <div class="input-group">
                                         <span class="input-group-text bg- border-end-0"><i
                                                 class="bi bi-upc-scan"></i></span>
-                                        <input type="text" class="form-control border-start-0" id="codigo_barras"
-                                            name="codigo_barras" placeholder="789..." value="{{produto.codigo_barras}}">
+                                        <input type="text" class="form-control border-start-0" id="codigo_barra"
+                                            name="codigo_barra" placeholder="789..." value="{{produto.codigo_barra}}" required>
                                     </div>
                                 </div>
 
@@ -82,20 +82,10 @@
                                     <div class="input-group">
                                         <span class="input-group-text bg- border-end-0">R$</span>
                                         <input type="text" class="form-control border-start-0 money-mask"
-                                            id="preco_custo" name="preco_custo" placeholder="0,00"
-                                            value="{{produto.preco_custo}}">
+                                            id="valor" name="valor" placeholder="0,00"
+                                            value="{{produto.valor}}" required>
                                     </div>
                                 </div>
-
-                                <div class="col-md-3">
-                                    <label for="preco_venda" class="form-label small fw-bold text-muted">Preço de
-                                        Venda</label>
-                                    <div class="input-group">
-                                        <span class="input-group-text bg- border-end-0">R$</span>
-                                        <input type="text" class="form-control border-start-0 money-mask"
-                                            id="preco_venda" name="preco_venda" placeholder="0,00"
-                                            value="{{produto.preco_venda}}" required>
-                                    </div>
                                 </div>
                             </div>
                         </div>

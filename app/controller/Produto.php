@@ -41,10 +41,9 @@ class Produto extends Base
             $form = $request->getParsedBody();
             $FieldAndValues = [
                 'nome' => $form['nome'],
-                'codigo_barras' => $form['codigo_barras'],
+                'codigo_barra' => $form['codigo_barra'],
                 'descricao_curta' => $form['descricao_curta'],
-                'preco_custo' => $form['preco_custo'],
-                'preco_venda' => $form['preco_venda'],
+                'valor' => $form['valor'],
             ];
             $IsSave = InsertQuery::table('product')->save($FieldAndValues);
             if (!$IsSave) {
@@ -91,10 +90,9 @@ class Produto extends Base
         $fields = [
             0 => 'id',
             1 => 'nome',
-            2 => 'codigo_barras',
             3 => 'descricao_curta',
-            4 => 'preco_custo',
-            5 => 'preco_venda'
+            2 => 'codigo_barra',
+            4 => 'valor',
         ];
         #Capturamos o nome do campo a ser odernado.
         $orderField = $fields[$order];
@@ -105,10 +103,9 @@ class Produto extends Base
             $query
                 ->where('id', 'ilike', "%{$term}%")
                 ->where('nome', 'ilike', "%{$term}%", 'or')
-                ->where('codigo_barras', 'ilike', "%{$term}%", 'or')
                 ->where('descricao_curta', 'ilike', "%{$term}%", 'or')
-                ->where('preco_custo', 'ilike', "%{$term}%", 'or')
-                ->where('preco_venda', 'ilike', "%{$term}%", 'or');
+                ->where('codigo_barra', 'ilike', "%{$term}%", 'or')
+                ->where('valor', 'ilike', "%{$term}%", 'or');        
         }
         $product = $query
             ->order($orderField, $orderType)
@@ -119,10 +116,9 @@ class Produto extends Base
             $produtoData[$key] = [
                 $value['id'],
                 $value['nome'],
-                $value['codigo_barras'],
                 $value['descricao_curta'],
-                $value['preco_custo'],
-                $value['preco_venda'],
+                $value['codigo_barra'],
+                $value['valor'],
                 "<div class='d-flex gap-2'>
     <a href='/produto/alterar/{$value['id']}' class='btn btn-warning btn-sm px-2 shadow-sm' style='white-space: nowrap; font-weight: 500;'>
         <i class='bi bi-pencil-square'></i> Alterar
@@ -196,8 +192,7 @@ class Produto extends Base
             $FieldAndValues = [
                 'nome' => $form['nome'],
                 'descricao_curta' => $form['descricao_curta'],
-                'preco_custo' => $form['preco_custo'],
-                'preco_venda' => $form['preco_venda']
+                'valor' => $form['valor']
             ];
             $IsUpdate = UpdateQuery::table('product')->set($FieldAndValues)->where('id', '=', $id)->update();
             if (!$IsUpdate) {

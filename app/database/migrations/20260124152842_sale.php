@@ -6,25 +6,26 @@ use Phinx\Migration\AbstractMigration;
 
 final class Sale extends AbstractMigration
 {
-
     public function change(): void
     {
         $table = $this->table('sale', ['id' => false, 'primary_key' => ['id']]);
         $table->addColumn('id', 'biginteger', ['identity' => true, 'null' => false])
-            ->addColumn('id_customer', 'biginteger')
-            ->addColumn('id_product', 'biginteger')
-            ->addColumn('id_users', 'biginteger', ['null' => false])
-            ->addColumn('valor_total', 'decimal', ['precision' => 18, 'scale' => 4, 'default' => 0])
-            ->addColumn('status', 'string', ['default' => 'ABERTA'])
-            ->addColumn('data_venda', 'datetime', ['default' => 'CURRENT_TIMESTAMP'])
+            ->addColumn('id_cliente', 'biginteger', ['null' => true])
+            ->addColumn('id_usuario', 'biginteger', ['null' => true])
+            ->addColumn('total_bruto', 'decimal', ['precision' => 18, 'scale' => 4, 'null' => true])
+            ->addColumn('total_liquido', 'decimal', [
+                'precision' => 18,
+                'scale' => 4,
+                'null' => true,
+                'comment' => 'Valor a ser pago pelo cliente.'
+            ])
+            ->addColumn('desconto', 'decimal', ['precision' => 18, 'scale' => 4, 'null' => true])
+            ->addColumn('acrescimo', 'decimal', ['precision' => 18, 'scale' => 4, 'null' => true])
+            ->addColumn('observacao', 'text', ['null' => true])
             ->addColumn('data_cadastro', 'datetime', ['null' => true, 'default' => 'CURRENT_TIMESTAMP'])
-            ->addColumn('data_alteracao', 'datetime', ['null' => true, 'default' => 'CURRENT_TIMESTAMP'])
-            ->addColumn('desconto', 'decimal', ['precision' => 12, 'scale' => 2, 'null' => true, 'default' => 0])
-            ->addColumn('observacoes', 'text', ['null' => true])
-            ->addColumn('numero_venda', 'string', ['limit' => 50, 'null' => false])
-            ->addForeignKey('id_customer', 'customer', 'id', ['delete' => 'RESTRICT', 'update' => 'CASCADE'])
-            ->addForeignKey('id_product', 'product', 'id', ['delete' => 'RESTRICT', 'update' => 'CASCADE'])
-            ->addForeignKey('id_users', 'users', 'id', ['delete' => 'RESTRICT'])
+            ->addColumn('data_atualizacao', 'datetime', ['null' => true, 'default' => 'CURRENT_TIMESTAMP'])
+            ->addForeignKey('id_cliente', 'customer', 'id', ['delete' => 'CASCADE', 'update' => 'NO ACTION'])
+            ->addForeignKey('id_usuario', 'users', 'id', ['delete' => 'CASCADE', 'update' => 'NO ACTION'])
             ->create();
     }
 }

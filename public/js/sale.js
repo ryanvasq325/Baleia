@@ -48,8 +48,31 @@ async function InsertSale() {
     }
     try {
         const response = await Request.SetForm('form').Post('/venda/insert');
+        if (!response.status) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Erro',
+                text: response.msg,
+                time: 2000,
+                progressBar: true,
+            });
+            return;
+        }
+        //Altere a ação do formulário para 'e' (editar) após a venda ser inserida com sucesso
+        Action.value = 'e';
+        //Seta o ID da última venda inserida no banco de dados
+        Id.value = response.id;
+        //Atualiza a URL sem recarregar venda inserida para refletir o ID da venda inserida
+        window.history.pushState({}, '', `/venda/alterar/${response.id}`);
+
     } catch (error) {
-        throw new Error(error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Erro',
+            text: 'Ocorreu um erro ao inserir a venda.',
+            time: 2000,
+            progressBar: true,
+        })
     }
 }
 

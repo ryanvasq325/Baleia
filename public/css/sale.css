@@ -68,7 +68,7 @@ body {
    ============================================ */
 .sidebar {
     width: var(--sidebar-width);
-    background: linear-gradient(165deg, #102a43 0%, #102a43 70%, #0f172a 100%);
+    background: linear-gradient(165deg, #13426e 0%, #174168 70%, #233357 100%);
     color: var(--white);
     display: flex;
     flex-direction: column;
@@ -120,7 +120,7 @@ body {
     text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3);
     position: relative;
     display: inline-block;
-    left: -30px;
+    left: -25px;
 
 }
 
@@ -226,7 +226,7 @@ body {
    HEADER
    ============================================ */
 .header {
-    background: linear-gradient(135deg, #102a43 0%, #164e63 100%);
+    background: linear-gradient(135deg, #13426e 0%, #174168 100%);
     color: var(--white);
     padding: 0 30px;
     height: var(--header-height);

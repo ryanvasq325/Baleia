@@ -109,4 +109,23 @@ class Sale extends Base
             ], 500);
         }
     }
+    public function alterar($request, $response, $args)
+    {
+        try {
+            $id = $args['id'];
+            $sale = SelectQuery::select()->from('view_product')->where('id', '=', $id)->fetch();
+            $dadosTemplate = [
+                'acao' => 'e',
+                'id' => $id,
+                'titulo' => 'Cadastro e edição',
+                'sale' => $sale
+            ];
+            return $this->getTwig()
+                ->render($response, $this->setView('sale'), $dadosTemplate)
+                ->withHeader('Content-Type', 'text/html')
+                ->withStatus(200);
+        } catch (\Exception $e) {
+            var_dump($e);
+        }
+    }
 }

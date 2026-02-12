@@ -247,3 +247,28 @@ $('.form-select').on('select2:open', function (e) {
     inputElement.placeholder = 'Digite para pesquisar...';
     inputElement.focus();
 });
+
+const gerenciarInterfaceVenda = () => {
+    const painel = document.querySelector('.cart-section'); // Selecionando pela classe do CSS
+    const inputAcao = document.getElementById('acao');
+    const corpoTabela = document.querySelector('.products-table tbody');
+
+    if (!painel || !inputAcao) return;
+
+    const acao = inputAcao.value.trim().toLowerCase();
+    const totalLinhas = corpoTabela ? corpoTabela.rows.length : 0;
+
+    // Se a ação for 'c' (cadastro) e a tabela estiver vazia, esconde.
+    // Se a ação mudar para 'e' (edit) ou entrar produto, ele mostra.
+    if (acao === 'c' && totalLinhas === 0) {
+        painel.style.setProperty('display', 'none', 'important');
+    } else {
+        painel.style.setProperty('display', 'flex', 'important');
+    }
+};
+
+
+setInterval(gerenciarInterfaceVenda, 200);
+
+
+gerenciarInterfaceVenda();

@@ -111,13 +111,20 @@ class Sale extends Base
     }
     public function alterar($request, $response, $args)
     {
-        try {
             $id = $args['id'];
-            $sale = SelectQuery::select()->from('view_product')->where('id', '=', $id)->fetch();
+            try {
+            $sale = SelectQuery::select()
+            ->from('sale')
+            ->where('id', '=', $id)
+            ->fetch();
+            if (!$sale) {
+                return header('Location: /venda/lista');
+                die;
+            }
             $dadosTemplate = [
+                'titulo' => 'Cadastro e edição',
                 'acao' => 'e',
                 'id' => $id,
-                'titulo' => 'Cadastro e edição',
                 'sale' => $sale
             ];
             return $this->getTwig()
@@ -125,7 +132,56 @@ class Sale extends Base
                 ->withHeader('Content-Type', 'text/html')
                 ->withStatus(200);
         } catch (\Exception $e) {
-            var_dump($e);
+            var_dump($e->getMessage());
         }
     }
-}
+    public function insertItemSale($request, $response)
+    {
+        $form = $request->getParsedBody();
+        $id = $form['id'] ?? null;
+        $id_produto = $form['pesquisa'];
+        if (empty($id) or is_null($id)) {
+            return $this->SendJson($response, [
+                'status' => false,
+                'msg' => 'Restrição: O ID da venda é obrigatório!',
+                'id' => 0
+            ], 403);
+        }
+
+    if (empty($id_produto) or is_null($id_produto)) {
+            return $this->SendJson($response, [
+                'status' => false,
+                'msg' => 'Restrição: O ID do produto é obrigatório!',
+                'id' => 0
+            ], 403);
+        }
+        try {
+            $produto = SelectQuery::select()->from('product')->where('id', '=', $id_produto)->fetch();
+            if (!$produto) {
+                return $this->SendJson($response, [
+                    'status'=> false,
+                    'msg'=> 'Restrição: Nenhum produto localizado!',
+                    'id'=> 0
+                    ], 403);
+            }
+                $FieldAndValue = [
+                    'id_venda' => $id,
+                    'id_produto' => $id_produto,
+                    'quantidade' => '1',
+                    'total_bruto' => $produto['valor'],
+                    'total_liquido' => $produto['valor'],
+                    'desconto' => 0,
+                    'acrescimo' => 0,
+                    'nome' => $produto['nome'],
+                ];
+            } catch (\Exception $e) {
+                return $this->SendJson($response, [
+                
+                    'status'=> false,
+                    'msg'=> 'Restrição: ' .  $e->getMessage(),
+                    'id'=> 0
+                    ],500);
+            }    
+        }
+    
+    }

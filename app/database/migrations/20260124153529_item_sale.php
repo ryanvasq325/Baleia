@@ -13,6 +13,7 @@ final class ItemSale extends AbstractMigration
             ->addColumn('id_venda', 'biginteger', ['null' => true])
             ->addColumn('id_produto', 'biginteger', ['null' => true])
             ->addColumn('total_bruto', 'decimal', ['precision' => 18, 'scale' => 4, 'null' => true])
+            ->addColumn('quantidade', 'decimal', ['precision' => 18, 'scale' => 4, 'null' => true])
             ->addColumn('total_liquido', 'decimal', [
                 'precision' => 18,
                 'scale' => 4,

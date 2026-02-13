@@ -77,6 +77,46 @@ async function InsertSale() {
         });
     }
 }
+async function InsertItemSale(){
+    const valid = Validate.SetForm('form').Validate();
+    if (!valid) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Erro',
+            text: 'Por favor, preencha os campos corretamente.',
+            time: 2000,
+            progressBar: true,
+        });
+        return;
+    }
+    try {
+        const response = await Requests.SetForm('form').Post('/venda/insert');
+        if (!response.status) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Erro',
+                text: response.msg || 'Ocorreu um erro ao inserir a venda.',
+                time: 3000,
+                progressBar: true,
+            });
+            return;
+        }
+        //Altera a ação do formulário para 'e' (editar) após a venda ser inserida com sucesso
+        Action.value = 'e';
+        //Seta o ID da última venda inserida no banco de dados
+        Id.value = response.id;
+        //Atualiza a URL sem recarregar a página para refletir o ID da venda inserida
+        window.history.pushState({}, '', `/venda/alterar/${response.id}`);
+    } catch (error) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Erro',
+            text: error.message || 'Ocorreu um erro ao inserir a venda.',
+            time: 3000,
+            progressBar: true,
+        });
+    }
+}
 
 // Event Listeners para botões de adicionar
 document.addEventListener('DOMContentLoaded', function () {

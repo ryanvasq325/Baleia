@@ -4,6 +4,7 @@ namespace app\controller;
 
 use app\database\builder\InsertQuery;
 use app\database\builder\SelectQuery;
+use app\database\builder\UpdateQuery;
 
 class Sale extends Base
 {
@@ -64,7 +65,6 @@ class Sale extends Base
             'total_liquido' => 0,
             'desconto' => 0,
             'acrescimo' => 0,
-            'observacao' => ''
         ];
         try {
             #Tenta inserir a venda no banco de dados e captura o resultado da inserção
@@ -109,14 +109,51 @@ class Sale extends Base
             ], 500);
         }
     }
+    public function update($request, $response)
+    {
+        $form = $request->getParsedBody();
+        $id = $form['id'] ?? null;
+        $id_cliente = $form['id_cliente'] ?? null;
+        $observacao = $form['observacao'] ?? null;
+        if (is_null($id)) {
+            return $this->SendJson($response, ['status' => false, 'msg' => 'Para alterar a venda informa o código da venda'], 403);
+        }
+        try {
+            $total_venda = SelectQuery::select("sum(total_liquido) as total_liquido,sum(total_bruto) as total_bruto")
+            ->from("item_sale")
+            ->where("id_venda", "=", $id)
+            ->fetch();
+         
+        $FieldAndValues = [
+            'total_bruto' => $total_venda['total_bruto'],
+            'total_liquido' => $total_venda['total_liquido']
+            ];
+
+            if(!is_null($id_cliente)) {
+                $FieldAndValues['id_cliente'] = $id_cliente;
+            }
+            if(!is_null($observacao)) {
+                $FieldAndValues['observacao'] = $observacao;
+            }
+            $isUpdated = UpdateQuery::table('sale')->set($FieldAndValues)->update();
+            if($isUpdated) {
+                return $this->SendJson($response, ['status'=> false,'msg'=> 'Restrição: ' . $isUpdated,'id'=> 0],500);
+            }
+            return $this->SendJson($response,['status'=> true,'msg'=> 'Atualização realizada com sucesso: ' . $isUpdated,'id'=> $id, 'data' => $total_venda]);
+            
+        } catch (\Exception $e) {
+            return $this->SendJson($response, ['status'=> false,'msg'=>'Restrição: ' . $e->getMessage(), 'id'=> 0],500);
+        }
+        
+    }
     public function alterar($request, $response, $args)
     {
-            $id = $args['id'];
-            try {
+        $id = $args['id'];
+        try {
             $sale = SelectQuery::select()
-            ->from('sale')
-            ->where('id', '=', $id)
-            ->fetch();
+                ->from('sale')
+                ->where('id', '=', $id)
+                ->fetch();
             if (!$sale) {
                 return header('Location: /venda/lista');
                 die;
@@ -134,6 +171,8 @@ class Sale extends Base
         } catch (\Exception $e) {
             var_dump($e->getMessage());
         }
+
+
     }
     public function insertItemSale($request, $response)
     {
@@ -148,7 +187,7 @@ class Sale extends Base
             ], 403);
         }
 
-    if (empty($id_produto) or is_null($id_produto)) {
+        if (empty($id_produto) or is_null($id_produto)) {
             return $this->SendJson($response, [
                 'status' => false,
                 'msg' => 'Restrição: O ID do produto é obrigatório!',
@@ -159,29 +198,43 @@ class Sale extends Base
             $produto = SelectQuery::select()->from('product')->where('id', '=', $id_produto)->fetch();
             if (!$produto) {
                 return $this->SendJson($response, [
-                    'status'=> false,
-                    'msg'=> 'Restrição: Nenhum produto localizado!',
-                    'id'=> 0
-                    ], 403);
+                    'status' => false,
+                    'msg' => 'Restrição: Nenhum produto localizado!',
+                    'id' => 0
+                ], 403);
             }
-                $FieldAndValue = [
-                    'id_venda' => $id,
-                    'id_produto' => $id_produto,
-                    'quantidade' => '1',
-                    'total_bruto' => $produto['valor'],
-                    'total_liquido' => $produto['valor'],
-                    'desconto' => 0,
-                    'acrescimo' => 0,
-                    'nome' => $produto['nome'],
-                ];
-            } catch (\Exception $e) {
+            $FieldAndValue = [
+                'id_venda' => $id,
+                'id_produto' => $id_produto,
+                'quantidade' => '1',
+                'total_bruto' => $produto['valor'],
+                'total_liquido' => $produto['valor'],
+                'desconto' => 0,
+                'acrescimo' => 0,
+                'nome' => $produto['nome'],
+            ];
+            $isInserted = InsertQuery::table('item_sale')->save($FieldAndValue);
+            if (!$isInserted) {
                 return $this->SendJson($response, [
-                
-                    'status'=> false,
-                    'msg'=> 'Restrição: ' .  $e->getMessage(),
-                    'id'=> 0
-                    ],500);
-            }    
+                    'status' => false,
+                    'msg' => 'Restrição: ' . $isInserted,
+                    'id' => 0
+                ], 500);
+            }
+            return $this->SendJson($response, [
+                'status' => true,
+                'msg' => 'Item inserido com sucesso!',
+                'id' => 0
+            ]);
+        } catch (\Exception $e) {
+            return $this->SendJson($response, [
+
+                'status' => false,
+                'msg' => 'Restrição: ' .  $e->getMessage(),
+                'id' => 0
+            ], 500);
         }
-    
     }
+}
+
+

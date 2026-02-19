@@ -68,7 +68,7 @@ body {
    ============================================ */
 .sidebar {
     width: var(--sidebar-width);
-    background: linear-gradient(165deg, #13426e 0%, #174168 70%, #233357 100%);
+    background: linear-gradient(165deg, #4A6FDC 0%, #2E4A9E 50%, #1B3570 100%);
     color: var(--white);
     display: flex;
     flex-direction: column;
@@ -111,7 +111,7 @@ body {
 
 /* Logo Circular com "Obrigado" */
 .logo {
-    font-size: 43px;
+    font-size: 52px;
     font-weight: 800;
     font-style: italic;
     margin-bottom: 12px;
@@ -120,8 +120,6 @@ body {
     text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3);
     position: relative;
     display: inline-block;
-    left: -25px;
-
 }
 
 .slogan {
@@ -131,37 +129,33 @@ body {
     opacity: 0.92;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
     margin-top: 8px;
-    position: relative;
-    left: -25px;
 }
 
 .sidebar-image {
     flex: 1;
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     justify-content: center;
     position: relative;
     overflow: visible;
+    margin-top: auto;
 }
 
 .sidebar-image img {
-    width: 150%;
-    max-width: 320%;
+    width: 100%;
     height: auto;
-    max-height: 600px;
+    max-height: 450px;
     object-fit: contain;
-    object-position: center;
+    object-position: bottom center;
     display: block;
-    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.2));
-    position: relative;
-    top: -40px;
+    filter: drop-shadow(0 -10px 30px rgba(0, 0, 0, 0.15));
 }
 
 /* Elementos decorativos */
 .sidebar-image::before {
-    content: '🐳';
+    content: '✦';
     position: absolute;
-    top: 20px;
+    top: 40px;
     left: 32px;
     color: rgba(255, 255, 255, 0.25);
     font-size: 22px;
@@ -169,10 +163,10 @@ body {
 }
 
 .sidebar-image::after {
-    content: '🐳';
+    content: '✦';
     position: absolute;
-    bottom: 300px;
-    left: 70px;
+    bottom: 200px;
+    left: 25px;
     color: rgba(255, 255, 255, 0.18);
     font-size: 18px;
     animation: float 4s ease-in-out infinite 0.5s;
@@ -218,15 +212,13 @@ body {
     flex-direction: column;
     overflow: hidden;
     background: #FFFFFF;
-    min-width: 0; /* <--- ADICIONE ESTA LINHA */
 }
-
 
 /* ============================================
    HEADER
    ============================================ */
 .header {
-    background: linear-gradient(135deg, #13426e 0%, #174168 100%);
+    background: linear-gradient(135deg, #5374E6 0%, #6B8AED 100%);
     color: var(--white);
     padding: 0 30px;
     height: var(--header-height);
@@ -994,7 +986,7 @@ button:disabled {
     }
     
     .logo {
-        font-size: 42px;
+        font-size: 48px;
     }
     
     .slogan {
@@ -1071,7 +1063,7 @@ button:disabled {
     }
     
     .logo {
-        font-size: 32px;
+        font-size: 36px;
     }
     
     .slogan {

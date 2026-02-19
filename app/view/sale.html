@@ -40,13 +40,13 @@
         </div>
 
         <div class="sidebar-image">
-            <img src="/images/baleia.png" alt="Atendente">
+            <img src="merchant-image.jpg" alt="Atendente">
         </div>
 
         <div class="sidebar-footer">
             <div class="footer-logo">
-                <i class="fa-brands fa-docker fa-flip"></i>
-                <span>BALEIA</span>
+                <i class="fas fa-handshake"></i>
+                <span>GUILHES</span>
             </div>
         </div>
     </aside>
@@ -66,12 +66,12 @@
             <div class="header-center">
                 <div class="datetime">
                     <span class="time">18:04:36</span>
-                    <span class="date">Quinta-Feira, 12 De Fevereiro De 2026</span>
+                    <span class="date">Sexta-Feira, 23 De Janeiro De 2026</span>
                 </div>
             </div>
             <div class="header-right">
                 <span class="operator-label">Operador</span>
-                <span class="operator-name">Brian</span>
+                <span class="operator-name">João Silva</span>
                 <button class="icon-btn"><i class="fas fa-user-circle"></i></button>
                 <button class="icon-btn"><i class="fas fa-sign-out-alt"></i></button>
             </div>
@@ -82,8 +82,8 @@
             <section class="products-section">
                 <div class="search-box">
                     <form id="form">
-                        <input type="text" id="acao" name="acao" value="{{acao}}">
-                        <input type="text" id="id" name="id" value="{{id}}">
+                        <input type="hidden" id="acao" name="acao" value="{{acao}}">
+                        <input type="hidden" id="id" name="id" value="{{id}}">
                         <h3>Buscar Produtos</h3>
                         <div class="row">
                             <div class="input-group">
@@ -107,7 +107,7 @@
                 <div class="products-list">
                     <div class="products-header">
                         <h3>Produtos</h3>
-                        <span class="product-count" id="total_item">0</span>
+                        <span class="product-count" id="product-count">0</span>
                     </div>
                     <table class="products-table">
                         <thead>
@@ -118,13 +118,13 @@
                                 <th>Ação</th>
                             </tr>
                         </thead>
-                        <tbody></tbody>
+                        <tbody id="products-table-tbody"></tbody>
                     </table>
                 </div>
             </section>
             <!-- Seção do Carrinho -->
             <aside class="cart-section">
-                <div id="secao-pagamento" class="payment-section">
+                <div class="payment-section">
                     <div class="discount-section">
                         <p class="discount-label">
                             <i class="fas fa-percent"></i> Desconto
@@ -133,10 +133,10 @@
                             <div class="col-12">
                                 <div class="input-group">
                                     <input type="text" placeholder="Desconto em R$" aria-label="First name"
-                                        class="form-control" disabled id="desconto">
+                                        class="form-control">
 
                                     <input type="text" placeholder="Juros em R$" aria-label="Last name"
-                                        class="form-control" disabled id="juros">
+                                        class="form-control">
                                 </div>
                             </div>
                         </div>
@@ -144,19 +144,19 @@
                     <div class="total-section">
                         <div class="subtotal">
                             <span>Subtotal:</span>
-                            <span class="amount">R$ 0,00</span>
+                            <span id="amount" class="amount">R$ 0,00</span>
                         </div>
                         <div class="total">
                             <span>Total:</span>
-                            <span class="total-amount">R$ 0,00</span>
+                            <span id="total-amount" class="total-amount">R$ 0,00</span>
                         </div>
                     </div>
 
                     <div class="action-buttons">
-                        <button class="btn-finalize d-none" >
+                        <button class="btn-finalize">
                             <i class="fas fa-check-circle"></i> Finalizar Venda
                         </button>
-                        <button class="btn-cancel d-none">
+                        <button class="btn-cancel">
                             <i class="fas fa-times-circle"></i> Cancelar Venda
                         </button>
                     </div>

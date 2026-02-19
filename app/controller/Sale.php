@@ -65,7 +65,6 @@ class Sale extends Base
             'total_liquido' => 0,
             'desconto' => 0,
             'acrescimo' => 0,
-            'observacao' => ''
         ];
         try {
             #Tenta inserir a venda no banco de dados e captura o resultado da inserção
@@ -117,40 +116,7 @@ class Sale extends Base
         $id_cliente = $form['id_cliente'] ?? null;
         $observacao = $form['observacao'] ?? null;
         if (is_null($id)) {
-            return $this->SendJson($response, ['status' => false, 'msg' => 'Para alterar a venda informa o código!'], 403);
-        }
 
-        try {
-            $total_venda = SelectQuery::select("sum(total_liquido) as total_liquido,sum(total_bruto) as total_bruto")
-                ->from('item_sale')
-                ->where('id_venda', '=', $id)
-                ->fetch();
-
-            $FieldAndValues = [
-                'total_bruto' => $total_venda['total_bruto'],
-                'total_liquido' => $total_venda['total_liquido']
-            ];
-            #Alteramos o código do cliente
-            if (!is_null($id_cliente)) {
-                $FieldAndValues['id_cliente'] = $id_cliente;
-            }
-            #Alteramos a observação
-            if (!is_null($observacao)) {
-                $FieldAndValues['observacao'] = $observacao;
-            }
-            $isUpdated = UpdateQuery::table('sale')->set($FieldAndValues)->update();
-            if (!$isUpdated) {
-                return $this->SendJson($response, ['status' => false, 'msg' => 'Restrição: ' . $isUpdated, 'id' => 0], 500);
-            }
-            return $this->SendJson($response, [
-                'status' => true,
-                'msg' => 'Atualização realizada com sucesso!',
-                'id' => $id,
-                'data' => $total_venda
-            ]);
-        } catch (\Exception $e) {
-            return $this->SendJson($response, ['status' => false, 'msg' => 'Restrição: ' . $e->getMessage(), 'id' => 0], 500);
-        }
     }
     public function alterar($request, $response, $args)
     {
@@ -177,6 +143,8 @@ class Sale extends Base
         } catch (\Exception $e) {
             var_dump($e->getMessage());
         }
+
+
     }
     public function insertitem($request, $response)
     {
@@ -254,23 +222,3 @@ class Sale extends Base
             ], 403);
         }
 
-        $total_venda = SelectQuery::select("sum(total_liquido) as total_liquido,sum(total_bruto) as total_bruto")
-            ->from('item_sale')
-            ->where('id_venda', '=', $id)
-            ->fetch();
-
-        $items = SelectQuery::select('id,nome,total_liquido')
-            ->from('item_sale')
-            ->where('id_venda', '=', $id)
-            ->fetchAll();
-
-        $data = [
-            'status' => true,
-            'id' => $id,
-            'msg' => 'Dados listados com sucesso!',
-            'sale' => $total_venda,
-            'data' => $items
-        ];
-        return $this->SendJson($response, $data);
-    }
-}

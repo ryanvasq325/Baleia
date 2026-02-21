@@ -84,13 +84,13 @@ class Empresa extends Base
                 ->delete();
 
             if (!$IsDelete) {
-                echo 'Erro ao deletar';
+                echo json_encode(['status' => false, 'msg' => $IsDelete, 'id' => $id]);
                 die;
             }
-            echo "Deletado com sucesso!";
+            echo json_encode(['status' => true, 'msg' => 'Removido com sucesso!', 'id' => $id]);
             die;
         } catch (\Throwable $th) {
-            echo "Erro: " . $th->getMessage();
+            echo json_encode(['status' => false, 'msg' => "Erro: " . $th->getMessage(), 'id' => $id]);
             die;
         }
     }

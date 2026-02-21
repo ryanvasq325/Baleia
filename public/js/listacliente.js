@@ -39,7 +39,7 @@ async function Delete(id) {
         return;
     }
     Swal.fire({
-        title: "Removido com sucesso!",
+        title: "Removido com sucesso!!",
         icon: "success",
         html: response.msg,
         timer: 3000,
@@ -47,7 +47,7 @@ async function Delete(id) {
         didOpen: () => {
             Swal.showLoading();
         }
-    });
+    });         
     tabela.ajax.reload();
 }
 window.Delete = Delete;

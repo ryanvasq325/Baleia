@@ -5,7 +5,6 @@ use app\controller\Cliente;
 use app\controller\Login;
 use app\controller\Empresa;
 use app\controller\Fornecedor;
-use app\middleware\Auth;
 use app\controller\Home;
 use app\controller\PaymentTerms;
 use app\controller\Produto;
@@ -25,10 +24,11 @@ $app->group('/home', function (RouteCollectorProxy $group) {
 $app->group('/venda', function (RouteCollectorProxy $group) {
     $group->get('/lista', Sale::class . ':lista');
     $group->get('/cadastro', Sale::class . ':cadastro');
-    $group->get('/alterar/{id}', Sale::class . ':alterar'); #->add(Auth::route());
-    $group->post('/listsale', Sale::class . ':listsale');
+    $group->get('/alterar/{id}', Sale::class . ':alterar');
     $group->post('/insert', Sale::class . ':insert');
     $group->post('/update', Sale::class . ':update');
+    $group->post('/insertitem', Sale::class . ':insertitem');
+    $group->post('/listitemsale', Sale::class . ':listitemsale');
 });
 $app->group('/login', function (RouteCollectorProxy $group) {
     $group->post('/precadastro', Login::class . ':precadastro');

@@ -11,7 +11,7 @@
     /* Cores Principais */
     --primary-blue: #4A6FDC;
     --dark-blue: #3254B8;
-    --light-blue: #5B7FE8;
+    --light-blue: #5be85b;
     --header-blue: #5374E6;
     
     /* Cores de Ação */
@@ -68,7 +68,7 @@ body {
    ============================================ */
 .sidebar {
     width: var(--sidebar-width);
-    background: linear-gradient(165deg, #4A6FDC 0%, #2E4A9E 50%, #1B3570 100%);
+    background: linear-gradient(165deg, #3711a1 0%, #1d0736 50%, #1B3570 100%);
     color: var(--white);
     display: flex;
     flex-direction: column;
@@ -103,16 +103,19 @@ body {
 }
 
 .logo-section {
-    padding: 35px 28px 25px;
+    padding: 35px 0 25px;
     position: relative;
     z-index: 2;
     background: linear-gradient(180deg, rgba(255,255,255,0.08) 0%, transparent 100%);
+    padding-left: 0;
+    text-align: left;
 }
 
 /* Logo Circular com "Obrigado" */
 .logo {
-    font-size: 52px;
+    font-size: 25px;
     font-weight: 800;
+    letter-spacing: 0.5px;
     font-style: italic;
     margin-bottom: 12px;
     letter-spacing: -2px;
@@ -142,7 +145,7 @@ body {
 }
 
 .sidebar-image img {
-    width: 100%;
+    width: 40%;
     height: auto;
     max-height: 450px;
     object-fit: contain;
@@ -153,7 +156,7 @@ body {
 
 /* Elementos decorativos */
 .sidebar-image::before {
-    content: '✦';
+    content: '🌙';
     position: absolute;
     top: 40px;
     left: 32px;
@@ -163,7 +166,7 @@ body {
 }
 
 .sidebar-image::after {
-    content: '✦';
+    content: '🌙';
     position: absolute;
     bottom: 200px;
     left: 25px;

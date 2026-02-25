@@ -43,7 +43,7 @@ class Produto extends Base
                 'nome' => $form['nome'],
                 'codigo_barra' => $form['codigo_barra'],
                 'descricao_curta' => $form['descricao_curta'],
-                'valor' => $form['valor'],
+                'valor' => $form['valor']
             ];
             $IsSave = InsertQuery::table('product')->save($FieldAndValues);
             if (!$IsSave) {
@@ -105,7 +105,7 @@ class Produto extends Base
                 ->where('nome', 'ilike', "%{$term}%", 'or')
                 ->where('descricao_curta', 'ilike', "%{$term}%", 'or')
                 ->where('codigo_barra', 'ilike', "%{$term}%", 'or')
-                ->where('valor', 'ilike', "%{$term}%", 'or');        
+                ->where('valor', 'ilike', "%{$term}%", 'or');
         }
         $product = $query
             ->order($orderField, $orderType)
@@ -119,6 +119,7 @@ class Produto extends Base
                 $value['descricao_curta'],
                 $value['codigo_barra'],
                 $value['valor'],
+                $value['quantidade'],
                 "<div class='d-flex gap-2'>
     <a href='/produto/alterar/{$value['id']}' class='btn btn-warning btn-sm px-2 shadow-sm' style='white-space: nowrap; font-weight: 500;'>
         <i class='bi bi-pencil-square'></i> Alterar

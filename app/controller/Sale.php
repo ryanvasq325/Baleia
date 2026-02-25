@@ -116,6 +116,7 @@ class Sale extends Base
         $id = $form['id'] ?? null;
         $id_cliente = $form['id_cliente'] ?? null;
         $observacao = $form['observacao'] ?? null;
+        $quantidade = $form['quantidade'] ?? null;
         if (is_null($id)) {
             return $this->SendJson($response, ['status' => false, 'msg' => 'Para alterar a venda informa o código!'], 403);
         }
@@ -137,6 +138,9 @@ class Sale extends Base
             #Alteramos a observação
             if (!is_null($observacao)) {
                 $FieldAndValues['observacao'] = $observacao;
+            }
+            if (!is_null($quantidade)) {
+                $FieldAndValues['quantidade'] = $quantidade;
             }
             $isUpdated = UpdateQuery::table('sale')->set($FieldAndValues)->update();
             if (!$isUpdated) {

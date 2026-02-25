@@ -27,5 +27,6 @@ final class Purchase extends AbstractMigration
             ->addForeignKey('id_fornecedor', 'supplier', 'id', ['delete' => 'CASCADE', 'update' => 'NO ACTION'])
             ->addForeignKey('id_usuario', 'users', 'id', ['delete' => 'CASCADE', 'update' => 'NO ACTION'])
             ->create();
+            $this->execute('alter table purchase add column estado_compra stock_movement_compra');
     }
 }

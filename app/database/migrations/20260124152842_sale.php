@@ -27,5 +27,6 @@ final class Sale extends AbstractMigration
             ->addForeignKey('id_cliente', 'customer', 'id', ['delete' => 'CASCADE', 'update' => 'NO ACTION'])
             ->addForeignKey('id_usuario', 'users', 'id', ['delete' => 'CASCADE', 'update' => 'NO ACTION'])
             ->create();
+        $this->execute("alter table sale add column estado_venda stock_movement_venda;");
     }
 }
